@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhinesh Elangovan - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base and Body Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: black;
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 20px 50px;
+            z-index: 100;
+            background-color: transparent;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-weight: 800;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            margin-right: auto;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+        nav ul li:first-child {
+           margin-left: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-out;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Background Video */
+        video.bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        /* Hero Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            color: white;
+            max-width: 700px;
+            margin-left: 50px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        /* --- Text Styles (before animation) --- */
+         .animated-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .animated-title .title-word {
+             display: block;
+        }
+        .content p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 450px;
+        }
+        /* --- Button Style (Restored) --- */
+        .content button {
+            background-color: black; /* <<< Restored original background */
+            color: white;
+            border: 1px solid white;
+            padding: 12px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            /* Transition for hover effect */
+            transition: background-color 0.3s, color 0.3s;
+             /* Base style for layout before animation takes over transform */
+             display: inline-block;
+        }
+        .content button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        /* --- Slide-in-Left Animation Styles --- */
+        /* Initial animation state */
+        .content > .animated-title .title-word,
+        .content > p,
+        .content > button {
+            opacity: 0;
+            transform: translateX(-40px);
+            /* Animation transition (applied when .is-visible changes props) */
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 0.6s ease-out;
+            will-change: transform, opacity;
+        }
+        /* Override button display only for initial layout if needed,
+           but previous .content button rule already sets inline-block */
+        /*.content > button { display: inline-block; } */
+
+
+        /* Visible animation state */
+        .content.is-visible > .animated-title .title-word,
+        .content.is-visible > p,
+        .content.is-visible > button {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger delays */
+        .content.is-visible .animated-title .title-line-wrapper:nth-child(1) .title-word {
+            transition-delay: 0.1s;
+        }
+        .content.is-visible .animated-title .title-line-wrapper:nth-child(2) .title-word {
+            transition-delay: 0.25s;
+        }
+        .content.is-visible > p {
+            transition-delay: 0.4s;
+        }
+        .content.is-visible > button {
+            transition-delay: 0.55s;
+        }
+        /* --- End Slide-in-Left Animation --- */
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            nav .logo { font-size: 1.3em; }
+            nav ul li { margin-left: 20px; }
+            nav ul li a { font-size: 0.8em; }
+            .content { margin-left: 20px; max-width: 90%; }
+            .animated-title { font-size: 3rem; }
+            .content p { font-size: 1rem; }
+            .content button { padding: 10px 20px; }
+        }
+         @media (max-width: 480px) {
+             .animated-title { font-size: 2.5rem; }
+         }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">DK</a>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Me</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Resume</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="https://kenozoik.qodeinteractive.com/wp-content/uploads/2018/06/kenozoik-video-1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="content"> <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
+                <span class="title-line-wrapper"> <span class="title-word">DHINESH</span>
+                </span>
+                <span class="title-line-wrapper">
+                    <span class="title-word">ELANGOVAN</span>
+                </span>
+            </h1>
+
+            <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
+
+            <button>Learn More</button>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Target the content container DIV
+          const contentElement = document.querySelector('.content'); // Target .content
+
+          if (contentElement) {
+            // Add the class after a short delay
+            setTimeout(() => {
+              contentElement.classList.add('is-visible'); // Add class to .content
+            }, 100);
+          }
+        });
+    </script>
+
+</body>
+</html>
