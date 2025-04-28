@@ -136,22 +136,23 @@
         }
         /* --- Button Style (Restored) --- */
         .content button {
-    background-color: #ffffff; /* White background */
-    color: #000000; /* Black text */
-    padding: 12px 30px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none; /* No border */
-    border-radius: 30px; /* Smooth rounded */
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.content button:hover {
-    background-color: #f0f0f0; /* Slightly lighter on hover */
-    transform: scale(1.05);
-}
+            background-color: black; /* <<< Restored original background */
+            color: white;
+            border: 1px solid white;
+            padding: 12px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            /* Transition for hover effect */
+            transition: background-color 0.3s, color 0.3s;
+             /* Base style for layout before animation takes over transform */
+             display: inline-block;
+        }
+        .content button:hover {
+            background-color: white;
+            color: black;
+        }
 
 
         /* --- Slide-in-Left Animation Styles --- */
