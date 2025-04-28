@@ -136,23 +136,24 @@
         }
         /* --- Button Style (Restored) --- */
         .content button {
-            background-color: black; /* <<< Restored original background */
-            color: white;
-            border: 1px solid white;
-            padding: 12px 25px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            /* Transition for hover effect */
-            transition: background-color 0.3s, color 0.3s;
-             /* Base style for layout before animation takes over transform */
-             display: inline-block;
-        }
-        .content button:hover {
-            background-color: white;
-            color: black;
-        }
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 30px; /* Rounded button */
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.content button:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.05);
+}
+
 
         /* --- Slide-in-Left Animation Styles --- */
         /* Initial animation state */
