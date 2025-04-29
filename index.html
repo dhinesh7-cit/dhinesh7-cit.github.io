@@ -154,24 +154,27 @@
             background-color: black; /* Hover: Black background */
             color: white;             /* Hover: White text */
         }
-        .logo {
+       .logo {
             position: relative;
+            display: inline-block;
             overflow: hidden;
+            width: 160px; /* enough space for full name */
+            height: 1.5em;
             cursor: pointer;
         }
         
+        .logo .short-name,
         .logo .full-name {
             position: absolute;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 0;
+            left: 0;
             white-space: nowrap;
-            font-weight: 600;
-            font-size: 1.2em;
-            opacity: 0;
+            font-weight: 800;
+            font-size: 1.5em;
             color: white;
-            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
+
 
 
         /* --- Slide-in-Left Animation Styles --- */
@@ -235,7 +238,7 @@
 
     <nav>
         <a href="#" class="logo">
-            DK
+        <span class="short-name">DK</span>
         <span class="full-name">Dhinesh Kailash</span>
         </a>
 
@@ -281,26 +284,25 @@
             }, 100);
           }
         });
+        
+    
         const logo = document.querySelector('.logo');
+        const shortName = document.querySelector('.short-name');
         const fullName = document.querySelector('.full-name');
     
+        // Set initial states
+        gsap.set(fullName, { opacity: 0, x: -20 });
+        gsap.set(shortName, { opacity: 1 });
+    
         logo.addEventListener('mouseenter', () => {
-            gsap.to(fullName, {
-                x: -logo.offsetWidth, // slide in from the right
-                opacity: 1,
-                duration: 0.6,
-                ease: "power2.out"
-            });
+            gsap.to(shortName, { opacity: 0, duration: 0.3, ease: "power2.out" });
+            gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
         });
     
         logo.addEventListener('mouseleave', () => {
-            gsap.to(fullName, {
-                x: 0,
-                opacity: 0,
-                duration: 0.4,
-                ease: "power2.in"
-            });
-        });s
+            gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+            gsap.to(shortName, { opacity: 1, delay: 0.2, duration: 0.3, ease: "power2.in" });
+        });
     </script>
 
 </body>
