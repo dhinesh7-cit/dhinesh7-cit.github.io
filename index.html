@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
         /* --- Base and Body Styles --- */
@@ -153,6 +154,25 @@
             background-color: black; /* Hover: Black background */
             color: white;             /* Hover: White text */
         }
+        .logo {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .logo .full-name {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 1.2em;
+            opacity: 0;
+            color: white;
+            pointer-events: none;
+        }
+
 
         /* --- Slide-in-Left Animation Styles --- */
         /* Initial animation state */
@@ -214,7 +234,11 @@
 <body>
 
     <nav>
-        <a href="#" class="logo">DK</a>
+        <a href="#" class="logo">
+            DK
+        <span class="full-name">Dhinesh Kailash</span>
+        </a>
+
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">About Me</a></li>
@@ -257,6 +281,26 @@
             }, 100);
           }
         });
+        const logo = document.querySelector('.logo');
+        const fullName = document.querySelector('.full-name');
+    
+        logo.addEventListener('mouseenter', () => {
+            gsap.to(fullName, {
+                x: -logo.offsetWidth, // slide in from the right
+                opacity: 1,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        });
+    
+        logo.addEventListener('mouseleave', () => {
+            gsap.to(fullName, {
+                x: 0,
+                opacity: 0,
+                duration: 0.4,
+                ease: "power2.in"
+            });
+        });s
     </script>
 
 </body>
