@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhinesh Elangovan - About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        /* CSS Variables for colors (from first snippet) */
+        :root {
+            --dark-green: #3a5a40;
+            --light-green: #a3b18a;
+            --primary-yellow: #FFC107; /* Brighter yellow */
+            --light-grey: #f8f9fa;
+            --medium-grey: #dee2e6;
+            --dark-grey: #495057;
+            --heading-grey: #343a40;
+            --white: #ffffff;
+            --light-text-on-dark: #e9ecef;
+        }
+
+        /* Basic Reset & Base Styles (from first snippet) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-green);
+            color: var(--light-text-on-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        main {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-weight: 600; color: var(--white); margin-bottom: 0.75rem; }
+        h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; color: var(--white); }
+        h1 { font-size: 3rem; line-height: 1.2; }
+        h3 { font-size: 1.25rem; }
+        p { margin-bottom: 1rem; color: var(--light-text-on-dark); }
+        a { text-decoration: none; color: var(--primary-yellow); transition: color 0.3s ease; }
+        a:hover { color: var(--white); }
+        a.btn-primary { color: var(--white) !important; }
+        a.btn-card { color: var(--white) !important; }
+        img { max-width: 100%; height: auto; display: block; }
+        section { padding: 80px 0; }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block; /* Important for transform origin */
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Keep existing transitions */
+            border: none;
+            /* Added for smoother scaling animation */
+            will-change: transform;
+        }
+        .btn-primary { background-color: var(--primary-yellow); color: var(--white); }
+        /* Removed transform from default hover to let GSAP handle it */
+        .btn-primary:hover { background-color: #e0a800; color: var(--white); /* transform: translateY(-2px); */ box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .btn-primary .arrow { margin-left: 8px; font-weight: bold; }
+
+        /* About Section */
+        #about { background-color: var(--dark-green); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+        .about-image-column { text-align: center; position: relative; }
+        .profile-image-wrapper { display: inline-block; margin-bottom: 0; }
+        .profile-image {
+            width: 280px; height: 280px; border-radius: 50%; object-fit: cover;
+            border: 8px solid var(--white); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-image:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 0 35px 10px rgba(255, 255, 255, 0.7); }
+        .about-content-column .subtitle { color: var(--light-green); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        #about h1 { color: var(--white); margin-bottom: 20px; }
+        .highlight-name { font-family: 'Dancing Script', cursive; color: var(--primary-yellow); font-weight: 700; }
+        #about p { color: var(--light-text-on-dark); }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary-yellow); text-align: right; margin-top: 25px; }
+
+        /* Navigation Bar Styles */
+        nav {
+            position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center;
+            padding: 20px 50px; z-index: 100; background-color: transparent; box-sizing: border-box;
+        }
+        nav .logo {
+            font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto;
+            color: white; text-decoration: none; position: relative; display: inline-block;
+            overflow: hidden; width: 320px; height: 1.5em; cursor: pointer;
+        }
+        nav .logo .short-name, nav .logo .full-name {
+            position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800;
+            font-size: 1em; color: white; transition: opacity 0.3s ease;
+        }
+        nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; }
+        nav ul li { margin-left: 30px; }
+        nav ul li:first-child { margin-left: 0; }
+        nav ul li a {
+            color: white; text-decoration: none; font-weight: 600; font-size: 0.9em;
+            text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px;
+        }
+        nav ul li a:hover { color: white; }
+        nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: white; transition: width 0.3s ease-out; }
+        nav ul li a:hover::after { width: 100%; }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+             .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+             .about-image-column { order: -1; }
+             .about-content-column { display: flex; flex-direction: column; align-items: center; }
+             .signature { text-align: center; }
+        }
+        @media (max-width: 768px) {
+             h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } section { padding: 60px 0; }
+             .about-grid { gap: 30px; } .profile-image { width: 200px; height: 200px; }
+             nav { padding: 15px 20px; } nav .logo { font-size: 1.3em; width: auto; }
+             nav .logo .full-name { display: none; } nav .logo .short-name { position: static; }
+             nav ul { justify-content: flex-end; margin: 0; } nav ul li { margin-left: 20px; } nav ul li a { font-size: 0.8em; }
+        }
+        @media (max-width: 576px) {
+             body { font-size: 15px;} h1 { font-size: 2rem; } h2 { font-size: 1.75rem; }
+             .btn { padding: 10px 25px; font-size: 0.9rem;} .profile-image { width: 180px; height: 180px; }
+             .signature { font-size: 2rem; } .about-content-column { padding: 0 10px; } .container { padding: 0 10px; } section { padding: 40px 0; }
+             nav ul li { margin-left: 15px; } nav { padding: 15px; } nav .logo { font-size: 1.2em; }
+        }
+        @media (max-width: 480px) { /* Specific adjustments */ }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">
+            <span class="short-name">DK</span>
+            <span class="full-name">Dhinesh Kailash</span>
+        </a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="">About Me</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="resume.html">Resume</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-image-column">
+                        <div class="profile-image-wrapper anim-target">
+                             <img src="profile.jpg" alt="Dhinesh" class="profile-image">
+                        </div>
+                    </div>
+                    <div class="about-content-column">
+                        <p class="subtitle anim-target">Resume</p>
+                        <h1 class="anim-target">Who is <span class="highlight-name">Dhinesh</span>?</h1>
+                        <p class="anim-target">Looking to know more about my professional journey, skills, and accomplishments in detail?
+                              Download my resume to explore my experience, technical expertise, educational background, and the projects I've worked on.</p>
+                        <p class="anim-target">Whether you're a recruiter, collaborator, or simply curious — this document offers a concise overview of what I bring to the table.</p>
+                        <a href="#" class="btn btn-primary anim-target">Download CV <span class="arrow">→</span></a>
+                        <p class="signature anim-target">Dhinesh Elangovan</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Navbar Logo Animation ---
+            const logo = document.querySelector('nav .logo');
+            if (logo) {
+                const shortName = logo.querySelector('.short-name');
+                const fullName = logo.querySelector('.full-name');
+                if (shortName && fullName) {
+                    gsap.set(fullName, { opacity: 0, x: -20 });
+                    gsap.set(shortName, { opacity: 1, x: 0 });
+                    logo.addEventListener('mouseenter', () => {
+                        gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
+                        gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                    });
+                    logo.addEventListener('mouseleave', () => {
+                        gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+                        gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                    });
+                }
+            } else { console.error("Navbar logo element not found."); }
+
+            // --- Page Load Animation for About Section ---
+            const elementsToAnimate = document.querySelectorAll('#about .anim-target');
+            if (elementsToAnimate.length > 0) {
+                gsap.set(elementsToAnimate, { opacity: 0, y: 50 });
+                gsap.to(elementsToAnimate, {
+                    opacity: 1, y: 0, duration: 0.8, stagger: 0.15,
+                    ease: "power3.out", delay: 0.2
+                });
+            } else { console.warn("No '.anim-target' elements found for page load animation."); }
+
+            // --- Download CV Button Hover Animation ---
+            const downloadBtn = document.querySelector('.btn-primary');
+            if (downloadBtn) {
+                // Set initial transform origin
+                 gsap.set(downloadBtn, { transformOrigin: "center center" });
+
+                downloadBtn.addEventListener('mouseenter', () => {
+                    // Zoom in slightly on hover
+                    gsap.to(downloadBtn, {
+                        scale: 1.08, // Increase size by 8%
+                        duration: 0.2,
+                        ease: "power1.out"
+                    });
+                });
+
+                downloadBtn.addEventListener('mouseleave', () => {
+                    // Return to normal size on mouse leave
+                    gsap.to(downloadBtn, {
+                        scale: 1.0, // Back to original size
+                        duration: 0.3,
+                        ease: "power1.out"
+                    });
+                });
+            } else {
+                console.warn("Download CV button (.btn-primary) not found for hover animation.");
+            }
+
+        });
+    </script>
+
+</body>
+</html>
