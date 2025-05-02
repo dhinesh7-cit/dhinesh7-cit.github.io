@@ -11,54 +11,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* CSS Variables for colors (from first snippet) */
+        /* CSS Variables */
         :root {
             --dark-green: #3a5a40;
             --light-green: #a3b18a;
-            --primary-yellow: #FFC107; /* Brighter yellow */
+            --primary-yellow: #FFC107; /* Color for arcs */
             --light-grey: #f8f9fa;
             --medium-grey: #dee2e6;
             --dark-grey: #495057;
             --heading-grey: #343a40;
             --white: #ffffff;
             --light-text-on-dark: #e9ecef;
+            --ring-thickness: 6px; /* Define UNIFORM ring thickness */
+            --ring-inner-offset: calc(var(--ring-thickness) * 2); /* Calculate offset for inner div */
+            /* Define animation speeds */
+            --animation-set1: rotateAnimation 12s linear infinite; /* Slower, forward */
+            --animation-set2: rotateAnimation 8s linear infinite reverse; /* Faster, reverse */
+            --ring-diameter-set1: 310px; /* Diameter for the first set */
+            --ring-diameter-set2: 280px; /* Diameter for the second set (slightly smaller) */
+            --largest-ring-diameter: 310px; /* Largest diameter used */
         }
 
-        /* Basic Reset & Base Styles (from first snippet) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-             height: 100%;
-        }
-
+        /* Basic Reset & Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { height: 100%; }
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-green);
-            color: var(--light-text-on-dark);
-            line-height: 1.7;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif; background-color: var(--dark-green);
+            color: var(--light-text-on-dark); line-height: 1.7; font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; overflow-x: hidden;
         }
-
-        main {
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
+        main { width: 100%; overflow: hidden; }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
         h1, h2, h3, h4, h5, h6 { font-weight: 600; color: var(--white); margin-bottom: 0.75rem; }
         h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; color: var(--white); }
         h1 { font-size: 3rem; line-height: 1.2; }
@@ -73,34 +57,101 @@
 
         /* Button Styles */
         .btn {
-            display: inline-block; /* Important for transform origin */
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease; /* Keep existing transitions */
-            border: none;
-            /* Added for smoother scaling animation */
-            will-change: transform;
+            display: inline-block; padding: 12px 30px; border-radius: 50px;
+            font-weight: 600; font-size: 0.95rem; text-align: center; cursor: pointer;
+            transition: all 0.3s ease; border: none; will-change: transform;
         }
         .btn-primary { background-color: var(--primary-yellow); color: var(--white); }
-        /* Removed transform from default hover to let GSAP handle it */
-        .btn-primary:hover { background-color: #e0a800; color: var(--white); /* transform: translateY(-2px); */ box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .btn-primary:hover { background-color: #e0a800; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .btn-primary .arrow { margin-left: 8px; font-weight: bold; }
 
         /* About Section */
         #about { background-color: var(--dark-green); }
         .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
         .about-image-column { text-align: center; position: relative; }
-        .profile-image-wrapper { display: inline-block; margin-bottom: 0; }
+
+        /* --- Styles for Profile Image Wrapper and Image --- */
+        .profile-image-wrapper {
+            position: relative; /* Needed for absolute positioning of child */
+            display: inline-block;
+            margin-bottom: 0;
+            /* Ensure enough space around the wrapper for the largest ring */
+            min-width: var(--largest-ring-diameter); /* Match largest ring size */
+            min-height: var(--largest-ring-diameter); /* Match largest ring size */
+            display: flex; /* Use flex to center the image */
+            justify-content: center;
+            align-items: center;
+        }
         .profile-image {
+            position: relative; /* Ensure it's on top */
+            z-index: 1;        /* Ensure it's on top */
             width: 280px; height: 280px; border-radius: 50%; object-fit: cover;
             border: 8px solid var(--white); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .profile-image:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 0 35px 10px rgba(255, 255, 255, 0.7); }
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 0 35px 10px rgba(255, 255, 255, 0.7);
+        }
+
+        /* --- Styles for Rotating Elements --- */
+        /* Base styles for ALL rotating elements */
+        .rotating-element {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 0; /* Both sets behind the image */
+            border-radius: 50%; overflow: hidden;
+            --segment-color: var(--primary-yellow); /* Uniform color */
+        }
+        /* Base styles for ALL inner masking elements */
+         .rotating-element-inner {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: var(--dark-green); border-radius: 50%;
+            /* UNIFORM THICKNESS */
+             width: calc(100% - var(--ring-inner-offset));
+             height: calc(100% - var(--ring-inner-offset));
+        }
+
+        /* --- Set 1 (Outer, Slower, Forward, Small Gaps) --- */
+        .rotating-element-set1 {
+            width: var(--ring-diameter-set1);
+            height: var(--ring-diameter-set1);
+            animation: var(--animation-set1);
+             background: conic-gradient(
+                from 0deg,
+                /* Arc 1 */ var(--primary-yellow) 0deg 30deg, transparent 30deg 40deg,  /* Gap = 10deg */
+                /* Arc 2 */ var(--primary-yellow) 40deg 90deg, transparent 90deg 95deg,   /* Gap = 5deg */
+                /* Arc 3 */ var(--primary-yellow) 95deg 120deg, transparent 120deg 135deg, /* Gap = 15deg */
+                /* Arc 4 */ var(--primary-yellow) 135deg 180deg, transparent 180deg 185deg, /* Gap = 5deg */
+                /* Arc 5 */ var(--primary-yellow) 185deg 220deg, transparent 220deg 230deg, /* Gap = 10deg */
+                /* Arc 6 */ var(--primary-yellow) 230deg 290deg, transparent 290deg 295deg, /* Gap = 5deg */
+                /* Arc 7 */ var(--primary-yellow) 295deg 315deg, transparent 315deg 325deg, /* Gap = 10deg */
+                /* Arc 8 */ var(--primary-yellow) 325deg 355deg, transparent 355deg 360deg  /* Gap = 5deg */
+            );
+        }
+
+        /* --- Set 2 (Inner, Faster, Reverse, Large Gaps) --- */
+        .rotating-element-set2 {
+            width: var(--ring-diameter-set2);
+            height: var(--ring-diameter-set2);
+            animation: var(--animation-set2);
+             background: conic-gradient(
+                from 0deg,
+                /* Arc 1 */ var(--primary-yellow) 0deg 25deg,
+                transparent 25deg 120deg,  /* Gap = 95deg */
+                /* Arc 2 */ var(--primary-yellow) 120deg 160deg, /* Arc = 40deg */
+                transparent 160deg 270deg, /* Gap = 110deg */
+                /* Arc 3 */ var(--primary-yellow) 270deg 300deg, /* Arc = 30deg */
+                transparent 300deg 360deg  /* Gap = 60deg */
+            );
+        }
+
+        /* Keep the rotation animation definition */
+        @keyframes rotateAnimation {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        /* --- End of Rotating Element Styles --- */
+
         .about-content-column .subtitle { color: var(--light-green); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         #about h1 { color: var(--white); margin-bottom: 20px; }
         .highlight-name { font-family: 'Dancing Script', cursive; color: var(--primary-yellow); font-weight: 700; }
@@ -108,51 +159,52 @@
         .signature { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary-yellow); text-align: right; margin-top: 25px; }
 
         /* Navigation Bar Styles */
-        nav {
-            position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            padding: 20px 50px; z-index: 100; background-color: transparent; box-sizing: border-box;
-        }
-        nav .logo {
-            font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto;
-            color: white; text-decoration: none; position: relative; display: inline-block;
-            overflow: hidden; width: 320px; height: 1.5em; cursor: pointer;
-        }
-        nav .logo .short-name, nav .logo .full-name {
-            position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800;
-            font-size: 1em; color: white; transition: opacity 0.3s ease;
-        }
+        nav { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; padding: 20px 50px; z-index: 100; background-color: transparent; box-sizing: border-box; }
+        nav .logo { font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto; color: white; text-decoration: none; position: relative; display: inline-block; overflow: hidden; width: 320px; height: 1.5em; cursor: pointer; }
+        nav .logo .short-name, nav .logo .full-name { position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800; font-size: 1em; color: white; transition: opacity 0.3s ease; }
         nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; }
         nav ul li { margin-left: 30px; }
         nav ul li:first-child { margin-left: 0; }
-        nav ul li a {
-            color: white; text-decoration: none; font-weight: 600; font-size: 0.9em;
-            text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px;
-        }
+        nav ul li a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px; }
         nav ul li a:hover { color: white; }
         nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: white; transition: width 0.3s ease-out; }
         nav ul li a:hover::after { width: 100%; }
 
         /* Responsive Design */
         @media (max-width: 992px) {
-             .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-             .about-image-column { order: -1; }
-             .about-content-column { display: flex; flex-direction: column; align-items: center; }
-             .signature { text-align: center; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .about-image-column { order: -1; }
+            .about-content-column { display: flex; flex-direction: column; align-items: center; }
+            .signature { text-align: center; }
+            /* Adjust wrapper size for medium screens */
+            .profile-image-wrapper { transform: scale(0.9); }
         }
         @media (max-width: 768px) {
-             h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } section { padding: 60px 0; }
-             .about-grid { gap: 30px; } .profile-image { width: 200px; height: 200px; }
-             nav { padding: 15px 20px; } nav .logo { font-size: 1.3em; width: auto; }
-             nav .logo .full-name { display: none; } nav .logo .short-name { position: static; }
-             nav ul { justify-content: flex-end; margin: 0; } nav ul li { margin-left: 20px; } nav ul li a { font-size: 0.8em; }
+            h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } section { padding: 60px 0; }
+            .about-grid { gap: 30px; }
+            .profile-image { width: 200px; height: 200px; }
+            /* Scale down the whole container more aggressively */
+            .profile-image-wrapper { transform: scale(0.8); }
+
+            nav { padding: 15px 20px; } nav .logo { font-size: 1.3em; width: auto; }
+            nav .logo .full-name { display: none; } nav .logo .short-name { position: static; }
+            nav ul { justify-content: flex-end; margin: 0; } nav ul li { margin-left: 20px; } nav ul li a { font-size: 0.8em; }
         }
         @media (max-width: 576px) {
-             body { font-size: 15px;} h1 { font-size: 2rem; } h2 { font-size: 1.75rem; }
-             .btn { padding: 10px 25px; font-size: 0.9rem;} .profile-image { width: 180px; height: 180px; }
-             .signature { font-size: 2rem; } .about-content-column { padding: 0 10px; } .container { padding: 0 10px; } section { padding: 40px 0; }
-             nav ul li { margin-left: 15px; } nav { padding: 15px; } nav .logo { font-size: 1.2em; }
+            body { font-size: 15px;} h1 { font-size: 2rem; } h2 { font-size: 1.75rem; }
+            .btn { padding: 10px 25px; font-size: 0.9rem;}
+            .profile-image { width: 180px; height: 180px; }
+            /* Scale down even more */
+            .profile-image-wrapper { transform: scale(0.7); }
+
+            .signature { font-size: 2rem; } .about-content-column { padding: 0 10px; } .container { padding: 0 10px; } section { padding: 40px 0; }
+            nav ul li { margin-left: 15px; } nav { padding: 15px; } nav .logo { font-size: 1.2em; }
         }
-        @media (max-width: 480px) { /* Specific adjustments */ }
+        @media (max-width: 480px) {
+             /* Further scale down for very small screens */
+             .profile-image-wrapper { transform: scale(0.6); }
+             h1 { font-size: 1.8rem; }
+        }
 
     </style>
 </head>
@@ -177,17 +229,24 @@
             <div class="container">
                 <div class="about-grid">
                     <div class="about-image-column">
-                        <div class="profile-image-wrapper anim-target">
+                         <div class="profile-image-wrapper anim-target">
+                             <div class="rotating-element rotating-element-set1">
+                                 <div class="rotating-element-inner"></div>
+                             </div>
+                             <div class="rotating-element rotating-element-set2">
+                                 <div class="rotating-element-inner"></div>
+                             </div>
+
                              <img src="profile.jpg" alt="Dhinesh" class="profile-image">
-                        </div>
+                         </div>
                     </div>
                     <div class="about-content-column">
                         <p class="subtitle anim-target">Resume</p>
                         <h1 class="anim-target">Who is <span class="highlight-name">Dhinesh</span>?</h1>
                         <p class="anim-target">Looking to know more about my professional journey, skills, and accomplishments in detail?
-                              Download my resume to explore my experience, technical expertise, educational background, and the projects I've worked on.</p>
+                             Download my resume to explore my experience, technical expertise, educational background, and the projects I've worked on.</p>
                         <p class="anim-target">Whether you're a recruiter, collaborator, or simply curious — this document offers a concise overview of what I bring to the table.</p>
-                        <a href="https://drive.google.com/file/d/1v9K2TzObHbtFoTkdGhA0tbcBJuhKXwVy/view" class="btn btn-primary anim-target">Download CV <span class="arrow">→</span></a>
+                        <a href="https://drive.google.com/file/d/1v9K2TzObHbtFoTkdGhA0tbcBJuhKXwVy/view" target="_blank" class="btn btn-primary anim-target">Download CV <span class="arrow">→</span></a>
                         <p class="signature anim-target"> - Dhinesh Elangovan</p>
                     </div>
                 </div>
@@ -197,19 +256,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             // --- Navbar Logo Animation ---
             const logo = document.querySelector('nav .logo');
-            if (logo) {
+             if (logo) {
                 const shortName = logo.querySelector('.short-name');
                 const fullName = logo.querySelector('.full-name');
                 if (shortName && fullName) {
+                    // Initial setup for GSAP animations
                     gsap.set(fullName, { opacity: 0, x: -20 });
                     gsap.set(shortName, { opacity: 1, x: 0 });
+                    // Mouse enter animation
                     logo.addEventListener('mouseenter', () => {
                         gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
                         gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
                     });
+                    // Mouse leave animation
                     logo.addEventListener('mouseleave', () => {
                         gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
                         gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
@@ -218,42 +279,34 @@
             } else { console.error("Navbar logo element not found."); }
 
             // --- Page Load Animation for About Section ---
+            // Select all elements marked for animation
             const elementsToAnimate = document.querySelectorAll('#about .anim-target');
-            if (elementsToAnimate.length > 0) {
+             if (elementsToAnimate.length > 0) {
+                 // Set initial state (invisible and slightly down)
                 gsap.set(elementsToAnimate, { opacity: 0, y: 50 });
+                // Animate to final state (visible and original position)
                 gsap.to(elementsToAnimate, {
-                    opacity: 1, y: 0, duration: 0.8, stagger: 0.15,
-                    ease: "power3.out", delay: 0.2
+                    opacity: 1, y: 0, duration: 0.8, stagger: 0.15, // Stagger makes them appear one after another
+                    ease: "power3.out", delay: 0.2 // Start after a short delay
                 });
             } else { console.warn("No '.anim-target' elements found for page load animation."); }
 
             // --- Download CV Button Hover Animation ---
-            const downloadBtn = document.querySelector('.btn-primary');
-            if (downloadBtn) {
-                // Set initial transform origin
+             const downloadBtn = document.querySelector('.btn-primary');
+             if (downloadBtn) {
+                 // Set the transform origin for scaling
                  gsap.set(downloadBtn, { transformOrigin: "center center" });
-
-                downloadBtn.addEventListener('mouseenter', () => {
-                    // Zoom in slightly on hover
-                    gsap.to(downloadBtn, {
-                        scale: 1.08, // Increase size by 8%
-                        duration: 0.2,
-                        ease: "power1.out"
-                    });
-                });
-
-                downloadBtn.addEventListener('mouseleave', () => {
-                    // Return to normal size on mouse leave
-                    gsap.to(downloadBtn, {
-                        scale: 1.0, // Back to original size
-                        duration: 0.3,
-                        ease: "power1.out"
-                    });
-                });
+                 // Mouse enter animation (scale up)
+                 downloadBtn.addEventListener('mouseenter', () => {
+                    gsap.to(downloadBtn, { scale: 1.08, duration: 0.2, ease: "power1.out" });
+                 });
+                 // Mouse leave animation (scale back down)
+                 downloadBtn.addEventListener('mouseleave', () => {
+                    gsap.to(downloadBtn, { scale: 1.0, duration: 0.3, ease: "power1.out" });
+                 });
             } else {
                 console.warn("Download CV button (.btn-primary) not found for hover animation.");
             }
-
         });
     </script>
 
