@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhinesh Elangovan - About Me</title>
+    <title>About Me & Instagram Post - Navbar & Animated BG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -17,7 +17,7 @@
         /* Define the local font 'Blue Vinyl Bold' for About Me */
         @font-face {
             font-family: 'Blue Vinyl Bold';
-            src: url('bluevinyl.otf') format('truetype');
+            src: url('fonts/bluevinyl.otf') format('opentype'); /* Corrected format */
             /* Make sure path & format are correct */
             font-weight: bold;
             font-style: normal;
@@ -118,8 +118,7 @@
         /* --- End Navigation Bar Styles --- */
 
 
-        /* Slider styles */
-        /* REMOVED transition: transform 0.5s ease-in-out; GSAP handles it now */
+        /* Slider styles (Unchanged) */
         .slider-images { display: flex; width: 100%; }
         .slider-images img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 1 / 1; }
         .slider-container::-webkit-scrollbar { display: none; }
@@ -183,6 +182,47 @@
              color: #ef4444; /* Tailwind red-500 */
         }
 
+        /* --- NEW: Slide-in Animation Styles --- */
+        /* Initial hidden state for animated elements */
+        #about-text-content > .about-me-title,
+        #about-text-content > .about-me-subtitle,
+        #insta-post-content > .insta-post-card { /* Target the card inside the container */
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 0.6s ease-out;
+            will-change: transform, opacity;
+        }
+
+        /* Specific initial transforms */
+        #about-text-content > .about-me-title,
+        #about-text-content > .about-me-subtitle {
+            transform: translateX(-40px); /* Slide in from left */
+        }
+        #insta-post-content > .insta-post-card {
+             transform: translateX(40px); /* Slide in from right */
+        }
+
+
+        /* Visible state */
+        #about-text-content.is-visible > .about-me-title,
+        #about-text-content.is-visible > .about-me-subtitle,
+        #insta-post-content.is-visible > .insta-post-card {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger delays */
+        #about-text-content.is-visible > .about-me-title {
+            transition-delay: 0.1s;
+        }
+        #about-text-content.is-visible > .about-me-subtitle {
+            transition-delay: 0.25s;
+        }
+         #insta-post-content.is-visible > .insta-post-card {
+            transition-delay: 0.4s;
+        }
+        /* --- End Slide-in Animation Styles --- */
+
     </style>
 </head>
 
@@ -193,26 +233,29 @@
             <span class="full-name">Dhinesh Kailash</span>
         </a>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html">About Me</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="resume.html">Resume</a></li>
-            <li><a href="#">Contact</a></li>
+             <li><a href="index.html">Home</a></li>
+             <li><a href="#">About Me</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="resume.html">Resume</a></li>
+             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
     <div class="main-content-area">
         <div class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-y-0 lg:space-x-12">
 
-            <div class="lg:w-1/2 flex flex-col items-start text-left px-4">
+            
+            <div id="about-text-content" class="lg:w-1/2 flex flex-col items-start text-left px-4">
                 <h1 class="about-me-title">About Me</h1>
                 <p class="about-me-subtitle">
                     Tap the arrow on the right — there’s more to explore.
                 </p>
             </div>
 
-            <div class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
-               <div class="bg-white rounded-lg shadow-xl w-full overflow-hidden">
+             
+            <div id="insta-post-content" class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
+                 
+               <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
                     <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
                         <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full">
                         <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
@@ -231,12 +274,12 @@
                     </div>
                     <div class="p-3 flex justify-between items-center border-t border-gray-200">
                          <div class="flex space-x-4 text-gray-700">
-                            <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
-                            <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
-                            <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
+                             <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
+                             <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
+                             <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
                          </div>
                          <div class="text-gray-700">
-                            <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
+                             <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
                          </div>
                     </div>
                     <div id="captionArea" class="caption-text border-t border-gray-200">
@@ -249,6 +292,7 @@
 
 
     <script>
+        // --- Slider Logic (Existing) ---
         const sliderImages = document.getElementById('sliderImages');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -257,7 +301,7 @@
         let currentIndex = 0;
         const totalImages = images.length;
 
-        // --- NEW: Function to update caption with bold username ---
+        // --- Function to update caption with bold username (Existing) ---
         function updateCaptionWithBoldUsername(captionText) {
             const separator = '·'; // Using the middle dot as separator
             const separatorIndex = captionText.indexOf(separator);
@@ -268,7 +312,6 @@
                 const username = captionText.substring(0, separatorIndex).trim();
                 const restOfCaption = captionText.substring(separatorIndex + separator.length).trim();
 
-                // Create elements for better structure (optional but good practice)
                 const strongUsername = document.createElement('strong');
                 strongUsername.textContent = username;
 
@@ -279,38 +322,35 @@
                 captionArea.appendChild(captionRestSpan);
 
             } else {
-                // Fallback if separator not found, just display the text
                 captionArea.textContent = captionText;
             }
         }
 
 
         function updateSlider() {
-            const offset = -currentIndex * 100; // Calculate percentage offset
+            const offset = -currentIndex * 100;
 
-            // --- MODIFIED: Use GSAP for the sliding animation ---
+            // Use GSAP for the sliding animation
             gsap.to(sliderImages, {
-                duration: 0.5,         // Animation duration
-                xPercent: offset,      // Target position using percentage
-                ease: 'power2.inOut' // Smooth easing function
+                duration: 0.5,
+                xPercent: offset,
+                ease: 'power2.inOut'
             });
 
-            // --- MODIFIED: Update caption using the new function ---
-            const currentCaption = images[currentIndex]?.getAttribute('data-caption') || ''; // Added safe navigation
+            // Update caption
+            const currentCaption = images[currentIndex]?.getAttribute('data-caption') || '';
             updateCaptionWithBoldUsername(currentCaption);
 
-            // Update button states (disable/enable)
+            // Update button states
             prevBtn.disabled = currentIndex === 0;
             nextBtn.disabled = currentIndex === totalImages - 1;
-
-            // Toggle visual cues for disabled buttons
             prevBtn.classList.toggle('opacity-50', currentIndex === 0);
             prevBtn.classList.toggle('cursor-not-allowed', currentIndex === 0);
             nextBtn.classList.toggle('opacity-50', currentIndex === totalImages - 1);
             nextBtn.classList.toggle('cursor-not-allowed', currentIndex === totalImages - 1);
         }
 
-        // --- Event Listeners for Next/Prev Buttons (Unchanged logic) ---
+        // Event Listeners for Next/Prev Buttons (Existing)
         nextBtn.addEventListener('click', () => {
             if (currentIndex < totalImages - 1) {
                 currentIndex++;
@@ -325,7 +365,7 @@
             }
         });
 
-        // --- Touch Swipe Logic (Unchanged logic) ---
+        // Touch Swipe Logic (Existing)
         let touchStartX = 0;
         let touchEndX = 0;
         const sliderContainer = document.getElementById('sliderContainer');
@@ -340,7 +380,7 @@
         });
 
         function handleSwipe() {
-            const swipeThreshold = 50; // Minimum pixels for a swipe
+            const swipeThreshold = 50;
             if (touchStartX - touchEndX > swipeThreshold) { // Swiped Left
                 if (currentIndex < totalImages - 1) {
                     currentIndex++;
@@ -350,14 +390,13 @@
                  if (currentIndex > 0) {
                     currentIndex--;
                     updateSlider();
-                }
+                 }
             }
-            // Reset touch coordinates
             touchStartX = 0;
             touchEndX = 0;
         }
 
-        // --- NEW: GSAP Animations for Action Buttons ---
+        // GSAP Animations for Action Buttons (Existing)
         const likeIcon = document.querySelector('.p-3 .fa-heart');
         const commentIcon = document.querySelector('.p-3 .fa-comment');
         const sendIcon = document.querySelector('.p-3 .fa-paper-plane');
@@ -365,22 +404,14 @@
         const actionIcons = [likeIcon, commentIcon, sendIcon, bookmarkIcon];
 
         actionIcons.forEach(icon => {
-            if (icon) { // Check if the icon exists
+            if (icon) {
                 icon.addEventListener('click', () => {
-                    // Simple "pop" animation on click
                     gsap.fromTo(icon,
-                        { scale: 1 }, // Start scale
-                        {
-                            scale: 1.3,       // End scale
-                            duration: 0.15,   // Faster duration
-                            yoyo: true,       // Go back to original scale
-                            repeat: 1,        // Play animation out and back
-                            ease: 'power1.out' // Easing
-                        }
+                        { scale: 1 },
+                        { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.out' }
                     );
 
-                    // --- Optional: Add state toggling ---
-                    // Toggle heart icon (like/unlike)
+                    // Toggle heart icon
                     if (icon === likeIcon) {
                         const isLiked = icon.classList.contains('fas');
                         if (isLiked) {
@@ -391,32 +422,50 @@
                             icon.classList.add('fas', 'text-red-500');
                         }
                     }
-
-                    // Toggle bookmark icon (saved/unsaved)
+                    // Toggle bookmark icon
                     if (icon === bookmarkIcon) {
-                         const isBookmarked = icon.classList.contains('fas');
+                        const isBookmarked = icon.classList.contains('fas');
                          if (isBookmarked) {
                             icon.classList.remove('fas');
                             icon.classList.add('far');
                          } else {
-                             icon.classList.remove('far');
-                             icon.classList.add('fas');
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
                          }
                     }
-                    // Add similar logic for comment/send if needed (e.g., opening a modal)
                 });
             } else {
-                 console.warn("An action icon was not found."); // Warn if an icon is missing
+                console.warn("An action icon was not found.");
             }
         });
 
-
-        // --- Initialize slider and caption on page load ---
+        // Initialize slider and caption on page load
         updateSlider();
+
+        // --- NEW: Page Load Slide-in Animation Trigger ---
+        document.addEventListener('DOMContentLoaded', function() {
+             const aboutTextContainer = document.getElementById('about-text-content');
+             const instaPostContainer = document.getElementById('insta-post-content');
+
+             // Add 'is-visible' class after a short delay to trigger CSS transitions
+             if (aboutTextContainer) {
+                setTimeout(() => {
+                    aboutTextContainer.classList.add('is-visible');
+                }, 100); // Start text animation slightly earlier
+             }
+              if (instaPostContainer) {
+                setTimeout(() => {
+                    instaPostContainer.classList.add('is-visible');
+                }, 200); // Start post animation slightly later
+             }
+        });
+        // --- End Page Load Animation Trigger ---
+
 
     </script>
 
     <script>
+         // --- GSAP Logo Animation (Existing) ---
         const logo = document.querySelector('nav .logo');
         const shortName = document.querySelector('nav .logo .short-name');
         const fullName = document.querySelector('nav .logo .full-name');
@@ -426,17 +475,43 @@
             gsap.set(shortName, { opacity: 1, x: 0 });
 
             logo.addEventListener('mouseenter', () => {
-                gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
-                gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                 // Check screen width before animating
+                if (window.innerWidth > 768) {
+                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
+                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                }
             });
 
             logo.addEventListener('mouseleave', () => {
-                gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-                gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                 // Check screen width before animating
+                 if (window.innerWidth > 768) {
+                    gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+                    gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                 }
             });
+
+             // Reset on resize for smaller screens
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    gsap.set(shortName, { clearProps: "all" });
+                    gsap.set(fullName, { clearProps: "all" });
+                    gsap.set(shortName, { opacity: 1 });
+                    gsap.set(fullName, { opacity: 0 }); // Ensure full name is hidden
+                } else {
+                     // Reset to default large screen initial state if resizing back up
+                     // Only reset if mouse is not currently over the logo
+                     if (!logo.matches(':hover')) {
+                         gsap.set(fullName, { opacity: 0, x: -20 });
+                         gsap.set(shortName, { opacity: 1, x: 0 });
+                     }
+                }
+            });
+
+
         } else {
             console.error("Navbar logo elements not found for animation.");
         }
+        // --- End GSAP Logo Animation ---
     </script>
 
 </body>
