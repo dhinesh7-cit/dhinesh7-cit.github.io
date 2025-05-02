@@ -41,6 +41,14 @@
             margin-right: auto;
             color: white;
             text-decoration: none;
+            /* Styles for logo animation container */
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            width: 320px; /* enough space for full name */
+            height: 1.5em; /* Adjusted to fit font-size */
+            cursor: pointer;
+            vertical-align: middle; /* Align properly if needed */
         }
 
         nav ul {
@@ -54,7 +62,7 @@
             margin-left: 30px;
         }
         nav ul li:first-child {
-           margin-left: 0;
+            margin-left: 0;
         }
 
         nav ul li a {
@@ -119,27 +127,33 @@
         }
 
         /* --- Text Styles (before animation) --- */
-         .animated-title {
+        .animated-title {
             font-size: 4rem;
             font-weight: 800;
             line-height: 1.1;
             text-transform: uppercase;
             margin-bottom: 1rem;
-            display: block;
+            display: block; /* Changed from inline-block if it was */
+        }
+        .animated-title .title-line-wrapper { /* Added wrapper for multi-line support */
+             display: block; /* Each line takes full width */
+             overflow: hidden; /* Hide words before animation */
         }
         .animated-title .title-word {
-             display: block;
+             display: inline-block; /* Keep words inline but animatable */
+             /* Initial animation state handled by CSS transforms */
         }
         .content p {
             font-size: 1.125rem;
             margin-bottom: 2rem;
             max-width: 450px;
         }
-        /* --- Button Style (Restored) --- */
-        .content button {
+
+        /* --- Button Style (Updated for <a> tag) --- */
+        .content .cta-button { /* Changed selector from .content button */
             background-color: white; /* Default: White background */
-            color: black;   
-            border: none; /* Default: Black text *            /* No border */
+            color: black;           /* Default: Black text */
+            border: none;           /* No border */
             padding: 12px 25px;
             font-weight: 600;
             text-transform: uppercase;
@@ -147,22 +161,16 @@
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
             display: inline-block;
-            border-radius: 30px; /* Optional: Make it a little rounded for modern look */
+            border-radius: 30px; /* Optional: Make it a little rounded */
+            text-decoration: none; /* Remove underline from link */
         }
-        
-        .content button:hover {
+
+        .content .cta-button:hover { /* Changed selector */
             background-color: black; /* Hover: Black background */
-            color: white;             /* Hover: White text */
+            color: white;           /* Hover: White text */
         }
-       .logo {
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            width: 320px; /* enough space for full name */
-            height: 2em;
-            cursor: pointer;
-        }
-        
+
+        /* Logo animation styles */
         .logo .short-name,
         .logo .full-name {
             position: absolute;
@@ -170,39 +178,34 @@
             left: 0;
             white-space: nowrap;
             font-weight: 800;
-            font-size: 1em;
+            font-size: 1em; /* Relative to parent .logo font-size */
+            line-height: 1.5em; /* Match parent height */
             color: white;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease; /* Keep CSS transition for fallback */
         }
-
-
 
         /* --- Slide-in-Left Animation Styles --- */
         /* Initial animation state */
-        .content > .animated-title .title-word,
+        .content > .animated-title .title-word, /* Target the word span directly */
         .content > p,
-        .content > button {
+        .content > .cta-button { /* Updated selector */
             opacity: 0;
             transform: translateX(-40px);
-            /* Animation transition (applied when .is-visible changes props) */
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         opacity 0.6s ease-out;
             will-change: transform, opacity;
         }
-        /* Override button display only for initial layout if needed,
-           but previous .content button rule already sets inline-block */
-        /*.content > button { display: inline-block; } */
-
 
         /* Visible animation state */
-        .content.is-visible > .animated-title .title-word,
+        .content.is-visible > .animated-title .title-word, /* Target the word span */
         .content.is-visible > p,
-        .content.is-visible > button {
+        .content.is-visible > .cta-button { /* Updated selector */
             opacity: 1;
             transform: translateX(0);
         }
 
         /* Stagger delays */
+         /* Ensure title-word within wrapper is targeted correctly if wrappers are used */
         .content.is-visible .animated-title .title-line-wrapper:nth-child(1) .title-word {
             transition-delay: 0.1s;
         }
@@ -212,7 +215,7 @@
         .content.is-visible > p {
             transition-delay: 0.4s;
         }
-        .content.is-visible > button {
+        .content.is-visible > .cta-button { /* Updated selector */
             transition-delay: 0.55s;
         }
         /* --- End Slide-in-Left Animation --- */
@@ -221,16 +224,20 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
-            nav .logo { font-size: 1.3em; }
+            nav .logo { font-size: 1.3em; height: 1.3em; width: 250px; } /* Adjust logo size */
+             nav .logo .short-name,
+             nav .logo .full-name { font-size: 1em; line-height: 1.3em; }
             nav ul li { margin-left: 20px; }
             nav ul li a { font-size: 0.8em; }
             .content { margin-left: 20px; max-width: 90%; }
             .animated-title { font-size: 3rem; }
             .content p { font-size: 1rem; }
-            .content button { padding: 10px 20px; }
+            .content .cta-button { padding: 10px 20px; } /* Updated selector */
         }
          @media (max-width: 480px) {
-             .animated-title { font-size: 2.5rem; }
+            .animated-title { font-size: 2.5rem; }
+            nav .logo { width: 180px; } /* Further adjust logo width */
+            /* Hide nav items if needed or stack them */
          }
     </style>
 </head>
@@ -238,16 +245,16 @@
 
     <nav>
         <a href="#" class="logo">
-        <span class="short-name">DK</span>
-        <span class="full-name">Dhinesh Kailash</span>
+            <span class="short-name">DK</span>
+            <span class="full-name">Dhinesh Kailash</span>
         </a>
 
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html">About Me</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="resume.html">Resume</a></li>
-            <li><a href="#">Contact</a></li>
+             <li><a href="index.html">Home</a></li>
+             <li><a href="aboutme.html">About Me</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="resume.html">Resume</a></li>
+             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
@@ -255,53 +262,60 @@
         <video autoplay muted loop playsinline class="bg-video">
             <source src="background.mp4" type="video/mp4">
             Your browser does not support the video tag.
-        s</video>
+        </video>
 
 
-        <div class="content"> <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
-                <span class="title-line-wrapper"> <span class="title-word">DHINESH</span>
-                </span>
-                <span class="title-line-wrapper">
-                    <span class="title-word">ELANGOVAN</span>
-                </span>
-            </h1>
+        <div class="content">
+             <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
+                  <span class="title-line-wrapper">
+                      <span class="title-word">DHINESH</span>
+                  </span>
+                  <span class="title-line-wrapper">
+                      <span class="title-word">ELANGOVAN</span>
+                  </span>
+             </h1>
 
-            <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
+             <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
 
-            <button>Know More</button>
+             <a href="aboutme.html" class="cta-button">Know More</a>
+
         </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-          // Target the content container DIV
-          const contentElement = document.querySelector('.content'); // Target .content
+            // Target the content container DIV
+            const contentElement = document.querySelector('.content'); // Target .content
 
-          if (contentElement) {
-            // Add the class after a short delay
-            setTimeout(() => {
-              contentElement.classList.add('is-visible'); // Add class to .content
-            }, 100);
-          }
-        });
-        
-    
-        const logo = document.querySelector('.logo');
-        const shortName = document.querySelector('.short-name');
-        const fullName = document.querySelector('.full-name');
-    
-        // Set initial states
-        gsap.set(fullName, { opacity: 0, x: -20 });
-        gsap.set(shortName, { opacity: 1 });
-    
-        logo.addEventListener('mouseenter', () => {
-            gsap.to(shortName, { opacity: 0, duration: 0.3, ease: "power2.out" });
-            gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
-        });
-    
-        logo.addEventListener('mouseleave', () => {
-            gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-            gsap.to(shortName, { opacity: 1, delay: 0.2, duration: 0.3, ease: "power2.in" });
+            if (contentElement) {
+                // Add the class after a short delay to trigger CSS transition
+                setTimeout(() => {
+                    contentElement.classList.add('is-visible'); // Add class to .content
+                }, 100); // Small delay like 100ms
+            }
+
+            // Logo animation code
+            const logo = document.querySelector('.logo');
+            const shortName = logo.querySelector('.short-name'); // Use querySelector on logo element
+            const fullName = logo.querySelector('.full-name');   // Use querySelector on logo element
+
+            if (logo && shortName && fullName) { // Check if elements exist
+                // Set initial states using GSAP
+                gsap.set(fullName, { opacity: 0, x: -20 });
+                gsap.set(shortName, { opacity: 1, x: 0 }); // Ensure shortName starts at x:0
+
+                logo.addEventListener('mouseenter', () => {
+                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); // Move short name out slightly
+                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); // Add slight delay
+                });
+
+                logo.addEventListener('mouseleave', () => {
+                    gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+                    gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); // Delay bringing short name back
+                });
+            } else {
+                console.error("Logo elements not found for animation setup.");
+            }
         });
     </script>
 
