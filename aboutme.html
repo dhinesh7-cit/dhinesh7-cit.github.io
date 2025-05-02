@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -17,8 +17,10 @@
         /* Define the local font 'Blue Vinyl Bold' for About Me */
         @font-face {
             font-family: 'Blue Vinyl Bold';
-            src: url('bluevinyl.otf') format('opentype'); /* Corrected format */
-            /* Make sure path & format are correct */
+            /* IMPORTANT: Replace 'fonts/bluevinyl.otf' with the correct path to your font file */
+            /* If the font is in the same directory: src: url('bluevinyl.otf') format('opentype'); */
+            /* If it's in a 'fonts' subdirectory: src: url('fonts/bluevinyl.otf') format('opentype'); */
+            src: url('bluevinyl.otf') format('opentype'); /* Assuming 'fonts' subdirectory */
             font-weight: bold;
             font-style: normal;
         }
@@ -29,7 +31,8 @@
             background-size: 400% 400%;
             animation: moveGradient 15s ease infinite;
             margin: 0; /* Ensure no default body margin */
-            font-family: 'Poppins', sans-serif; /* Default font set to Poppins */
+            /* Use Poppins as the base font */
+            font-family: 'Poppins', sans-serif;
             color: white; /* Default text color */
             line-height: 1.6;
             overflow-x: hidden; /* Prevent horizontal scroll */
@@ -39,6 +42,8 @@
             align-items: center;
             justify-content: center;
             padding: 0; /* Remove body padding, nav handles its own */
+            padding-bottom: 40px; /* Add padding to prevent content overlap with footer */
+            box-sizing: border-box; /* Include padding in height calculation */
         }
 
         @keyframes moveGradient {
@@ -96,7 +101,7 @@
         nav ul li a {
             color: white;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 600; /* Poppins Semi-Bold */
             font-size: 0.9em;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -123,38 +128,56 @@
         .slider-images img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 1 / 1; }
         .slider-container::-webkit-scrollbar { display: none; }
         .slider-container { -ms-overflow-style: none; scrollbar-width: none; overflow-x: hidden; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.7); color: rgba(0, 0, 0, 0.8); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s ease, opacity 0.3s ease; } /* Added opacity transition */
+        .slider-btn {
+             position: absolute;
+             top: 50%;
+             transform: translateY(-50%); /* Initial transform */
+             background-color: rgba(255, 255, 255, 0.7);
+             color: rgba(0, 0, 0, 0.8);
+             border-radius: 50%;
+             width: 2rem; /* 32px */
+             height: 2rem; /* 32px */
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             cursor: pointer;
+             z-index: 10;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+             transition: background-color 0.2s ease, opacity 0.3s ease; /* Base transitions */
+             will-change: transform; /* Optimize animation */
+        }
         .slider-btn:hover { background-color: rgba(255, 255, 255, 0.9); }
         .slider-btn.left { left: 0.5rem; }
         .slider-btn.right { right: 0.5rem; }
-        .caption-text { padding: 0.5rem 1rem; font-size: 0.875rem; color: #374151; }
+        .caption-text { padding: 0.5rem 1rem; font-size: 0.875rem; color: #374151; } /* Tailwind text-sm, text-gray-700 */
 
         /* Style for About Me Title (Unchanged) */
         .about-me-title {
-            font-family: 'Blue Vinyl Bold', 'Arial Black', Gadget, sans-serif;
-            font-size: 3rem;
+            font-family: 'Blue Vinyl Bold', 'Arial Black', Gadget, sans-serif; /* Fallback fonts */
+            font-size: 3rem; /* Tailwind text-5xl */
             color: white;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.5rem; /* Tailwind mb-2 */
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
         /* Style for About Me Subtitle (Unchanged) */
         .about-me-subtitle {
-            font-size: 1.125rem;
+            font-size: 1.125rem; /* Tailwind text-lg */
             color: white;
             line-height: 1.6;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
         /* Main content container (Unchanged) */
         .main-content-area {
-             padding-top: 80px; /* Adjust as needed based on nav height */
+             padding-top: 80px; /* Space below fixed nav */
              width: 100%;
              max-width: 1152px; /* Corresponds to max-w-6xl */
              display: flex;
              flex-direction: column; /* Stack on small screens */
              align-items: center; /* Center items horizontally */
              justify-content: center; /* Center items vertically */
-             padding-left: 1rem; /* lg:p-8 equivalent */
-             padding-right: 1rem; /* lg:p-8 equivalent */
+             padding-left: 1rem; /* Tailwind px-4 */
+             padding-right: 1rem; /* Tailwind px-4 */
+             /* Removed padding-bottom here, handled by body padding */
         }
         /* Responsive adjustments for Nav (Unchanged) */
         @media (max-width: 768px) {
@@ -182,36 +205,28 @@
              color: #ef4444; /* Tailwind red-500 */
         }
 
-        /* --- NEW: Slide-in Animation Styles --- */
-        /* Initial hidden state for animated elements */
+        /* --- Slide-in Animation Styles (Unchanged) --- */
         #about-text-content > .about-me-title,
         #about-text-content > .about-me-subtitle,
-        #insta-post-content > .insta-post-card { /* Target the card inside the container */
+        #insta-post-content > .insta-post-card {
             opacity: 0;
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         opacity 0.6s ease-out;
             will-change: transform, opacity;
         }
-
-        /* Specific initial transforms */
         #about-text-content > .about-me-title,
         #about-text-content > .about-me-subtitle {
-            transform: translateX(-40px); /* Slide in from left */
+            transform: translateX(-40px);
         }
         #insta-post-content > .insta-post-card {
-             transform: translateX(40px); /* Slide in from right */
+             transform: translateX(40px);
         }
-
-
-        /* Visible state */
         #about-text-content.is-visible > .about-me-title,
         #about-text-content.is-visible > .about-me-subtitle,
         #insta-post-content.is-visible > .insta-post-card {
             opacity: 1;
             transform: translateX(0);
         }
-
-        /* Stagger delays */
         #about-text-content.is-visible > .about-me-title {
             transition-delay: 0.1s;
         }
@@ -223,6 +238,22 @@
         }
         /* --- End Slide-in Animation Styles --- */
 
+        /* --- NEW: Footer Styles --- */
+        footer.site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: auto; /* Only take up needed width */
+            padding: 10px 20px; /* Adjust padding as needed */
+            color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+            font-family: 'Poppins', sans-serif; /* Ensure Poppins font */
+            font-weight: 300; /* Poppins Light weight for 'thin' */
+            font-size: 0.75rem; /* Tailwind text-xs */
+            z-index: 101; /* Above background, potentially below modals */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Subtle shadow for readability */
+        }
+        /* --- End Footer Styles --- */
+
     </style>
 </head>
 
@@ -233,18 +264,18 @@
             <span class="full-name">Dhinesh Kailash</span>
         </a>
         <ul>
-             <li><a href="index.html">Home</a></li>
-             <li><a href="#">About Me</a></li>
-             <li><a href="#">Projects</a></li>
-             <li><a href="resume.html">Resume</a></li>
-             <li><a href="#">Contact</a></li>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="aboutme.html">About Me</a></li>
+              <li><a href="#">Projects</a></li>
+              <li><a href="resume.html">Resume</a></li>
+              <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
     <div class="main-content-area">
         <div class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-y-0 lg:space-x-12">
 
-            
+              
             <div id="about-text-content" class="lg:w-1/2 flex flex-col items-start text-left px-4">
                 <h1 class="about-me-title">About Me</h1>
                 <p class="about-me-subtitle">
@@ -252,14 +283,16 @@
                 </p>
             </div>
 
-             
+              
             <div id="insta-post-content" class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
-                 
-               <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
+                
+                <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
+                   
                     <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
-                        <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full">
+                        <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/cccccc/ffffff?text=User';">
                         <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
                     </div>
+                    
                     <div class="relative">
                         <div id="sliderContainer" class="slider-container w-full overflow-hidden">
                             <div id="sliderImages" class="slider-images">
@@ -272,27 +305,35 @@
                         <button id="prevBtn" class="slider-btn left"><i class="fas fa-chevron-left text-xs"></i></button>
                         <button id="nextBtn" class="slider-btn right"><i class="fas fa-chevron-right text-xs"></i></button>
                     </div>
+                    
                     <div class="p-3 flex justify-between items-center border-t border-gray-200">
                          <div class="flex space-x-4 text-gray-700">
-                             <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
-                             <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
-                             <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
+                            <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
+                            <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
+                            <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
                          </div>
                          <div class="text-gray-700">
-                             <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
+                            <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
                          </div>
                     </div>
+                    
                     <div id="captionArea" class="caption-text border-t border-gray-200">
-                        {/* Caption will load here */}
+                        
                     </div>
                </div>
             </div>
         </div>
     </div>
 
+    
+    <footer class="site-footer">
+        Inspired from Instagram.
+    </footer>
+    
+
 
     <script>
-        // --- Slider Logic (Existing) ---
+        // --- Slider Logic Elements ---
         const sliderImages = document.getElementById('sliderImages');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -301,7 +342,13 @@
         let currentIndex = 0;
         const totalImages = images.length;
 
-        // --- Function to update caption with bold username (Existing) ---
+        // --- Button Animation State ---
+        let rightButtonClicked = false; // Flag to track if the right button was clicked/interacted with
+        let initialDelayTimer = null;   // To store the initial 5s setTimeout ID
+        let popupButtonInterval = null; // To store the setInterval ID
+        let popupButtonAnimation = null; // To store the GSAP animation instance
+
+        // --- Function to update caption with bold username ---
         function updateCaptionWithBoldUsername(captionText) {
             const separator = '·'; // Using the middle dot as separator
             const separatorIndex = captionText.indexOf(separator);
@@ -322,11 +369,11 @@
                 captionArea.appendChild(captionRestSpan);
 
             } else {
-                captionArea.textContent = captionText;
+                captionArea.textContent = captionText; // Display as is if separator not found
             }
         }
 
-
+        // --- Function to update slider display ---
         function updateSlider() {
             const offset = -currentIndex * 100;
 
@@ -342,16 +389,51 @@
             updateCaptionWithBoldUsername(currentCaption);
 
             // Update button states
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === totalImages - 1;
-            prevBtn.classList.toggle('opacity-50', currentIndex === 0);
-            prevBtn.classList.toggle('cursor-not-allowed', currentIndex === 0);
-            nextBtn.classList.toggle('opacity-50', currentIndex === totalImages - 1);
-            nextBtn.classList.toggle('cursor-not-allowed', currentIndex === totalImages - 1);
+            const isAtStart = currentIndex === 0;
+            const isAtEnd = currentIndex === totalImages - 1;
+
+            prevBtn.disabled = isAtStart;
+            nextBtn.disabled = isAtEnd;
+            prevBtn.classList.toggle('opacity-50', isAtStart);
+            prevBtn.classList.toggle('cursor-not-allowed', isAtStart);
+            nextBtn.classList.toggle('opacity-50', isAtEnd);
+            nextBtn.classList.toggle('cursor-not-allowed', isAtEnd);
+
+            // If slider update results in nextBtn being disabled, cancel any pending/active pop-up animation
+            if (isAtEnd) {
+                 cancelPopupAnimation(); // Call cancel function which handles timer and active animation
+            }
         }
 
-        // Event Listeners for Next/Prev Buttons (Existing)
+        // --- Function to handle cancelling the pop-up animation ---
+        function cancelPopupAnimation() {
+            // Only set flag if interaction hasn't already happened
+            if (!rightButtonClicked) {
+                rightButtonClicked = true; // Mark interaction as happened
+                console.log("Interaction detected, cancelling pop-up animation interval."); // For debugging
+            }
+            if (initialDelayTimer) { // Clear the initial delay timer if it's still pending
+                clearTimeout(initialDelayTimer);
+                initialDelayTimer = null;
+                console.log("Initial delay timer cleared."); // For debugging
+            }
+            if (popupButtonInterval) { // Clear the interval timer if it's running
+                clearInterval(popupButtonInterval);
+                popupButtonInterval = null;
+                console.log("Popup interval cleared."); // For debugging
+            }
+            // Kill any currently active animation pulse
+            if (popupButtonAnimation && popupButtonAnimation.isActive()) {
+                popupButtonAnimation.kill();
+                console.log("Popup animation killed."); // For debugging
+                gsap.to(nextBtn, { scale: 1, x: 0, duration: 0.1 }); // Reset scale and position quickly
+            }
+        }
+
+        // --- Event Listeners for Next/Prev Buttons ---
         nextBtn.addEventListener('click', () => {
+            cancelPopupAnimation(); // Cancel pop-up on click
+
             if (currentIndex < totalImages - 1) {
                 currentIndex++;
                 updateSlider();
@@ -359,13 +441,14 @@
         });
 
         prevBtn.addEventListener('click', () => {
+            // Clicking previous doesn't cancel the *next* button's animation trigger
             if (currentIndex > 0) {
                 currentIndex--;
                 updateSlider();
             }
         });
 
-        // Touch Swipe Logic (Existing)
+        // --- Touch Swipe Logic ---
         let touchStartX = 0;
         let touchEndX = 0;
         const sliderContainer = document.getElementById('sliderContainer');
@@ -380,92 +463,139 @@
         });
 
         function handleSwipe() {
-            const swipeThreshold = 50;
-            if (touchStartX - touchEndX > swipeThreshold) { // Swiped Left
+            const swipeThreshold = 50; // Minimum pixels swiped to trigger action
+            if (touchStartX - touchEndX > swipeThreshold) { // Swiped Left (equivalent to Next)
+                 cancelPopupAnimation(); // Cancel pop-up on swipe left
+
                 if (currentIndex < totalImages - 1) {
                     currentIndex++;
                     updateSlider();
                 }
-            } else if (touchEndX - touchStartX > swipeThreshold) { // Swiped Right
+            } else if (touchEndX - touchStartX > swipeThreshold) { // Swiped Right (equivalent to Prev)
+                 // Swiping right doesn't cancel the *next* button's animation trigger
                  if (currentIndex > 0) {
                     currentIndex--;
                     updateSlider();
                  }
             }
+            // Reset touch coordinates regardless of swipe action
             touchStartX = 0;
             touchEndX = 0;
         }
 
-        // GSAP Animations for Action Buttons (Existing)
-        const likeIcon = document.querySelector('.p-3 .fa-heart');
-        const commentIcon = document.querySelector('.p-3 .fa-comment');
-        const sendIcon = document.querySelector('.p-3 .fa-paper-plane');
-        const bookmarkIcon = document.querySelector('.p-3 .fa-bookmark');
+        // --- GSAP Animations for Action Buttons ---
+        const likeIcon = document.getElementById('likeIcon');
+        const commentIcon = document.getElementById('commentIcon');
+        const sendIcon = document.getElementById('sendIcon');
+        const bookmarkIcon = document.getElementById('bookmarkIcon');
         const actionIcons = [likeIcon, commentIcon, sendIcon, bookmarkIcon];
 
         actionIcons.forEach(icon => {
             if (icon) {
                 icon.addEventListener('click', () => {
+                    // Animate the clicked icon
                     gsap.fromTo(icon,
                         { scale: 1 },
                         { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.out' }
                     );
 
-                    // Toggle heart icon
-                    if (icon === likeIcon) {
+                    // Toggle heart icon state
+                    if (icon.id === 'likeIcon') {
                         const isLiked = icon.classList.contains('fas');
-                        if (isLiked) {
-                            icon.classList.remove('fas', 'text-red-500');
-                            icon.classList.add('far');
-                        } else {
-                            icon.classList.remove('far');
-                            icon.classList.add('fas', 'text-red-500');
-                        }
+                        icon.classList.toggle('fas', !isLiked); // Toggle solid class
+                        icon.classList.toggle('far', isLiked); // Toggle regular class
+                        icon.classList.toggle('text-red-500', !isLiked); // Toggle red color
                     }
-                    // Toggle bookmark icon
-                    if (icon === bookmarkIcon) {
+                    // Toggle bookmark icon state
+                    if (icon.id === 'bookmarkIcon') {
                         const isBookmarked = icon.classList.contains('fas');
-                         if (isBookmarked) {
-                            icon.classList.remove('fas');
-                            icon.classList.add('far');
-                         } else {
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                         }
+                        icon.classList.toggle('fas', !isBookmarked); // Toggle solid class
+                        icon.classList.toggle('far', isBookmarked); // Toggle regular class
                     }
                 });
             } else {
-                console.warn("An action icon was not found.");
+                console.warn("An action icon element was not found.");
             }
         });
 
-        // Initialize slider and caption on page load
-        updateSlider();
-
-        // --- NEW: Page Load Slide-in Animation Trigger ---
+        // --- Page Load Initializations ---
         document.addEventListener('DOMContentLoaded', function() {
-             const aboutTextContainer = document.getElementById('about-text-content');
-             const instaPostContainer = document.getElementById('insta-post-content');
+            const aboutTextContainer = document.getElementById('about-text-content');
+            const instaPostContainer = document.getElementById('insta-post-content');
 
-             // Add 'is-visible' class after a short delay to trigger CSS transitions
-             if (aboutTextContainer) {
+            // Trigger initial slide-in animations
+            if (aboutTextContainer) {
                 setTimeout(() => {
                     aboutTextContainer.classList.add('is-visible');
-                }, 100); // Start text animation slightly earlier
-             }
-              if (instaPostContainer) {
+                }, 100);
+            }
+             if (instaPostContainer) {
                 setTimeout(() => {
                     instaPostContainer.classList.add('is-visible');
-                }, 200); // Start post animation slightly later
-             }
-        });
-        // --- End Page Load Animation Trigger ---
+                }, 200);
+            }
 
+            // --- Define function to check conditions and run the finite animation ---
+            function checkAndAnimatePopup() {
+                 // Check conditions: button exists, not interacted with, not disabled, and no animation currently active
+                if (nextBtn && !rightButtonClicked && !nextBtn.disabled && (!popupButtonAnimation || !popupButtonAnimation.isActive())) {
+                    console.log("Conditions met, running finite pop-up animation."); // For debugging
+                    // Store the animation instance so we can potentially kill it mid-pulse
+                    popupButtonAnimation = gsap.to(nextBtn, {
+                        scale: 1.4,
+                        x: 6,
+                        duration: 0.25,
+                        yoyo: true,
+                        repeat: 3,          // Finite repeat for the pulse sequence
+                        ease: 'power2.inOut',
+                        overwrite: "auto"
+                    });
+                } else {
+                    // Optional: Log why animation was skipped this interval
+                    if (popupButtonAnimation && popupButtonAnimation.isActive()) console.log("Skipping interval anim: previous pulse still active.");
+                    else if (!nextBtn) console.log("Skipping interval anim: nextBtn not found.");
+                    else if (rightButtonClicked) console.log("Skipping interval anim: button already interacted with.");
+                    else if (nextBtn.disabled) console.log("Skipping interval anim: button is disabled.");
+
+                     // If conditions are no longer met (e.g., button clicked/disabled), clear interval
+                     if (popupButtonInterval && (rightButtonClicked || (nextBtn && nextBtn.disabled))) {
+                          clearInterval(popupButtonInterval);
+                          popupButtonInterval = null;
+                          console.log("Interval cleared from within check function because conditions no longer met.");
+                     }
+                }
+            }
+
+            // --- Set Initial Delay and Start Interval for Button Pop-up ---
+            initialDelayTimer = setTimeout(() => {
+                console.log("Initial 5s delay complete.");
+                initialDelayTimer = null; // Clear timer ID after it runs
+
+                // Run the first animation check immediately after the delay
+                checkAndAnimatePopup();
+
+                // Then, set the interval to run the check every 5 seconds thereafter
+                // Only set interval if conditions are initially met
+                if (!rightButtonClicked && nextBtn && !nextBtn.disabled) {
+                     console.log("Setting up 5s interval for animation check.");
+                     popupButtonInterval = setInterval(checkAndAnimatePopup, 5000); // 5000ms = 5 seconds
+                } else {
+                     console.log("Skipping interval setup as conditions not met after initial delay.");
+                }
+
+            }, 5000); // Initial 5-second delay
+            // --- End Initial Delay and Interval Setup ---
+
+
+             // Initialize slider and caption AFTER DOM is ready
+             updateSlider();
+
+        }); // End DOMContentLoaded
 
     </script>
 
     <script>
-         // --- GSAP Logo Animation (Existing) ---
+         // --- GSAP Logo Animation (Existing - Unchanged) ---
         const logo = document.querySelector('nav .logo');
         const shortName = document.querySelector('nav .logo .short-name');
         const fullName = document.querySelector('nav .logo .full-name');
@@ -475,38 +605,40 @@
             gsap.set(shortName, { opacity: 1, x: 0 });
 
             logo.addEventListener('mouseenter', () => {
-                 // Check screen width before animating
-                if (window.innerWidth > 768) {
+                 if (window.innerWidth > 768) {
                     gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
                     gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
-                }
-            });
-
-            logo.addEventListener('mouseleave', () => {
-                 // Check screen width before animating
-                 if (window.innerWidth > 768) {
-                    gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-                    gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
                  }
             });
 
-             // Reset on resize for smaller screens
-            window.addEventListener('resize', () => {
-                if (window.innerWidth <= 768) {
-                    gsap.set(shortName, { clearProps: "all" });
-                    gsap.set(fullName, { clearProps: "all" });
-                    gsap.set(shortName, { opacity: 1 });
-                    gsap.set(fullName, { opacity: 0 }); // Ensure full name is hidden
-                } else {
-                     // Reset to default large screen initial state if resizing back up
-                     // Only reset if mouse is not currently over the logo
-                     if (!logo.matches(':hover')) {
-                         gsap.set(fullName, { opacity: 0, x: -20 });
-                         gsap.set(shortName, { opacity: 1, x: 0 });
-                     }
-                }
+            logo.addEventListener('mouseleave', () => {
+                  if (window.innerWidth > 768) {
+                    gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+                    gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                  }
             });
 
+             window.addEventListener('resize', () => {
+                 if (window.innerWidth <= 768) {
+                    gsap.set(shortName, { clearProps: "all" }); // Clear GSAP inline styles
+                    gsap.set(fullName, { clearProps: "all" });
+                    // CSS rules in @media query will take over for display/position
+                    shortName.style.opacity = '1'; // Ensure visible
+                    fullName.style.opacity = '0'; // Ensure hidden
+                 } else {
+                      // Only reset to default large screen state if not hovering
+                      if (!logo.matches(':hover')) {
+                           gsap.set(fullName, { opacity: 0, x: -20 });
+                           gsap.set(shortName, { opacity: 1, x: 0 });
+                      }
+                 }
+             });
+
+             // Initial check on load in case the window starts small
+             if (window.innerWidth <= 768) {
+                 shortName.style.opacity = '1';
+                 fullName.style.opacity = '0';
+             }
 
         } else {
             console.error("Navbar logo elements not found for animation.");
