@@ -3,258 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhinesh Elangovan - About</title>
+    <title>About Me & Instagram Post - Navbar & Animated BG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* CSS Variables for colors (from first snippet) */
-        :root {
-            --dark-green: #3a5a40;
-            --light-green: #a3b18a;
-            --primary-yellow: #FFC107; /* Brighter yellow */
-            --light-grey: #f8f9fa;
-            --medium-grey: #dee2e6;
-            --dark-grey: #495057;
-            --heading-grey: #343a40;
-            --white: #ffffff;
-            --light-text-on-dark: #e9ecef;
+        /* Define the local font 'Blue Vinyl Bold' for About Me */
+        @font-face {
+            font-family: 'Blue Vinyl Bold';
+            src: url('fonts/bluevinyl.otf') format('opentype'); /* Corrected format */
+            /* Make sure path & format are correct */
+            font-weight: bold;
+            font-style: normal;
         }
 
-        /* Basic Reset & Base Styles (from first snippet) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-             height: 100%;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-green);
-            color: var(--light-text-on-dark);
-            line-height: 1.7;
-            font-size: 16px;
+        /* Animated Gradient Background */
+        body.gradient-bg { /* Applied to body */
+            background: linear-gradient(60deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            background-size: 400% 400%;
+            animation: moveGradient 15s ease infinite;
+            margin: 0; /* Ensure no default body margin */
+            font-family: 'Poppins', sans-serif; /* Default font set to Poppins */
+            color: white; /* Default text color */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Keep flex centering for the main content area */
             display: flex;
+            min-height: 100vh;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            padding: 0; /* Remove body padding, nav handles its own */
         }
 
-        main {
-            width: 100%;
-            overflow: hidden;
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        h1, h2, h3, h4, h5, h6 { font-weight: 600; color: var(--white); margin-bottom: 0.75rem; }
-        h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; color: var(--white); }
-        h1 { font-size: 3rem; line-height: 1.2; }
-        h3 { font-size: 1.25rem; }
-        p { margin-bottom: 1rem; color: var(--light-text-on-dark); }
-        a { text-decoration: none; color: var(--primary-yellow); transition: color 0.3s ease; }
-        a:hover { color: var(--white); }
-        a.btn-primary { color: var(--white) !important; }
-        a.btn-card { color: var(--white) !important; }
-        img { max-width: 100%; height: auto; display: block; }
-        section { padding: 80px 0; }
-
-        /* Button Styles */
-        .btn {
-            display: inline-block; /* Important for transform origin */
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease; /* Keep existing transitions */
-            border: none;
-            /* Added for smoother scaling animation */
-            will-change: transform;
-        }
-        .btn-primary { background-color: var(--primary-yellow); color: var(--white); }
-        /* Removed transform from default hover to let GSAP handle it */
-        .btn-primary:hover { background-color: #e0a800; color: var(--white); /* transform: translateY(-2px); */ box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .btn-primary .arrow { margin-left: 8px; font-weight: bold; }
-
-        /* About Section */
-        #about { background-color: var(--dark-green); }
-        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
-        .about-image-column { text-align: center; position: relative; }
-        .profile-image-wrapper { display: inline-block; margin-bottom: 0; }
-        .profile-image {
-            width: 280px; height: 280px; border-radius: 50%; object-fit: cover;
-            border: 8px solid var(--white); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .profile-image:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 0 35px 10px rgba(255, 255, 255, 0.7); }
-        .about-content-column .subtitle { color: var(--light-green); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        #about h1 { color: var(--white); margin-bottom: 20px; }
-        .highlight-name { font-family: 'Dancing Script', cursive; color: var(--primary-yellow); font-weight: 700; }
-        #about p { color: var(--light-text-on-dark); }
-        .signature { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary-yellow); text-align: right; margin-top: 25px; }
-
-        /* Navigation Bar Styles */
+        /* --- Navigation Bar Styles (Unchanged) --- */
         nav {
-            position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            padding: 20px 50px; z-index: 100; background-color: transparent; box-sizing: border-box;
+            position: absolute; /* Floats above content */
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 20px 50px; /* Padding for nav content */
+            z-index: 100; /* Ensure it's above other content */
+            background-color: transparent; /* Transparent background */
+            box-sizing: border-box; /* Include padding in width */
         }
         nav .logo {
-            font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto;
-            color: white; text-decoration: none; position: relative; display: inline-block;
-            overflow: hidden; width: 320px; height: 1.5em; cursor: pointer;
+            font-weight: 800;
+            font-size: 1.5em; /* Use em for scalability */
+            text-transform: uppercase;
+            margin-right: auto; /* Pushes links away from logo */
+            color: white;
+            text-decoration: none;
+            position: relative; /* Needed for GSAP animation positioning */
+            display: inline-block; /* Allows width setting */
+            overflow: hidden; /* Hide overflowing text during animation */
+            width: 320px;
+            height: 1.5em; /* Match font size */
+            cursor: pointer;
         }
-        nav .logo .short-name, nav .logo .full-name {
-            position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800;
-            font-size: 1em; color: white; transition: opacity 0.3s ease;
+        nav .logo .short-name,
+        nav .logo .full-name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap; /* Prevent wrapping */
+            font-weight: 800; /* Match logo weight */
+            font-size: 1em; /* Inherit from parent logo */
+            color: white;
+            transition: opacity 0.3s ease; /* Smooth fade */
         }
-        nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; }
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0 auto; /* Center the list horizontally in available space */
+            padding: 0; /* Remove default padding */
+        }
         nav ul li { margin-left: 30px; }
         nav ul li:first-child { margin-left: 0; }
         nav ul li a {
-            color: white; text-decoration: none; font-weight: 600; font-size: 0.9em;
-            text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative; /* For the underline effect */
+            padding-bottom: 5px; /* Space for the underline */
         }
         nav ul li a:hover { color: white; }
-        nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: white; transition: width 0.3s ease-out; }
-        nav ul li a:hover::after { width: 100%; }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-             .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-             .about-image-column { order: -1; }
-             .about-content-column { display: flex; flex-direction: column; align-items: center; }
-             .signature { text-align: center; }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0; /* Start with no width */
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-out; /* Animate width on hover */
         }
+        nav ul li a:hover::after { width: 100%; }
+        /* --- End Navigation Bar Styles --- */
+
+
+        /* Slider styles (Unchanged) */
+        .slider-images { display: flex; width: 100%; }
+        .slider-images img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 1 / 1; }
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-container { -ms-overflow-style: none; scrollbar-width: none; overflow-x: hidden; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.7); color: rgba(0, 0, 0, 0.8); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s ease, opacity 0.3s ease; } /* Added opacity transition */
+        .slider-btn:hover { background-color: rgba(255, 255, 255, 0.9); }
+        .slider-btn.left { left: 0.5rem; }
+        .slider-btn.right { right: 0.5rem; }
+        .caption-text { padding: 0.5rem 1rem; font-size: 0.875rem; color: #374151; }
+
+        /* Style for About Me Title (Unchanged) */
+        .about-me-title {
+            font-family: 'Blue Vinyl Bold', 'Arial Black', Gadget, sans-serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        /* Style for About Me Subtitle (Unchanged) */
+        .about-me-subtitle {
+            font-size: 1.125rem;
+            color: white;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        /* Main content container (Unchanged) */
+        .main-content-area {
+             padding-top: 80px; /* Adjust as needed based on nav height */
+             width: 100%;
+             max-width: 1152px; /* Corresponds to max-w-6xl */
+             display: flex;
+             flex-direction: column; /* Stack on small screens */
+             align-items: center; /* Center items horizontally */
+             justify-content: center; /* Center items vertically */
+             padding-left: 1rem; /* lg:p-8 equivalent */
+             padding-right: 1rem; /* lg:p-8 equivalent */
+        }
+        /* Responsive adjustments for Nav (Unchanged) */
         @media (max-width: 768px) {
-             h1 { font-size: 2.5rem; } h2 { font-size: 2rem; } section { padding: 60px 0; }
-             .about-grid { gap: 30px; } .profile-image { width: 200px; height: 200px; }
-             nav { padding: 15px 20px; } nav .logo { font-size: 1.3em; width: auto; }
-             nav .logo .full-name { display: none; } nav .logo .short-name { position: static; }
-             nav ul { justify-content: flex-end; margin: 0; } nav ul li { margin-left: 20px; } nav ul li a { font-size: 0.8em; }
+             nav { padding: 15px 20px; }
+             nav .logo { font-size: 1.3em; width: auto; /* Override fixed width */ }
+             nav .logo .full-name { display: none; } /* Hide full name */
+             nav .logo .short-name { position: static; /* Make short name flow normally */ }
+             nav ul { justify-content: flex-end; margin: 0; } /* Align right */
+             nav ul li { margin-left: 20px; }
+             nav ul li a { font-size: 0.8em; }
+             .main-content-area { padding-top: 70px; } /* Adjust padding for smaller nav */
         }
         @media (max-width: 576px) {
-             body { font-size: 15px;} h1 { font-size: 2rem; } h2 { font-size: 1.75rem; }
-             .btn { padding: 10px 25px; font-size: 0.9rem;} .profile-image { width: 180px; height: 180px; }
-             .signature { font-size: 2rem; } .about-content-column { padding: 0 10px; } .container { padding: 0 10px; } section { padding: 40px 0; }
-             nav ul li { margin-left: 15px; } nav { padding: 15px; } nav .logo { font-size: 1.2em; }
+             nav ul li { margin-left: 15px; }
+             nav { padding: 15px; }
+             nav .logo { font-size: 1.2em; }
+             .about-me-title { font-size: 2.5rem; }
         }
-        @media (max-width: 480px) { /* Specific adjustments */ }
+        @media (max-width: 480px) {
+             .about-me-title { font-size: 2.2rem; }
+        }
+
+        /* Style for active like button */
+        .fas.fa-heart.text-red-500 {
+             color: #ef4444; /* Tailwind red-500 */
+        }
+
+        /* --- NEW: Slide-in Animation Styles --- */
+        /* Initial hidden state for animated elements */
+        #about-text-content > .about-me-title,
+        #about-text-content > .about-me-subtitle,
+        #insta-post-content > .insta-post-card { /* Target the card inside the container */
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        opacity 0.6s ease-out;
+            will-change: transform, opacity;
+        }
+
+        /* Specific initial transforms */
+        #about-text-content > .about-me-title,
+        #about-text-content > .about-me-subtitle {
+            transform: translateX(-40px); /* Slide in from left */
+        }
+        #insta-post-content > .insta-post-card {
+             transform: translateX(40px); /* Slide in from right */
+        }
+
+
+        /* Visible state */
+        #about-text-content.is-visible > .about-me-title,
+        #about-text-content.is-visible > .about-me-subtitle,
+        #insta-post-content.is-visible > .insta-post-card {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger delays */
+        #about-text-content.is-visible > .about-me-title {
+            transition-delay: 0.1s;
+        }
+        #about-text-content.is-visible > .about-me-subtitle {
+            transition-delay: 0.25s;
+        }
+         #insta-post-content.is-visible > .insta-post-card {
+            transition-delay: 0.4s;
+        }
+        /* --- End Slide-in Animation Styles --- */
 
     </style>
 </head>
-<body>
 
+<body class="gradient-bg">
     <nav>
         <a href="#" class="logo">
             <span class="short-name">DK</span>
             <span class="full-name">Dhinesh Kailash</span>
         </a>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutme.html">About Me</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="resume.html">Resume</a></li>
-            <li><a href="#">Contact</a></li>
+             <li><a href="index.html">Home</a></li>
+             <li><a href="#">About Me</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="resume.html">Resume</a></li>
+             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
-    <main>
-        <section id="about">
-            <div class="container">
-                <div class="about-grid">
-                    <div class="about-image-column">
-                        <div class="profile-image-wrapper anim-target">
-                             <img src="profile.jpg" alt="Dhinesh" class="profile-image">
-                        </div>
-                    </div>
-                    <div class="about-content-column">
-                        <p class="subtitle anim-target">Resume</p>
-                        <h1 class="anim-target">Who is <span class="highlight-name">Dhinesh</span>?</h1>
-                        <p class="anim-target">Looking to know more about my professional journey, skills, and accomplishments in detail?
-                              Download my resume to explore my experience, technical expertise, educational background, and the projects I've worked on.</p>
-                        <p class="anim-target">Whether you're a recruiter, collaborator, or simply curious — this document offers a concise overview of what I bring to the table.</p>
-                        <a href="https://drive.google.com/file/d/1v9K2TzObHbtFoTkdGhA0tbcBJuhKXwVy/view" class="btn btn-primary anim-target">Download CV <span class="arrow">→</span></a>
-                        <p class="signature anim-target"> - Dhinesh Elangovan</p>
-                    </div>
-                </div>
+    <div class="main-content-area">
+        <div class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-y-0 lg:space-x-12">
+
+            
+            <div id="about-text-content" class="lg:w-1/2 flex flex-col items-start text-left px-4">
+                <h1 class="about-me-title">About Me</h1>
+                <p class="about-me-subtitle">
+                    Tap the arrow on the right — there’s more to explore.
+                </p>
             </div>
-        </section>
-    </main>
+
+             
+            <div id="insta-post-content" class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
+                 
+               <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
+                    <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
+                        <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full">
+                        <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
+                    </div>
+                    <div class="relative">
+                        <div id="sliderContainer" class="slider-container w-full overflow-hidden">
+                            <div id="sliderImages" class="slider-images">
+                                <img src="1.png" alt="Post Image 1" class="object-cover" data-caption="dhinesh_elangovan · Get to know me — beyond the resume." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+1';">
+                                <img src="2.png" alt="Post Image 2" class="object-cover" data-caption="dhinesh_elangovan · Discover my educational journey — the foundation of my growth." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+2';">
+                                <img src="3.png" alt="Post Image 3" class="object-cover" data-caption="dhinesh_elangovan · Dive into my skill set — where passion meets precision." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+3';">
+                                <img src="4.png" alt="Post Image 4" class="object-cover" data-caption="dhinesh_elangovan · Explore my certifications — milestones of my learning journey." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+4';">
+                            </div>
+                        </div>
+                        <button id="prevBtn" class="slider-btn left"><i class="fas fa-chevron-left text-xs"></i></button>
+                        <button id="nextBtn" class="slider-btn right"><i class="fas fa-chevron-right text-xs"></i></button>
+                    </div>
+                    <div class="p-3 flex justify-between items-center border-t border-gray-200">
+                         <div class="flex space-x-4 text-gray-700">
+                             <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
+                             <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
+                             <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
+                         </div>
+                         <div class="text-gray-700">
+                             <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
+                         </div>
+                    </div>
+                    <div id="captionArea" class="caption-text border-t border-gray-200">
+                        {/* Caption will load here */}
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // --- Slider Logic (Existing) ---
+        const sliderImages = document.getElementById('sliderImages');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const images = sliderImages.querySelectorAll('img');
+        const captionArea = document.getElementById('captionArea');
+        let currentIndex = 0;
+        const totalImages = images.length;
 
-            // --- Navbar Logo Animation ---
-            const logo = document.querySelector('nav .logo');
-            if (logo) {
-                const shortName = logo.querySelector('.short-name');
-                const fullName = logo.querySelector('.full-name');
-                if (shortName && fullName) {
-                    gsap.set(fullName, { opacity: 0, x: -20 });
-                    gsap.set(shortName, { opacity: 1, x: 0 });
-                    logo.addEventListener('mouseenter', () => {
-                        gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
-                        gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
-                    });
-                    logo.addEventListener('mouseleave', () => {
-                        gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-                        gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
-                    });
+        // --- Function to update caption with bold username (Existing) ---
+        function updateCaptionWithBoldUsername(captionText) {
+            const separator = '·'; // Using the middle dot as separator
+            const separatorIndex = captionText.indexOf(separator);
+
+            captionArea.innerHTML = ''; // Clear previous content
+
+            if (separatorIndex !== -1) {
+                const username = captionText.substring(0, separatorIndex).trim();
+                const restOfCaption = captionText.substring(separatorIndex + separator.length).trim();
+
+                const strongUsername = document.createElement('strong');
+                strongUsername.textContent = username;
+
+                const captionRestSpan = document.createElement('span');
+                captionRestSpan.textContent = ` ${separator} ${restOfCaption}`; // Add space before separator
+
+                captionArea.appendChild(strongUsername);
+                captionArea.appendChild(captionRestSpan);
+
+            } else {
+                captionArea.textContent = captionText;
+            }
+        }
+
+
+        function updateSlider() {
+            const offset = -currentIndex * 100;
+
+            // Use GSAP for the sliding animation
+            gsap.to(sliderImages, {
+                duration: 0.5,
+                xPercent: offset,
+                ease: 'power2.inOut'
+            });
+
+            // Update caption
+            const currentCaption = images[currentIndex]?.getAttribute('data-caption') || '';
+            updateCaptionWithBoldUsername(currentCaption);
+
+            // Update button states
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === totalImages - 1;
+            prevBtn.classList.toggle('opacity-50', currentIndex === 0);
+            prevBtn.classList.toggle('cursor-not-allowed', currentIndex === 0);
+            nextBtn.classList.toggle('opacity-50', currentIndex === totalImages - 1);
+            nextBtn.classList.toggle('cursor-not-allowed', currentIndex === totalImages - 1);
+        }
+
+        // Event Listeners for Next/Prev Buttons (Existing)
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalImages - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        // Touch Swipe Logic (Existing)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const sliderContainer = document.getElementById('sliderContainer');
+
+        sliderContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        sliderContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchStartX - touchEndX > swipeThreshold) { // Swiped Left
+                if (currentIndex < totalImages - 1) {
+                    currentIndex++;
+                    updateSlider();
                 }
-            } else { console.error("Navbar logo element not found."); }
+            } else if (touchEndX - touchStartX > swipeThreshold) { // Swiped Right
+                 if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlider();
+                 }
+            }
+            touchStartX = 0;
+            touchEndX = 0;
+        }
 
-            // --- Page Load Animation for About Section ---
-            const elementsToAnimate = document.querySelectorAll('#about .anim-target');
-            if (elementsToAnimate.length > 0) {
-                gsap.set(elementsToAnimate, { opacity: 0, y: 50 });
-                gsap.to(elementsToAnimate, {
-                    opacity: 1, y: 0, duration: 0.8, stagger: 0.15,
-                    ease: "power3.out", delay: 0.2
-                });
-            } else { console.warn("No '.anim-target' elements found for page load animation."); }
+        // GSAP Animations for Action Buttons (Existing)
+        const likeIcon = document.querySelector('.p-3 .fa-heart');
+        const commentIcon = document.querySelector('.p-3 .fa-comment');
+        const sendIcon = document.querySelector('.p-3 .fa-paper-plane');
+        const bookmarkIcon = document.querySelector('.p-3 .fa-bookmark');
+        const actionIcons = [likeIcon, commentIcon, sendIcon, bookmarkIcon];
 
-            // --- Download CV Button Hover Animation ---
-            const downloadBtn = document.querySelector('.btn-primary');
-            if (downloadBtn) {
-                // Set initial transform origin
-                 gsap.set(downloadBtn, { transformOrigin: "center center" });
+        actionIcons.forEach(icon => {
+            if (icon) {
+                icon.addEventListener('click', () => {
+                    gsap.fromTo(icon,
+                        { scale: 1 },
+                        { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.out' }
+                    );
 
-                downloadBtn.addEventListener('mouseenter', () => {
-                    // Zoom in slightly on hover
-                    gsap.to(downloadBtn, {
-                        scale: 1.08, // Increase size by 8%
-                        duration: 0.2,
-                        ease: "power1.out"
-                    });
-                });
-
-                downloadBtn.addEventListener('mouseleave', () => {
-                    // Return to normal size on mouse leave
-                    gsap.to(downloadBtn, {
-                        scale: 1.0, // Back to original size
-                        duration: 0.3,
-                        ease: "power1.out"
-                    });
+                    // Toggle heart icon
+                    if (icon === likeIcon) {
+                        const isLiked = icon.classList.contains('fas');
+                        if (isLiked) {
+                            icon.classList.remove('fas', 'text-red-500');
+                            icon.classList.add('far');
+                        } else {
+                            icon.classList.remove('far');
+                            icon.classList.add('fas', 'text-red-500');
+                        }
+                    }
+                    // Toggle bookmark icon
+                    if (icon === bookmarkIcon) {
+                        const isBookmarked = icon.classList.contains('fas');
+                         if (isBookmarked) {
+                            icon.classList.remove('fas');
+                            icon.classList.add('far');
+                         } else {
+                            icon.classList.remove('far');
+                            icon.classList.add('fas');
+                         }
+                    }
                 });
             } else {
-                console.warn("Download CV button (.btn-primary) not found for hover animation.");
+                console.warn("An action icon was not found.");
             }
-
         });
+
+        // Initialize slider and caption on page load
+        updateSlider();
+
+        // --- NEW: Page Load Slide-in Animation Trigger ---
+        document.addEventListener('DOMContentLoaded', function() {
+             const aboutTextContainer = document.getElementById('about-text-content');
+             const instaPostContainer = document.getElementById('insta-post-content');
+
+             // Add 'is-visible' class after a short delay to trigger CSS transitions
+             if (aboutTextContainer) {
+                setTimeout(() => {
+                    aboutTextContainer.classList.add('is-visible');
+                }, 100); // Start text animation slightly earlier
+             }
+              if (instaPostContainer) {
+                setTimeout(() => {
+                    instaPostContainer.classList.add('is-visible');
+                }, 200); // Start post animation slightly later
+             }
+        });
+        // --- End Page Load Animation Trigger ---
+
+
+    </script>
+
+    <script>
+         // --- GSAP Logo Animation (Existing) ---
+        const logo = document.querySelector('nav .logo');
+        const shortName = document.querySelector('nav .logo .short-name');
+        const fullName = document.querySelector('nav .logo .full-name');
+
+        if (logo && shortName && fullName) {
+            gsap.set(fullName, { opacity: 0, x: -20 });
+            gsap.set(shortName, { opacity: 1, x: 0 });
+
+            logo.addEventListener('mouseenter', () => {
+                 // Check screen width before animating
+                if (window.innerWidth > 768) {
+                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
+                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                }
+            });
+
+            logo.addEventListener('mouseleave', () => {
+                 // Check screen width before animating
+                 if (window.innerWidth > 768) {
+                    gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
+                    gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                 }
+            });
+
+             // Reset on resize for smaller screens
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    gsap.set(shortName, { clearProps: "all" });
+                    gsap.set(fullName, { clearProps: "all" });
+                    gsap.set(shortName, { opacity: 1 });
+                    gsap.set(fullName, { opacity: 0 }); // Ensure full name is hidden
+                } else {
+                     // Reset to default large screen initial state if resizing back up
+                     // Only reset if mouse is not currently over the logo
+                     if (!logo.matches(':hover')) {
+                         gsap.set(fullName, { opacity: 0, x: -20 });
+                         gsap.set(shortName, { opacity: 1, x: 0 });
+                     }
+                }
+            });
+
+
+        } else {
+            console.error("Navbar logo elements not found for animation.");
+        }
+        // --- End GSAP Logo Animation ---
     </script>
 
 </body>
