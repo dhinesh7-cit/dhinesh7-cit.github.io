@@ -123,17 +123,21 @@
         /* --- End Navigation Bar Styles --- */
 
 
-        /* Slider styles (Unchanged) */
+        /* Slider styles */
         .slider-images { display: flex; width: 100%; }
         .slider-images img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 1 / 1; }
         .slider-container::-webkit-scrollbar { display: none; }
         .slider-container { -ms-overflow-style: none; scrollbar-width: none; overflow-x: hidden; }
+
+        /* --- START: UPDATED SLIDER BUTTON STYLES --- */
         .slider-btn {
              position: absolute;
              top: 50%;
              transform: translateY(-50%); /* Initial transform */
-             background-color: rgba(255, 255, 255, 0.7);
-             color: rgba(0, 0, 0, 0.8);
+             /* CHANGED: Background color to semi-transparent grey */
+             background-color: rgba(107, 114, 128, 0.7); /* Tailwind gray-500 @ 70% opacity */
+             /* CHANGED: Arrow color to white for contrast */
+             color: rgba(255, 255, 255, 0.9); /* Mostly opaque white */
              border-radius: 50%;
              width: 2rem; /* 32px */
              height: 2rem; /* 32px */
@@ -146,9 +150,14 @@
              transition: background-color 0.2s ease, opacity 0.3s ease; /* Base transitions */
              will-change: transform; /* Optimize animation */
         }
-        .slider-btn:hover { background-color: rgba(255, 255, 255, 0.9); }
+        .slider-btn:hover {
+            /* CHANGED: Hover background to a slightly darker/more opaque grey */
+            background-color: rgba(75, 85, 99, 0.9); /* Tailwind gray-600 @ 90% opacity */
+        }
         .slider-btn.left { left: 0.5rem; }
         .slider-btn.right { right: 0.5rem; }
+        /* --- END: UPDATED SLIDER BUTTON STYLES --- */
+
         .caption-text { padding: 0.5rem 1rem; font-size: 0.875rem; color: #374151; } /* Tailwind text-sm, text-gray-700 */
 
         /* Style for About Me Title (Unchanged) */
@@ -264,18 +273,18 @@
             <span class="full-name">Dhinesh Kailash</span>
         </a>
         <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="aboutme.html">About Me</a></li>
-              <li><a href="#">Projects</a></li>
-              <li><a href="resume.html">Resume</a></li>
-              <li><a href="#">Contact</a></li>
+             <li><a href="index.html">Home</a></li>
+             <li><a href="aboutme.html">About Me</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="resume.html">Resume</a></li>
+             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
     <div class="main-content-area">
         <div class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-y-0 lg:space-x-12">
 
-              
+
             <div id="about-text-content" class="lg:w-1/2 flex flex-col items-start text-left px-4">
                 <h1 class="about-me-title">About Me</h1>
                 <p class="about-me-subtitle">
@@ -283,16 +292,16 @@
                 </p>
             </div>
 
-              
+
             <div id="insta-post-content" class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
-                
+
                 <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
-                   
+
                     <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
                         <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/cccccc/ffffff?text=User';">
                         <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
                     </div>
-                    
+
                     <div class="relative">
                         <div id="sliderContainer" class="slider-container w-full overflow-hidden">
                             <div id="sliderImages" class="slider-images">
@@ -305,7 +314,7 @@
                         <button id="prevBtn" class="slider-btn left"><i class="fas fa-chevron-left text-xs"></i></button>
                         <button id="nextBtn" class="slider-btn right"><i class="fas fa-chevron-right text-xs"></i></button>
                     </div>
-                    
+
                     <div class="p-3 flex justify-between items-center border-t border-gray-200">
                          <div class="flex space-x-4 text-gray-700">
                             <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
@@ -316,20 +325,20 @@
                             <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i>
                          </div>
                     </div>
-                    
+
                     <div id="captionArea" class="caption-text border-t border-gray-200">
-                        
+
                     </div>
                </div>
             </div>
         </div>
     </div>
 
-    
+
     <footer class="site-footer">
         Inspired from Instagram.
     </footer>
-    
+
 
 
     <script>
@@ -538,7 +547,7 @@
             // --- Define function to check conditions and run the finite animation ---
             function checkAndAnimatePopup() {
                  // Check conditions: button exists, not interacted with, not disabled, and no animation currently active
-                if (nextBtn && !rightButtonClicked && !nextBtn.disabled && (!popupButtonAnimation || !popupButtonAnimation.isActive())) {
+                 if (nextBtn && !rightButtonClicked && !nextBtn.disabled && (!popupButtonAnimation || !popupButtonAnimation.isActive())) {
                     console.log("Conditions met, running finite pop-up animation."); // For debugging
                     // Store the animation instance so we can potentially kill it mid-pulse
                     popupButtonAnimation = gsap.to(nextBtn, {
@@ -546,11 +555,11 @@
                         x: 6,
                         duration: 0.25,
                         yoyo: true,
-                        repeat: 3,          // Finite repeat for the pulse sequence
+                        repeat: 3,         // Finite repeat for the pulse sequence
                         ease: 'power2.inOut',
                         overwrite: "auto"
                     });
-                } else {
+                 } else {
                     // Optional: Log why animation was skipped this interval
                     if (popupButtonAnimation && popupButtonAnimation.isActive()) console.log("Skipping interval anim: previous pulse still active.");
                     else if (!nextBtn) console.log("Skipping interval anim: nextBtn not found.");
@@ -563,7 +572,7 @@
                           popupButtonInterval = null;
                           console.log("Interval cleared from within check function because conditions no longer met.");
                      }
-                }
+                 }
             }
 
             // --- Set Initial Delay and Start Interval for Button Pop-up ---
@@ -612,10 +621,10 @@
             });
 
             logo.addEventListener('mouseleave', () => {
-                  if (window.innerWidth > 768) {
+                 if (window.innerWidth > 768) {
                     gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
                     gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
-                  }
+                 }
             });
 
              window.addEventListener('resize', () => {
