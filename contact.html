@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhinesh Elangovan - Contact Links</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- @font-face rule --- */
+        @font-face {
+          font-family: 'MyLocalFont';
+          src: url('sf-pro-display/SFPRODISPLAYBOLD.OTF') format('opentype');
+        }
+
+        :root {
+            --text-primary: #ffffff;
+            --text-secondary: rgba(235, 235, 245, 0.7);
+            --control-active: #ffffff;
+            --control-inactive: rgba(235, 235, 245, 0.6);
+            --progress-track: rgba(255, 255, 255, 0.3);
+            --progress-thumb: #ffffff;
+            --progress-fill: #ffffff;
+            --hover-bg: rgba(255, 255, 255, 0.1);
+            --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-preferred: 'MyLocalFont', var(--font-system);
+            --font-poppins: 'Poppins', var(--font-system);
+            --background-image-url: url('');
+            --background-blur: 40px;
+            --background-brightness: 0.55;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; height: 100%; width: 100%; }
+
+        body {
+            font-family: var(--font-system);
+            background-color: #000;
+            min-height: 100vh;
+            width: 100%;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding-top: 80px; /* Space for fixed nav */
+        }
+
+        /* Blurred Background */
+        body::before {
+            content: ""; position: fixed; top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            background-image: var(--background-image-url);
+            background-size: cover; background-position: center;
+            filter: blur(var(--background-blur)) brightness(var(--background-brightness));
+            z-index: -1; transition: background-image 0.7s ease-in-out;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
+            padding: 20px 50px; z-index: 100; background-color: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(0px); box-sizing: border-box; font-family: var(--font-poppins);
+        }
+        nav .logo { font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto; color: white; text-decoration: none; position: relative; display: inline-block; overflow: hidden; width: 320px; height: 1.5em; cursor: pointer; vertical-align: middle; }
+        nav .logo .short-name, nav .logo .full-name { position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800; font-size: 1em; line-height: 1.5em; color: white; transition: opacity 0.3s ease; }
+        nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; }
+        nav ul li { margin-left: 30px; }
+        nav ul li:first-child { margin-left: 0; }
+        nav ul li a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px; }
+        nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: white; transition: width 0.3s ease-out; }
+        nav ul li a:hover::after { width: 100%; }
+
+        /* Main Content Wrapper */
+        .main-content-wrapper {
+            display: flex; align-items: center; justify-content: center; gap: 50px;
+            width: 100%; max-width: 1000px; position: relative; z-index: 1;
+            padding: 20px; margin: 0 auto 20px auto;
+        }
+
+        /* Player Container */
+        .player-container {
+            width: 100%; max-width: 400px; display: flex; flex-direction: column;
+            position: relative; padding: 20px; flex-shrink: 0;
+            background: rgba(0,0,0,0.2); border-radius: 12px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden; /* IMPORTANT: Keep overflow hidden */
+        }
+
+        /* Text Content Area */
+        .text-content-area { flex-grow: 1; max-width: 500px; color: var(--text-primary); padding: 20px; }
+        .text-content-area h1 { font-size: 2.2rem; margin-bottom: 15px; font-family: var(--font-preferred); font-weight: 600; letter-spacing: 0.5px; }
+        .text-content-area p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; font-family: var(--font-preferred); font-weight: 400; }
+
+        /* Player Elements */
+        .album-art, .track-info, .progress-bar-container, .playback-controls, .volume-control {
+             will-change: transform, opacity; /* Optimize animation performance */
+        }
+        .album-art { width: 100%; aspect-ratio: 1 / 1; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); border-radius: 8px; overflow: hidden; flex-shrink: 0; position: relative; }
+        .album-art a { display: block; text-decoration: none; line-height: 0; border-radius: inherit; overflow: hidden; }
+        .album-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        .track-info { width: 100%; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; gap: 15px; position: relative; }
+        .track-info-text { text-align: left; flex-grow: 1; overflow: hidden; }
+        .track-info h2 { font-family: var(--font-preferred); font-size: 1.1rem; font-weight: 600; margin: 0 0 3px 0; color: var(--text-primary); letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-info a#trackArtist { font-family: var(--font-preferred); font-size: 0.9rem; font-weight: 400; color: var(--text-secondary); letter-spacing: 0.1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none; display: block; transition: color 0.2s ease; }
+        .track-info a#trackArtist:hover { color: var(--text-primary); text-decoration: underline; }
+        .more-options-btn { background: none; border: none; color: var(--control-inactive); font-size: 1rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s ease; flex-shrink: 0; }
+        .more-options-btn:hover { color: var(--control-active); }
+
+        .progress-bar-container { display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 10px; }
+        .time { font-size: 0.7rem; font-weight: 500; color: var(--text-secondary); min-width: 35px; text-align: center; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; }
+        .progress-slider, .volume-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--progress-track); border-radius: 2px; cursor: pointer; outline: none; margin: 0; padding: 0; position: relative; overflow: hidden; }
+        .progress-slider::before, .volume-slider::before { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: var(--fill-percent, 0%); background-color: var(--progress-fill); border-radius: 2px; z-index: 1; transition: width 0.1s linear; }
+        .progress-slider::-webkit-slider-thumb, .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; background: var(--progress-thumb); border-radius: 50%; cursor: pointer; margin-top: -3px; position: relative; z-index: 2; }
+        .progress-slider::-moz-range-thumb, .volume-slider::-moz-range-thumb { width: 10px; height: 10px; background: var(--progress-thumb); border-radius: 50%; cursor: pointer; border: none; position: relative; z-index: 2; }
+
+        .playback-controls { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; }
+        .control-btn { background: none; border: none; color: var(--control-active); font-size: 1.5rem; cursor: pointer; padding: 10px; line-height: 1; transition: color 0.2s ease; margin-left: 0; margin-right: 0; transform-origin: center center; }
+        .control-btn.secondary { font-size: 1.1rem; color: var(--control-inactive); }
+        .control-btn.secondary.active { color: var(--control-active); }
+        .play-pause-btn { font-size: 2.5rem; }
+        .playback-controls button[aria-label="Shuffle"] { margin-right: 30px; }
+        .playback-controls button[aria-label="Repeat"] { margin-left: 30px; }
+        .playback-controls #prevBtn { margin-right: 15px; }
+        .playback-controls #nextBtn { margin-left: 15px; }
+
+        .volume-control { display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 10px; }
+        .volume-icon-btn { background: none; border: none; color: var(--control-inactive); font-size: 0.9rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s ease; flex-shrink: 0; }
+        .volume-icon-btn:hover { color: var(--control-active); }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+             nav { padding: 15px 20px; }
+             nav .logo { font-size: 1.3em; height: 1.3em; width: 250px; }
+             nav .logo .short-name, nav .logo .full-name { font-size: 1em; line-height: 1.3em; }
+             nav ul li { margin-left: 20px; }
+             nav ul li a { font-size: 0.8em; }
+             body { padding-top: 70px; }
+             .main-content-wrapper { flex-direction: column-reverse; gap: 30px; max-width: 480px; padding: 15px 10px; margin: 0 auto 20px auto; }
+             .player-container { max-width: 100%; padding: 15px; }
+             .text-content-area { text-align: center; max-width: 100%; padding: 10px 0 0 0; }
+             .text-content-area h1 { font-size: 1.8rem; }
+             .text-content-area p { font-size: 1rem; }
+        }
+        @media (max-width: 480px) {
+             nav .logo { width: 180px; }
+             body { padding-top: 65px; }
+             .text-content-area h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo"><span class="short-name">DK</span><span class="full-name">Dhinesh Kailash</span></a>
+        <ul>
+             <li><a href="index.html">Home</a></li>
+             <li><a href="aboutme.html">About Me</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="resume.html">Resume</a></li>
+             <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content-wrapper">
+        <div class="text-content-area">
+             <h1>Contact and Profile Links</h1>
+             <p>Click the 'Next' button to explore my different profile links, and tap on the album art image, artist name, or play button to be redirected to my profile page.</p>
+        </div>
+        <div class="player-container">
+            <div class="album-art">
+                <a href="#" id="albumArtLink" target="_blank" rel="noopener noreferrer">
+                    <img src="" alt="Album Art" id="albumArtImg">
+                </a>
+            </div>
+            <div class="track-info">
+                 <div class="track-info-text">
+                    <h2 id="trackTitle"></h2>
+                    <a id="trackArtist" href="#" target="_blank" rel="noopener noreferrer"></a>
+                </div>
+                <button class="more-options-btn" aria-label="More options"><i class="fas fa-ellipsis"></i></button>
+            </div>
+            <div class="progress-bar-container">
+                <span class="time current-time">0:00</span>
+                <input type="range" min="0" max="200" value="0" class="progress-slider" aria-label="Track progress">
+                <span class="time total-time">-?:??</span>
+            </div>
+            <div class="playback-controls">
+                <button class="control-btn secondary" aria-label="Shuffle"><i class="fas fa-random"></i></button>
+                <button class="control-btn" aria-label="Previous Track" id="prevBtn"><i class="fas fa-backward-step"></i></button>
+                <button class="control-btn play-pause-btn" id="playPauseBtn" aria-label="Play (Redirects)"><i class="fas fa-play" id="playIcon"></i><i class="fas fa-pause" id="pauseIcon" style="display: none;"></i></button>
+                <button class="control-btn" aria-label="Next Track" id="nextBtn"><i class="fas fa-forward-step"></i></button>
+                <button class="control-btn secondary" aria-label="Repeat"><i class="fas fa-repeat"></i></button>
+            </div>
+            <div class="volume-control">
+                <button class="volume-icon-btn" aria-label="Mute"><i class="fas fa-volume-high" id="volumeIcon"></i></button>
+                <input type="range" min="0" max="100" value="80" class="volume-slider" aria-label="Volume">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Song Data
+            const songs = [
+                { title: "Email", artist: "dhineshkailash7@gmail.com", artistLink: "mailto:dhineshkailash7@gmail.com", albumArtSrc: "gmail.png" },
+                { title: "Phone Number", artist: "+91 7200700660", artistLink: "tel:+917200700660", albumArtSrc: "phone.png" },
+                { title: "LinkedIn", artist: "linkedin.com/in/dhinesh-elangovan", artistLink: "https://linkedin.com/in/dhinesh-elangovan", albumArtSrc: "linkedin.png" },
+                { title: "GitHub", artist: "github.com/dhinesh7-cit", artistLink: "https://github.com/dhinesh7-cit", albumArtSrc: "github.png"},
+                { title: "Leetcode", artist: "leetcode.com/dhineshkailash7", artistLink: "https://leetcode.com/dhineshkailash7", albumArtSrc: "leetcode.png" }
+            ];
+            let currentSongIndex = 0;
+
+            // UI Elements
+            const playerContainer = document.querySelector('.player-container');
+            const textContentArea = document.querySelector('.text-content-area'); // Ref for text area animation
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const progressSlider = document.querySelector('.progress-slider');
+            const currentTimeEl = document.querySelector('.current-time');
+            const totalTimeEl = document.querySelector('.total-time');
+            const shuffleButton = document.querySelector('[aria-label="Shuffle"]');
+            const repeatButton = document.querySelector('[aria-label="Repeat"]');
+            const volumeSlider = document.querySelector('.volume-slider');
+            const volumeIconBtn = document.querySelector('.volume-icon-btn');
+            const volumeIcon = document.getElementById('volumeIcon');
+            const moreOptionsBtn = document.querySelector('.more-options-btn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Player Content Elements (for animation)
+            const albumArtContainer = document.querySelector('.album-art');
+            const albumArtImg = document.getElementById('albumArtImg');
+            const albumArtLink = document.getElementById('albumArtLink');
+            const trackInfoContainer = document.querySelector('.track-info');
+            const trackTitleEl = document.getElementById('trackTitle');
+            const trackArtistEl = document.getElementById('trackArtist');
+            const progressBarContainer = document.querySelector('.progress-bar-container');
+            const playbackControlsContainer = document.querySelector('.playback-controls');
+            const volumeControlContainer = document.querySelector('.volume-control');
+
+             // Group animated elements
+             const elementsToAnimate = [
+                albumArtContainer,
+                trackInfoContainer,
+                progressBarContainer,
+                playbackControlsContainer,
+                volumeControlContainer
+            ];
+
+            // State
+            let currentVolume = volumeSlider.value / 100;
+            let isMuted = false;
+            let previousVolume = currentVolume;
+            let isShuffleActive = false;
+            let isRepeatActive = false;
+            let transitionTl = null; // GSAP Timeline reference
+
+            // --- Load Song Function (with direction) ---
+            function loadSong(index, isInitialLoad = false, direction = 0) { // direction: 0=initial, 1=next, -1=prev
+                if (index < 0 || index >= songs.length) return;
+                const song = songs[index];
+
+                // Update background smoothly
+                 gsap.to(document.body, { '--background-image-url': `url('${song.albumArtSrc}')`, duration: 0.7, ease: 'power1.inOut'});
+
+
+                if (transitionTl && transitionTl.isActive()) {
+                    transitionTl.progress(1); // Complete the current animation immediately
+                    transitionTl.kill();
+                 }
+
+                transitionTl = gsap.timeline({
+                    onComplete: () => {
+                         console.log("Loaded:", song.title);
+                         // Reset scroll or focus if needed after animation
+                     }
+                });
+
+                if (isInitialLoad) {
+                     // --- Initial Load Animation ---
+                     transitionTl.set(elementsToAnimate, { opacity: 0, y: 20 }); // Initial state off-screen slightly
+                     transitionTl.call(() => { // Update content immediately
+                        trackTitleEl.textContent = song.title;
+                        trackArtistEl.textContent = song.artist;
+                        trackArtistEl.href = song.artistLink || '#';
+                        albumArtImg.src = song.albumArtSrc;
+                        albumArtImg.alt = `Album art for ${song.title}`;
+                        albumArtLink.href = song.artistLink || '#';
+                        progressSlider.value = 0;
+                        updateSliderFill(progressSlider);
+                        updateTimeDisplay();
+                    }, null, 0); // Place at the beginning
+
+                     transitionTl.to(elementsToAnimate, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4,
+                        stagger: 0.05,
+                        ease: 'power1.out',
+                        delay: 0.1 // Small delay after setting content
+                     });
+
+                } else {
+                    // --- Directional Slide Animation ---
+                    const outX = direction === 1 ? -60 : 60; // Slide out amount
+                    const inX = direction === 1 ? 60 : -60;  // Slide in amount
+
+                    // 1. Animate out current elements
+                    transitionTl.to(elementsToAnimate, {
+                        opacity: 0,
+                        x: outX,
+                        duration: 0.3, // Faster out
+                        stagger: 0.04, // Slightly faster stagger out
+                        ease: 'power2.in'
+                    });
+
+                    // 2. Update content after starting fade out
+                    transitionTl.call(() => {
+                         trackTitleEl.textContent = song.title;
+                         trackArtistEl.textContent = song.artist;
+                         trackArtistEl.href = song.artistLink || '#';
+                         albumArtImg.src = song.albumArtSrc; // Preload image if possible? JS image preloading can help.
+                         albumArtImg.alt = `Album art for ${song.title}`;
+                         albumArtLink.href = song.artistLink || '#';
+                         progressSlider.value = 0; // Reset progress
+                         updateSliderFill(progressSlider);
+                         updateTimeDisplay();
+                    }, null, ">-0.15"); // Call slightly before animation out ends
+
+                    // 3. Set initial state for incoming elements (immediately, off-screen opposite side)
+                    transitionTl.set(elementsToAnimate, { x: inX, opacity: 0 }); // Set position AND opacity before animating in
+
+                    // 4. Animate in new elements
+                    transitionTl.to(elementsToAnimate, {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.4, // Slightly slower in
+                        stagger: 0.05, // Stagger in
+                        ease: 'power2.out'
+                    });
+                }
+            }
+
+            // Helper Functions (formatTime, updateSliderFill, updateTimeDisplay, updateVolumeIcon, animateButtonClick)
+             function formatTime(seconds) { /* ... (no changes needed) ... */
+                const totalSeconds = Math.floor(seconds); const minutes = Math.floor(totalSeconds / 60); const secs = totalSeconds % 60; return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            function updateSliderFill(slider) { /* ... (no changes needed) ... */
+                const max = parseFloat(slider.max) || 1; const value = parseFloat(slider.value); const percentage = (value / max) * 100; slider.style.setProperty('--fill-percent', `${percentage}%`);
+            }
+            function updateTimeDisplay() { /* ... (no changes needed) ... */
+                const currentTime = parseInt(progressSlider.value, 10); const totalTime = parseInt(progressSlider.max, 10) || 200; if (!isNaN(totalTime) && totalTime > 0) { const remainingTime = Math.max(0, totalTime - currentTime); currentTimeEl.textContent = formatTime(currentTime); totalTimeEl.textContent = `-${formatTime(remainingTime)}`; } else { currentTimeEl.textContent = formatTime(currentTime); totalTimeEl.textContent = '-?:??'; }
+            }
+            function updateVolumeIcon() { /* ... (no changes needed) ... */
+                volumeIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-xmark'); if (isMuted || currentVolume === 0) { volumeIcon.classList.add('fa-volume-xmark'); volumeIconBtn.setAttribute('aria-label', 'Unmute'); } else if (currentVolume <= 0.5) { volumeIcon.classList.add('fa-volume-low'); volumeIconBtn.setAttribute('aria-label', 'Mute'); } else { volumeIcon.classList.add('fa-volume-high'); volumeIconBtn.setAttribute('aria-label', 'Mute'); }
+             }
+             function animateButtonClick(buttonElement) { /* ... (no changes needed) ... */
+                gsap.to(buttonElement, { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1, ease: 'power1.inOut' });
+            }
+
+
+            // Event Listeners
+            playPauseBtn.addEventListener('click', () => {
+                animateButtonClick(playPauseBtn);
+                const linkToOpen = songs[currentSongIndex].artistLink;
+                if (linkToOpen) window.open(linkToOpen, '_blank', 'noopener noreferrer');
+             });
+            progressSlider.addEventListener('input', () => { updateTimeDisplay(); updateSliderFill(progressSlider); });
+            progressSlider.addEventListener('change', () => console.log('Progress changed to:', progressSlider.value));
+            volumeSlider.addEventListener('input', () => {
+                currentVolume = volumeSlider.value / 100;
+                isMuted = (currentVolume === 0);
+                if (!isMuted) previousVolume = currentVolume;
+                updateSliderFill(volumeSlider); updateVolumeIcon();
+                console.log('Volume changed to:', currentVolume);
+             });
+            shuffleButton?.addEventListener('click', () => {
+                isShuffleActive = !isShuffleActive;
+                shuffleButton.classList.toggle('active', isShuffleActive);
+                animateButtonClick(shuffleButton);
+                console.log('Shuffle:', isShuffleActive);
+            });
+            repeatButton?.addEventListener('click', () => {
+                isRepeatActive = !isRepeatActive;
+                repeatButton.classList.toggle('active', isRepeatActive);
+                animateButtonClick(repeatButton);
+                console.log('Repeat:', isRepeatActive);
+            });
+            volumeIconBtn?.addEventListener('click', () => {
+                isMuted = !isMuted;
+                animateButtonClick(volumeIconBtn);
+                if (isMuted) { if (currentVolume > 0) previousVolume = currentVolume; currentVolume = 0; volumeSlider.value = 0; }
+                else { currentVolume = (previousVolume > 0) ? previousVolume : 0.5; volumeSlider.value = currentVolume * 100; }
+                updateSliderFill(volumeSlider); updateVolumeIcon();
+                console.log('Muted:', isMuted, 'Volume:', currentVolume);
+            });
+            moreOptionsBtn?.addEventListener('click', () => {
+                 animateButtonClick(moreOptionsBtn);
+                 console.log('More options clicked for:', songs[currentSongIndex].title);
+             });
+
+            // --- UPDATED Next/Prev Listeners ---
+            nextBtn.addEventListener('click', () => {
+                animateButtonClick(nextBtn);
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                loadSong(currentSongIndex, false, 1); // Pass direction 1 (next)
+            });
+
+            prevBtn.addEventListener('click', () => {
+                animateButtonClick(prevBtn);
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                loadSong(currentSongIndex, false, -1); // Pass direction -1 (previous)
+            });
+
+
+             // Nav Logo Animation JS
+            const logo = document.querySelector('.logo');
+            const shortName = logo?.querySelector('.short-name');
+            const fullName = logo?.querySelector('.full-name');
+            if (logo && shortName && fullName) { /* ... (logo animation code unchanged) ... */
+                gsap.set(fullName, { opacity: 0, x: -20 }); gsap.set(shortName, { opacity: 1, x: 0 });
+                logo.addEventListener('mouseenter', () => { gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); });
+                logo.addEventListener('mouseleave', () => { gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" }); gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); });
+            } else { console.error("Nav logo elements not found."); }
+
+            // --- Initial Setup ---
+            // Initial animation for containers
+            gsap.fromTo(playerContainer, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: 'power1.out' });
+            gsap.fromTo(textContentArea, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.3, ease: 'power1.out' });
+
+            // Initial song load
+            loadSong(currentSongIndex, true, 0); // Pass direction 0 for initial load
+
+            // Update initial UI states
+            updateSliderFill(volumeSlider);
+            updateSliderFill(progressSlider);
+            updateVolumeIcon();
+            updateTimeDisplay();
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
