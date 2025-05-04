@@ -20,7 +20,7 @@
             /* IMPORTANT: Replace 'fonts/bluevinyl.otf' with the correct path to your font file */
             /* If the font is in the same directory: src: url('bluevinyl.otf') format('opentype'); */
             /* If it's in a 'fonts' subdirectory: src: url('fonts/bluevinyl.otf') format('opentype'); */
-            src: url('assest/bluevinyl.otf') format('opentype'); /* Assuming 'fonts' subdirectory */
+            src: url('bluevinyl.otf') format('opentype'); /* Assuming 'fonts' subdirectory */
             font-weight: bold;
             font-style: normal;
         }
@@ -277,7 +277,7 @@
              <li><a href="aboutme.html">About Me</a></li>
              <li><a href="#">Projects</a></li>
              <li><a href="resume.html">Resume</a></li>
-             <li><a href="contact.html">Contact</a></li>
+             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
 
@@ -298,17 +298,17 @@
                 <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
 
                     <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
-                        <img src="assest/profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/cccccc/ffffff?text=User';">
+                        <img src="profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/cccccc/ffffff?text=User';">
                         <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
                     </div>
 
                     <div class="relative">
                         <div id="sliderContainer" class="slider-container w-full overflow-hidden">
                             <div id="sliderImages" class="slider-images">
-                                <img src="assest/1.png" alt="Post Image 1" class="object-cover" data-caption="dhinesh_elangovan · Get to know me — beyond the resume." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+1';">
-                                <img src="assest/2.png" alt="Post Image 2" class="object-cover" data-caption="dhinesh_elangovan · Discover my educational journey — the foundation of my growth." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+2';">
-                                <img src="assest/3.png" alt="Post Image 3" class="object-cover" data-caption="dhinesh_elangovan · Dive into my skill set — where passion meets precision." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+3';">
-                                <img src="assest/4.png" alt="Post Image 4" class="object-cover" data-caption="dhinesh_elangovan · Explore my certifications — milestones of my learning journey." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+4';">
+                                <img src="1.png" alt="Post Image 1" class="object-cover" data-caption="dhinesh_elangovan · Get to know me — beyond the resume." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+1';">
+                                <img src="2.png" alt="Post Image 2" class="object-cover" data-caption="dhinesh_elangovan · Discover my educational journey — the foundation of my growth." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+2';">
+                                <img src="3.png" alt="Post Image 3" class="object-cover" data-caption="dhinesh_elangovan · Dive into my skill set — where passion meets precision." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+3';">
+                                <img src="4.png" alt="Post Image 4" class="object-cover" data-caption="dhinesh_elangovan · Explore my certifications — milestones of my learning journey." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+4';">
                             </div>
                         </div>
                         <button id="prevBtn" class="slider-btn left"><i class="fas fa-chevron-left text-xs"></i></button>
@@ -381,7 +381,38 @@
                 captionArea.textContent = captionText; // Display as is if separator not found
             }
         }
+        document.addEventListener('keydown', function(event) {
+            // Check if the focus is not inside an input field or textarea
+            // to avoid interfering with typing. Add other tag names if needed.
+            const activeElementTag = document.activeElement ? document.activeElement.tagName.toUpperCase() : null;
+            if (activeElementTag === 'INPUT' || activeElementTag === 'TEXTAREA') {
+                return; // Do nothing if typing in a form field
+            }
 
+            if (event.key === 'ArrowLeft') {
+                // Trigger previous slide action
+                if (currentIndex > 0) {
+                    event.preventDefault(); // Prevent potential page scroll
+                    currentIndex--;
+                    updateSlider();
+                    console.log("Left Arrow pressed - Previous slide"); // For debugging
+                }
+                    } else if (event.key === 'ArrowRight') {
+                // Trigger next slide action
+                if (currentIndex < totalImages - 1) {
+                    event.preventDefault(); // Prevent potential page scroll
+                    cancelPopupAnimation(); // Cancel pop-up animation like the button click
+                    currentIndex++;
+                    updateSlider();
+                    console.log("Right Arrow pressed - Next slide"); // For debugging
+                }
+            }
+        });
+
+// Make sure your slider buttons are focusable
+// Add tabindex="0" to your <button> elements in HTML if they aren't naturally focusable
+// e.g., <button id="prevBtn" class="slider-btn left" tabindex="0">...</button>
+// This helps screen readers and keyboard-only users navigate to the buttons.
         // --- Function to update slider display ---
         function updateSlider() {
             const offset = -currentIndex * 100;
