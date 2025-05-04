@@ -13,7 +13,12 @@
         /* --- @font-face rule --- */
         @font-face {
           font-family: 'MyLocalFont';
+          /* Make sure this path is correct relative to your HTML file */
+          /* Example: src: url('/fonts/SFPRODISPLAYBOLD.OTF') format('opentype'); */
+          /* If 'assest' is in the same directory as the HTML file: */
           src: url('assest/SFPRODISPLAYBOLD.OTF') format('opentype');
+          /* If 'assest' is one level up: */
+          /* src: url('../assest/SFPRODISPLAYBOLD.OTF') format('opentype'); */
         }
 
         :root {
@@ -63,12 +68,19 @@
         /* Navigation Bar */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center;
-            padding: 20px 50px; z-index: 100; background-color: rgba(0, 0, 0, 0);
-            backdrop-filter: blur(0px); box-sizing: border-box; font-family: var(--font-poppins);
+            padding: 20px 50px; z-index: 100; background-color: rgba(0, 0, 0, 0); /* Initially transparent */
+            backdrop-filter: blur(0px); /* Initially no blur */
+            box-sizing: border-box; font-family: var(--font-poppins);
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Smooth transition */
         }
+        /* Optional: Add subtle blur/background on scroll */
+        /* body.scrolled nav {
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        } */
         nav .logo { font-weight: 800; font-size: 1.5em; text-transform: uppercase; margin-right: auto; color: white; text-decoration: none; position: relative; display: inline-block; overflow: hidden; width: 320px; height: 1.5em; cursor: pointer; vertical-align: middle; }
-        nav .logo .short-name, nav .logo .full-name { position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800; font-size: 1em; line-height: 1.5em; color: white; transition: opacity 0.3s ease; }
-        nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; }
+        nav .logo .short-name, nav .logo .full-name { position: absolute; top: 0; left: 0; white-space: nowrap; font-weight: 800; font-size: 1em; line-height: 1.5em; color: white; transition: opacity 0.3s ease, transform 0.3s ease; }
+        nav ul { list-style: none; display: flex; margin: 0 auto; padding: 0; } /* Centered links */
         nav ul li { margin-left: 30px; }
         nav ul li:first-child { margin-left: 0; }
         nav ul li a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 5px; }
@@ -88,7 +100,7 @@
             position: relative; padding: 20px; flex-shrink: 0;
             background: rgba(0,0,0,0.2); border-radius: 12px;
             backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden; /* IMPORTANT: Keep overflow hidden */
+            overflow: hidden; /* IMPORTANT: Keep overflow hidden for animations */
         }
 
         /* Text Content Area */
@@ -116,14 +128,15 @@
         .time { font-size: 0.7rem; font-weight: 500; color: var(--text-secondary); min-width: 35px; text-align: center; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; }
         .progress-slider, .volume-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--progress-track); border-radius: 2px; cursor: pointer; outline: none; margin: 0; padding: 0; position: relative; overflow: hidden; }
         .progress-slider::before, .volume-slider::before { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: var(--fill-percent, 0%); background-color: var(--progress-fill); border-radius: 2px; z-index: 1; transition: width 0.1s linear; }
-        .progress-slider::-webkit-slider-thumb, .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; background: var(--progress-thumb); border-radius: 50%; cursor: pointer; margin-top: -3px; position: relative; z-index: 2; }
+        .progress-slider::-webkit-slider-thumb, .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; background: var(--progress-thumb); border-radius: 50%; cursor: pointer; margin-top: -3px; /* Adjust thumb position vertically */ position: relative; z-index: 2; }
         .progress-slider::-moz-range-thumb, .volume-slider::-moz-range-thumb { width: 10px; height: 10px; background: var(--progress-thumb); border-radius: 50%; cursor: pointer; border: none; position: relative; z-index: 2; }
 
         .playback-controls { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; }
-        .control-btn { background: none; border: none; color: var(--control-active); font-size: 1.5rem; cursor: pointer; padding: 10px; line-height: 1; transition: color 0.2s ease; margin-left: 0; margin-right: 0; transform-origin: center center; }
+        .control-btn { background: none; border: none; color: var(--control-active); font-size: 1.5rem; cursor: pointer; padding: 10px; line-height: 1; transition: color 0.2s ease, transform 0.1s ease; margin-left: 0; margin-right: 0; transform-origin: center center; }
         .control-btn.secondary { font-size: 1.1rem; color: var(--control-inactive); }
         .control-btn.secondary.active { color: var(--control-active); }
         .play-pause-btn { font-size: 2.5rem; }
+        /* Adjust spacing around play/pause */
         .playback-controls button[aria-label="Shuffle"] { margin-right: 30px; }
         .playback-controls button[aria-label="Repeat"] { margin-left: 30px; }
         .playback-controls #prevBtn { margin-right: 15px; }
@@ -148,16 +161,29 @@
              .text-content-area p { font-size: 1rem; }
         }
         @media (max-width: 480px) {
-             nav .logo { width: 180px; }
-             body { padding-top: 65px; }
+             nav .logo { width: 180px; /* Further reduce logo width */ }
+             /* Adjust nav padding if needed */
+             nav { padding: 12px 15px; }
+             body { padding-top: 65px; /* Adjust if nav height changes */ }
              .text-content-area h1 { font-size: 1.6rem; }
+             .playback-controls button[aria-label="Shuffle"] { margin-right: 15px; } /* Reduce spacing */
+             .playback-controls button[aria-label="Repeat"] { margin-left: 15px; }
+             .playback-controls #prevBtn { margin-right: 10px; }
+             .playback-controls #nextBtn { margin-left: 10px; }
+             .control-btn { padding: 8px; } /* Slightly smaller touch targets */
+             .play-pause-btn { font-size: 2.2rem; }
+             .control-btn.secondary { font-size: 1rem; }
+
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#" class="logo"><span class="short-name">DK</span><span class="full-name">Dhinesh Kailash</span></a>
+        <a href="#" class="logo">
+            <span class="short-name">DK</span>
+            <span class="full-name">Dhinesh Kailash</span>
+        </a>
         <ul>
              <li><a href="index.html">Home</a></li>
              <li><a href="aboutme.html">About Me</a></li>
@@ -170,20 +196,20 @@
     <div class="main-content-wrapper">
         <div class="text-content-area">
              <h1>Contact and Profile Links</h1>
-             <p>Click the 'Next' button to explore my different profile links, and tap on the album art image, artist name, or play button to be redirected to my profile page.</p>
+             <p>Use the Next/Previous buttons (or Arrow Keys) to explore my profile links. Click the album art, artist name, play button (or press Space/Enter) to visit the link.</p>
         </div>
         <div class="player-container">
             <div class="album-art">
                 <a href="#" id="albumArtLink" target="_blank" rel="noopener noreferrer">
-                    <img src="" alt="Album Art" id="albumArtImg">
+                    <img src="assest/gmail.png" alt="Album Art" id="albumArtImg">
                 </a>
             </div>
             <div class="track-info">
                  <div class="track-info-text">
-                    <h2 id="trackTitle"></h2>
-                    <a id="trackArtist" href="#" target="_blank" rel="noopener noreferrer"></a>
-                </div>
-                <button class="more-options-btn" aria-label="More options"><i class="fas fa-ellipsis"></i></button>
+                      <h2 id="trackTitle"></h2>
+                      <a id="trackArtist" href="#" target="_blank" rel="noopener noreferrer"></a>
+                 </div>
+                 <button class="more-options-btn" aria-label="More options"><i class="fas fa-ellipsis"></i></button>
             </div>
             <div class="progress-bar-container">
                 <span class="time current-time">0:00</span>
@@ -191,14 +217,14 @@
                 <span class="time total-time">-?:??</span>
             </div>
             <div class="playback-controls">
-                <button class="control-btn secondary" aria-label="Shuffle"><i class="fas fa-random"></i></button>
+                <button class="control-btn secondary" aria-label="Shuffle" aria-pressed="false"><i class="fas fa-random"></i></button>
                 <button class="control-btn" aria-label="Previous Track" id="prevBtn"><i class="fas fa-backward-step"></i></button>
-                <button class="control-btn play-pause-btn" id="playPauseBtn" aria-label="Play (Redirects)"><i class="fas fa-play" id="playIcon"></i><i class="fas fa-pause" id="pauseIcon" style="display: none;"></i></button>
+                <button class="control-btn play-pause-btn" id="playPauseBtn" aria-label="Open Link"><i class="fas fa-play" id="playIcon"></i></button>
                 <button class="control-btn" aria-label="Next Track" id="nextBtn"><i class="fas fa-forward-step"></i></button>
-                <button class="control-btn secondary" aria-label="Repeat"><i class="fas fa-repeat"></i></button>
+                <button class="control-btn secondary" aria-label="Repeat" aria-pressed="false"><i class="fas fa-repeat"></i></button>
             </div>
             <div class="volume-control">
-                <button class="volume-icon-btn" aria-label="Mute"><i class="fas fa-volume-high" id="volumeIcon"></i></button>
+                <button class="volume-icon-btn" aria-label="Mute" aria-pressed="false"><i class="fas fa-volume-high" id="volumeIcon"></i></button>
                 <input type="range" min="0" max="100" value="80" class="volume-slider" aria-label="Volume">
             </div>
         </div>
@@ -207,7 +233,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Song Data
+            console.log("DOM Loaded. Setting up player...");
+
+            // --- Song Data ---
+            // *** IMPORTANT: Verify these paths are correct relative to the HTML file! ***
             const songs = [
                 { title: "Email", artist: "dhineshkailash7@gmail.com", artistLink: "mailto:dhineshkailash7@gmail.com", albumArtSrc: "assest/gmail.png" },
                 { title: "Phone Number", artist: "+91 7200700660", artistLink: "tel:+917200700660", albumArtSrc: "assest/phone.png" },
@@ -215,12 +244,15 @@
                 { title: "GitHub", artist: "github.com/dhinesh7-cit", artistLink: "https://github.com/dhinesh7-cit", albumArtSrc: "assest/github.png"},
                 { title: "Leetcode", artist: "leetcode.com/dhineshkailash7", artistLink: "https://leetcode.com/dhineshkailash7", albumArtSrc: "assest/leetcode.png" }
             ];
+            // Example: If images are in 'images/assest/', use: albumArtSrc: "images/assest/gmail.png"
+
             let currentSongIndex = 0;
 
-            // UI Elements
+            // --- UI Elements ---
             const playerContainer = document.querySelector('.player-container');
-            const textContentArea = document.querySelector('.text-content-area'); // Ref for text area animation
+            const textContentArea = document.querySelector('.text-content-area');
             const playPauseBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon'); // We only need the play icon ID
             const progressSlider = document.querySelector('.progress-slider');
             const currentTimeEl = document.querySelector('.current-time');
             const totalTimeEl = document.querySelector('.total-time');
@@ -246,15 +278,15 @@
 
              // Group animated elements
              const elementsToAnimate = [
-                albumArtContainer,
-                trackInfoContainer,
-                progressBarContainer,
-                playbackControlsContainer,
-                volumeControlContainer
-            ];
+                 albumArtContainer,
+                 trackInfoContainer,
+                 progressBarContainer,
+                 playbackControlsContainer,
+                 volumeControlContainer
+             ];
 
-            // State
-            let currentVolume = volumeSlider.value / 100;
+            // --- State ---
+            let currentVolume = volumeSlider ? volumeSlider.value / 100 : 0.8;
             let isMuted = false;
             let previousVolume = currentVolume;
             let isShuffleActive = false;
@@ -263,185 +295,473 @@
 
             // --- Load Song Function (with direction) ---
             function loadSong(index, isInitialLoad = false, direction = 0) { // direction: 0=initial, 1=next, -1=prev
-                if (index < 0 || index >= songs.length) return;
+                if (index < 0 || index >= songs.length) {
+                    console.error("Invalid song index:", index);
+                    return;
+                }
                 const song = songs[index];
+                console.log(`Loading song ${index}: ${song.title}, Art: ${song.albumArtSrc}`);
+
 
                 // Update background smoothly
-                 gsap.to(document.body, { '--background-image-url': `url('${song.albumArtSrc}')`, duration: 0.7, ease: 'power1.inOut'});
+                if (song.albumArtSrc && typeof song.albumArtSrc === 'string') {
+                     // Basic check: does it contain typical image extensions?
+                     if (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(song.albumArtSrc)) {
+                         gsap.to(document.body, { '--background-image-url': `url('${song.albumArtSrc}')`, duration: 0.7, ease: 'power1.inOut'});
+                     } else {
+                         console.warn("Album art source might not be an image:", song.albumArtSrc);
+                         gsap.to(document.body, { '--background-image-url': `url('')`, duration: 0.7, ease: 'power1.inOut'}); // Clear if invalid
+                     }
+                } else {
+                    console.warn("Missing or invalid albumArtSrc for song index:", index);
+                    gsap.to(document.body, { '--background-image-url': `url('')`, duration: 0.7, ease: 'power1.inOut'}); // Clear background
+                }
 
 
                 if (transitionTl && transitionTl.isActive()) {
-                    transitionTl.progress(1); // Complete the current animation immediately
-                    transitionTl.kill();
-                 }
+                     transitionTl.progress(1); // Complete the current animation immediately
+                     transitionTl.kill();
+                    }
 
                 transitionTl = gsap.timeline({
                     onComplete: () => {
-                         console.log("Loaded:", song.title);
-                         // Reset scroll or focus if needed after animation
-                     }
+                         // console.log("Animation complete for:", song.title);
+                         // Optional: Move focus after animation if needed
+                        }
                 });
 
-                if (isInitialLoad) {
-                     // --- Initial Load Animation ---
-                     transitionTl.set(elementsToAnimate, { opacity: 0, y: 20 }); // Initial state off-screen slightly
-                     transitionTl.call(() => { // Update content immediately
-                        trackTitleEl.textContent = song.title;
-                        trackArtistEl.textContent = song.artist;
-                        trackArtistEl.href = song.artistLink || '#';
-                        albumArtImg.src = song.albumArtSrc;
-                        albumArtImg.alt = `Album art for ${song.title}`;
-                        albumArtLink.href = song.artistLink || '#';
+                const updateContent = () => {
+                    if (!trackTitleEl || !trackArtistEl || !albumArtImg || !albumArtLink) {
+                        console.error("One or more essential elements for content update not found!");
+                        return; // Stop if critical elements are missing
+                    }
+                    trackTitleEl.textContent = song.title;
+                    trackArtistEl.textContent = song.artist;
+                    trackArtistEl.href = song.artistLink || '#'; // Fallback to '#' if no link
+                    albumArtImg.src = song.albumArtSrc || ''; // Fallback to empty string
+                    albumArtImg.alt = `Art for ${song.title}`;
+                    albumArtLink.href = song.artistLink || '#';
+
+                    // Reset dummy progress
+                    if (progressSlider) {
                         progressSlider.value = 0;
                         updateSliderFill(progressSlider);
-                        updateTimeDisplay();
-                    }, null, 0); // Place at the beginning
+                    }
+                    updateTimeDisplay(); // Update time based on reset progress
 
-                     transitionTl.to(elementsToAnimate, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.4,
-                        stagger: 0.05,
-                        ease: 'power1.out',
-                        delay: 0.1 // Small delay after setting content
-                     });
+                    // Ensure play icon is shown initially for the new item
+                    if (playIcon) {
+                        playIcon.style.display = 'inline-block'; // Or 'block' depending on default styling
+                    }
+                    // We don't have a pause icon defined in the HTML for this button
+                    // const pauseIcon = document.getElementById('pauseIcon');
+                    // if (pauseIcon) pauseIcon.style.display = 'none';
+                    if (playPauseBtn) {
+                        playPauseBtn.setAttribute('aria-label', 'Open Link'); // Update ARIA label
+                    }
+                };
 
-                } else {
-                    // --- Directional Slide Animation ---
-                    const outX = direction === 1 ? -60 : 60; // Slide out amount
-                    const inX = direction === 1 ? 60 : -60;  // Slide in amount
-
-                    // 1. Animate out current elements
+                if (isInitialLoad) {
+                    // Initial Load Animation
+                    transitionTl.set(elementsToAnimate, { opacity: 0, y: 20 });
+                    transitionTl.call(updateContent, null, 0); // Update immediately before animation
                     transitionTl.to(elementsToAnimate, {
-                        opacity: 0,
-                        x: outX,
-                        duration: 0.3, // Faster out
-                        stagger: 0.04, // Slightly faster stagger out
-                        ease: 'power2.in'
+                        opacity: 1, y: 0, duration: 0.4, stagger: 0.05,
+                        ease: 'power1.out', delay: 0.1
                     });
-
-                    // 2. Update content after starting fade out
-                    transitionTl.call(() => {
-                         trackTitleEl.textContent = song.title;
-                         trackArtistEl.textContent = song.artist;
-                         trackArtistEl.href = song.artistLink || '#';
-                         albumArtImg.src = song.albumArtSrc; // Preload image if possible? JS image preloading can help.
-                         albumArtImg.alt = `Album art for ${song.title}`;
-                         albumArtLink.href = song.artistLink || '#';
-                         progressSlider.value = 0; // Reset progress
-                         updateSliderFill(progressSlider);
-                         updateTimeDisplay();
-                    }, null, ">-0.15"); // Call slightly before animation out ends
-
-                    // 3. Set initial state for incoming elements (immediately, off-screen opposite side)
-                    transitionTl.set(elementsToAnimate, { x: inX, opacity: 0 }); // Set position AND opacity before animating in
-
-                    // 4. Animate in new elements
+                } else {
+                    // Directional Slide Animation
+                    const outX = direction === 1 ? -60 : 60; // Move out left if next, right if prev
+                    const inX = direction === 1 ? 60 : -60;  // Move in from right if next, left if prev
                     transitionTl.to(elementsToAnimate, {
-                        opacity: 1,
-                        x: 0,
-                        duration: 0.4, // Slightly slower in
-                        stagger: 0.05, // Stagger in
-                        ease: 'power2.out'
+                        opacity: 0, x: outX, duration: 0.3, stagger: 0.04, ease: 'power2.in'
+                    });
+                    transitionTl.call(updateContent, null, ">-0.15"); // Update content slightly before the in-animation starts
+                    transitionTl.set(elementsToAnimate, { x: inX, opacity: 0 }); // Set starting position for in-animation
+                    transitionTl.to(elementsToAnimate, {
+                        opacity: 1, x: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out'
                     });
                 }
             }
 
-            // Helper Functions (formatTime, updateSliderFill, updateTimeDisplay, updateVolumeIcon, animateButtonClick)
-             function formatTime(seconds) { /* ... (no changes needed) ... */
-                const totalSeconds = Math.floor(seconds); const minutes = Math.floor(totalSeconds / 60); const secs = totalSeconds % 60; return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            // --- Helper Functions ---
+            function formatTime(seconds) {
+                const totalSeconds = Math.floor(seconds);
+                const minutes = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
             }
-            function updateSliderFill(slider) { /* ... (no changes needed) ... */
-                const max = parseFloat(slider.max) || 1; const value = parseFloat(slider.value); const percentage = (value / max) * 100; slider.style.setProperty('--fill-percent', `${percentage}%`);
+
+            function updateSliderFill(slider) {
+                if (!slider) return;
+                const max = parseFloat(slider.max) || 1; // Avoid division by zero
+                const value = parseFloat(slider.value);
+                const percentage = max > 0 ? (value / max) * 100 : 0; // Calculate percentage safely
+                slider.style.setProperty('--fill-percent', `${percentage}%`);
             }
-            function updateTimeDisplay() { /* ... (no changes needed) ... */
-                const currentTime = parseInt(progressSlider.value, 10); const totalTime = parseInt(progressSlider.max, 10) || 200; if (!isNaN(totalTime) && totalTime > 0) { const remainingTime = Math.max(0, totalTime - currentTime); currentTimeEl.textContent = formatTime(currentTime); totalTimeEl.textContent = `-${formatTime(remainingTime)}`; } else { currentTimeEl.textContent = formatTime(currentTime); totalTimeEl.textContent = '-?:??'; }
+
+            function updateTimeDisplay() {
+                const totalTime = progressSlider ? parseInt(progressSlider.max, 10) : 0; // Use 0 if slider missing
+                // Since this isn't real audio, we'll just display 0:00 and the max "duration"
+                const maxDurationFormatted = !isNaN(totalTime) && totalTime > 0 ? formatTime(totalTime) : '?:??';
+
+                if(currentTimeEl) currentTimeEl.textContent = formatTime(0); // Always show 0:00
+                if(totalTimeEl) totalTimeEl.textContent = `-${maxDurationFormatted}`; // Show max duration as remaining
             }
-            function updateVolumeIcon() { /* ... (no changes needed) ... */
-                volumeIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-xmark'); if (isMuted || currentVolume === 0) { volumeIcon.classList.add('fa-volume-xmark'); volumeIconBtn.setAttribute('aria-label', 'Unmute'); } else if (currentVolume <= 0.5) { volumeIcon.classList.add('fa-volume-low'); volumeIconBtn.setAttribute('aria-label', 'Mute'); } else { volumeIcon.classList.add('fa-volume-high'); volumeIconBtn.setAttribute('aria-label', 'Mute'); }
-             }
-             function animateButtonClick(buttonElement) { /* ... (no changes needed) ... */
+
+            function updateVolumeIcon() {
+                if (!volumeIcon || !volumeIconBtn) return;
+                volumeIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-xmark');
+                if (isMuted || currentVolume === 0) {
+                    volumeIcon.classList.add('fa-volume-xmark');
+                    volumeIconBtn.setAttribute('aria-label', 'Unmute');
+                    volumeIconBtn.setAttribute('aria-pressed', 'true');
+                } else {
+                   if (currentVolume <= 0.5) { volumeIcon.classList.add('fa-volume-low'); }
+                   else { volumeIcon.classList.add('fa-volume-high'); }
+                   volumeIconBtn.setAttribute('aria-label', 'Mute');
+                   volumeIconBtn.setAttribute('aria-pressed', 'false');
+                }
+            }
+
+            function animateButtonClick(buttonElement) {
+                if (!buttonElement) return;
+                // Simple scale animation for feedback
                 gsap.to(buttonElement, { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1, ease: 'power1.inOut' });
             }
 
+            // --- Accessibility Helper for Keyboard ---
+             // (Keeping this structure in case you add real keyboard nav to buttons later,
+             // but the main logic is now handled by the global listener)
+            function setupKeyboardNav(buttonElement, actionFunction) {
+                // console.log("Setting up keyboard nav for (if needed):", buttonElement); // Less relevant now
+                if (!buttonElement || typeof actionFunction !== 'function') {
+                     // console.error("setupKeyboardNav: Invalid element or function.");
+                     return;
+                 }
+                 buttonElement.addEventListener('keydown', (event) => {
+                     if (event.key === 'Enter' || event.key === ' ') {
+                         event.preventDefault(); // Prevent default action if focused
+                         // console.log("Keyboard activation on focused button:", buttonElement);
+                         actionFunction(); // Execute the core action
+                         animateButtonClick(buttonElement); // Provide visual feedback
+                        }
+                    });
+            }
 
-            // Event Listeners
-            playPauseBtn.addEventListener('click', () => {
-                animateButtonClick(playPauseBtn);
-                const linkToOpen = songs[currentSongIndex].artistLink;
-                if (linkToOpen) window.open(linkToOpen, '_blank', 'noopener noreferrer');
-             });
-            progressSlider.addEventListener('input', () => { updateTimeDisplay(); updateSliderFill(progressSlider); });
-            progressSlider.addEventListener('change', () => console.log('Progress changed to:', progressSlider.value));
-            volumeSlider.addEventListener('input', () => {
-                currentVolume = volumeSlider.value / 100;
-                isMuted = (currentVolume === 0);
-                if (!isMuted) previousVolume = currentVolume;
-                updateSliderFill(volumeSlider); updateVolumeIcon();
-                console.log('Volume changed to:', currentVolume);
-             });
-            shuffleButton?.addEventListener('click', () => {
+            // --- Core Action Functions ---
+            const handlePlayPauseClick = () => {
+                console.log("Action: Open Link Triggered");
+                const linkToOpen = songs[currentSongIndex]?.artistLink; // Safely access link
+                if (linkToOpen && linkToOpen !== '#') { // Only open valid links
+                    window.open(linkToOpen, '_blank', 'noopener noreferrer');
+                } else {
+                    console.warn("No valid artistLink found for current item index:", currentSongIndex);
+                }
+            };
+
+            const handleNextClick = () => {
+                console.log("Action: Next Triggered");
+                let nextIndex = currentSongIndex + 1;
+                if (isRepeatActive) {
+                    // If repeat is on, stay on the current track (or handle differently if needed)
+                    // For this setup, maybe just restart the animation? Or do nothing.
+                    // Let's just reload the current one for visual effect.
+                     loadSong(currentSongIndex, false, 0); // Reload current with no direction animation
+                     return;
+                 }
+                if (isShuffleActive) {
+                     // Basic shuffle: pick a random index DIFFERENT from the current one
+                     if (songs.length > 1) {
+                         let randomIndex;
+                         do {
+                             randomIndex = Math.floor(Math.random() * songs.length);
+                         } while (randomIndex === currentSongIndex);
+                         nextIndex = randomIndex;
+                     } else {
+                         nextIndex = 0; // Only one song, loop or stay
+                     }
+                 } else {
+                     // Normal next: loop around
+                     nextIndex = (currentSongIndex + 1) % songs.length;
+                 }
+                 currentSongIndex = nextIndex;
+                 loadSong(currentSongIndex, false, 1); // Animate as 'next' (slide left)
+            };
+
+            const handlePrevClick = () => {
+                console.log("Action: Previous Triggered");
+                 let prevIndex;
+                 if (isRepeatActive) {
+                     loadSong(currentSongIndex, false, 0); // Reload current
+                     return;
+                 }
+                 if (isShuffleActive) {
+                     // Shuffle on prev could go to a random different track too
+                     if (songs.length > 1) {
+                         let randomIndex;
+                         do {
+                             randomIndex = Math.floor(Math.random() * songs.length);
+                         } while (randomIndex === currentSongIndex);
+                         prevIndex = randomIndex;
+                     } else {
+                         prevIndex = 0;
+                     }
+                 } else {
+                     // Normal previous: loop around backwards
+                     prevIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                 }
+                 currentSongIndex = prevIndex;
+                 loadSong(currentSongIndex, false, -1); // Animate as 'prev' (slide right)
+            };
+
+            const toggleShuffle = () => {
+                if (!shuffleButton) return;
                 isShuffleActive = !isShuffleActive;
                 shuffleButton.classList.toggle('active', isShuffleActive);
-                animateButtonClick(shuffleButton);
-                console.log('Shuffle:', isShuffleActive);
-            });
-            repeatButton?.addEventListener('click', () => {
-                isRepeatActive = !isRepeatActive;
-                repeatButton.classList.toggle('active', isRepeatActive);
-                animateButtonClick(repeatButton);
-                console.log('Repeat:', isRepeatActive);
-            });
-            volumeIconBtn?.addEventListener('click', () => {
+                shuffleButton.setAttribute('aria-pressed', isShuffleActive);
+                console.log('Shuffle state:', isShuffleActive);
+                // If turning shuffle off while repeat is on, ensure repeat stays consistent
+                if (!isShuffleActive && isRepeatActive) {
+                   console.log('Shuffle off, repeat remains active.');
+                }
+            };
+
+            const toggleRepeat = () => {
+                if (!repeatButton) return;
+                 isRepeatActive = !isRepeatActive;
+                 repeatButton.classList.toggle('active', isRepeatActive);
+                 repeatButton.setAttribute('aria-pressed', isRepeatActive);
+                 console.log('Repeat state:', isRepeatActive);
+                 // Optionally turn off shuffle if repeat is turned on? (Common player behavior)
+                 // if (isRepeatActive && isShuffleActive) {
+                 //    toggleShuffle(); // Turn off shuffle
+                 // }
+            };
+
+            const toggleMute = () => {
+                if (!volumeSlider) return; // Need slider to update value
+                console.log("Action: Mute Toggled");
                 isMuted = !isMuted;
-                animateButtonClick(volumeIconBtn);
-                if (isMuted) { if (currentVolume > 0) previousVolume = currentVolume; currentVolume = 0; volumeSlider.value = 0; }
-                else { currentVolume = (previousVolume > 0) ? previousVolume : 0.5; volumeSlider.value = currentVolume * 100; }
-                updateSliderFill(volumeSlider); updateVolumeIcon();
-                console.log('Muted:', isMuted, 'Volume:', currentVolume);
-            });
-            moreOptionsBtn?.addEventListener('click', () => {
-                 animateButtonClick(moreOptionsBtn);
-                 console.log('More options clicked for:', songs[currentSongIndex].title);
-             });
+                if (isMuted) {
+                    if (currentVolume > 0) previousVolume = currentVolume; // Store volume before muting
+                    currentVolume = 0;
+                    volumeSlider.value = 0;
+                } else {
+                    // Restore previous volume, or a default if previous was 0
+                    currentVolume = (previousVolume > 0) ? previousVolume : 0.5; // Restore or set to 50%
+                    volumeSlider.value = currentVolume * 100;
+                }
+                updateSliderFill(volumeSlider);
+                updateVolumeIcon();
+                console.log('Mute state:', isMuted, 'Volume:', currentVolume);
+            };
 
-            // --- UPDATED Next/Prev Listeners ---
-            nextBtn.addEventListener('click', () => {
-                animateButtonClick(nextBtn);
-                currentSongIndex = (currentSongIndex + 1) % songs.length;
-                loadSong(currentSongIndex, false, 1); // Pass direction 1 (next)
-            });
-
-            prevBtn.addEventListener('click', () => {
-                animateButtonClick(prevBtn);
-                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-                loadSong(currentSongIndex, false, -1); // Pass direction -1 (previous)
-            });
+            const handleMoreOptionsClick = () => {
+                console.log('Action: More Options Clicked for:', songs[currentSongIndex]?.title);
+                // Placeholder: Add functionality like sharing, copying link, etc.
+                alert(`More options for ${songs[currentSongIndex]?.title} (Not implemented)`);
+            };
 
 
-             // Nav Logo Animation JS
+            // --- Event Listeners Setup ---
+            console.log("Attaching element event listeners...");
+
+            // Play/Pause (Open Link) Button
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener('click', () => {
+                    animateButtonClick(playPauseBtn);
+                    handlePlayPauseClick();
+                });
+                // setupKeyboardNav(playPauseBtn, handlePlayPauseClick); // Covered by global listener now
+            } else { console.error("Play/Pause button not found"); }
+
+            // Next Button
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    animateButtonClick(nextBtn);
+                    handleNextClick();
+                });
+                // setupKeyboardNav(nextBtn, handleNextClick); // Covered by global listener now
+            } else { console.error("Next button not found"); }
+
+            // Previous Button
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    animateButtonClick(prevBtn);
+                    handlePrevClick();
+                });
+                // setupKeyboardNav(prevBtn, handlePrevClick); // Covered by global listener now
+            } else { console.error("Previous button not found"); }
+
+            // Shuffle Button
+            if (shuffleButton) {
+                shuffleButton.addEventListener('click', () => {
+                    animateButtonClick(shuffleButton);
+                    toggleShuffle();
+                });
+                setupKeyboardNav(shuffleButton, toggleShuffle); // Keep for focused activation
+            } else { console.warn("Shuffle button not found"); }
+
+            // Repeat Button
+            if (repeatButton) {
+                 repeatButton.addEventListener('click', () => {
+                     animateButtonClick(repeatButton);
+                     toggleRepeat();
+                 });
+                 setupKeyboardNav(repeatButton, toggleRepeat); // Keep for focused activation
+            } else { console.warn("Repeat button not found"); }
+
+            // Volume Icon Button (Mute/Unmute)
+            if (volumeIconBtn) {
+                 volumeIconBtn.addEventListener('click', () => {
+                     animateButtonClick(volumeIconBtn);
+                     toggleMute();
+                 });
+                 setupKeyboardNav(volumeIconBtn, toggleMute); // Keep for focused activation
+            } else { console.error("Volume icon button not found"); }
+
+            // More Options Button
+            if (moreOptionsBtn) {
+                 moreOptionsBtn.addEventListener('click', () => {
+                     animateButtonClick(moreOptionsBtn);
+                     handleMoreOptionsClick();
+                 });
+                 setupKeyboardNav(moreOptionsBtn, handleMoreOptionsClick); // Keep for focused activation
+            } else { console.warn("More options button not found"); }
+
+            // Slider Listeners (Dummy behavior)
+            if (progressSlider) {
+                // Update display on input, but don't change actual state
+                progressSlider.addEventListener('input', () => {
+                    updateTimeDisplay(); // Reflects the slider's current value temporarily
+                    updateSliderFill(progressSlider);
+                 });
+                // On change (release), reset to 0 as it's not real playback
+                progressSlider.addEventListener('change', () => {
+                     console.log('Progress slider manually changed, resetting visual.');
+                     progressSlider.value = 0; // Snap back to 0
+                     updateTimeDisplay();
+                     updateSliderFill(progressSlider);
+                 });
+            } else { console.error("Progress slider not found"); }
+
+            if (volumeSlider) {
+                volumeSlider.addEventListener('input', () => {
+                    currentVolume = volumeSlider.value / 100;
+                    isMuted = (currentVolume === 0);
+                    // If user drags slider away from 0, unmute automatically
+                    if (!isMuted && volumeIconBtn.getAttribute('aria-pressed') === 'true') {
+                        // If it *was* muted via the button, update state
+                        previousVolume = currentVolume; // Update baseline volume
+                    } else if (!isMuted) {
+                        previousVolume = currentVolume; // Keep track of volume if not muted
+                    }
+                    updateSliderFill(volumeSlider);
+                    updateVolumeIcon(); // Keep icon/ARIA updated during sliding
+                });
+                 volumeSlider.addEventListener('change', () => {
+                     // Final volume set
+                     console.log('Volume slider changed (manual):', volumeSlider.value);
+                     // If volume is set > 0 ensure isMuted is false
+                     if (currentVolume > 0) {
+                         isMuted = false;
+                         previousVolume = currentVolume;
+                         updateVolumeIcon(); // Ensure icon reflects unmuted state
+                     } else {
+                         isMuted = true; // Volume is 0, treat as muted
+                         updateVolumeIcon();
+                     }
+                 });
+            } else { console.error("Volume slider not found"); }
+
+
+            // --- Nav Logo Animation ---
             const logo = document.querySelector('.logo');
             const shortName = logo?.querySelector('.short-name');
             const fullName = logo?.querySelector('.full-name');
-            if (logo && shortName && fullName) { /* ... (logo animation code unchanged) ... */
-                gsap.set(fullName, { opacity: 0, x: -20 }); gsap.set(shortName, { opacity: 1, x: 0 });
-                logo.addEventListener('mouseenter', () => { gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); });
-                logo.addEventListener('mouseleave', () => { gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" }); gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); });
-            } else { console.error("Nav logo elements not found."); }
+            if (logo && shortName && fullName) {
+                 gsap.set(fullName, { opacity: 0, x: -20 }); // Start full name hidden and slightly left
+                 gsap.set(shortName, { opacity: 1, x: 0 });   // Start short name visible
+                 logo.addEventListener('mouseenter', () => {
+                     gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); // Move short name out right
+                     gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); // Bring full name in from left
+                 });
+                 logo.addEventListener('mouseleave', () => {
+                     gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" }); // Move full name out left
+                     gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); // Bring short name back in
+                 });
+            } else { console.warn("Nav logo elements not found for animation."); }
 
             // --- Initial Setup ---
-            // Initial animation for containers
-            gsap.fromTo(playerContainer, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: 'power1.out' });
-            gsap.fromTo(textContentArea, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.3, ease: 'power1.out' });
+            console.log("Running initial setup animations and content load...");
+            // Initial animation for containers (subtle fade-in/up)
+             if (playerContainer) gsap.fromTo(playerContainer, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.2, ease: 'power1.out' });
+             if (textContentArea) gsap.fromTo(textContentArea, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.3, ease: 'power1.out' });
 
-            // Initial song load
-            loadSong(currentSongIndex, true, 0); // Pass direction 0 for initial load
+            // Initial song load (with initial animation)
+            loadSong(currentSongIndex, true, 0);
 
-            // Update initial UI states
+            // Update initial UI states based on defaults
             updateSliderFill(volumeSlider);
-            updateSliderFill(progressSlider);
+            updateSliderFill(progressSlider); // Ensure progress fill is initially 0%
             updateVolumeIcon();
-            updateTimeDisplay();
+            updateTimeDisplay(); // Set initial time display
+
+
+            // --- Global Keyboard Shortcuts --- <<<<<<<<<<<<<<<<<<<< NEW CODE ADDED HERE
+            console.log("Attaching global keyboard listeners...");
+            document.addEventListener('keydown', (event) => {
+                // console.log("Key pressed:", event.key); // Uncomment for detailed debugging
+
+                // Optional: Prevent hijacking keys if user is focused on a form element like a slider
+                const activeElement = document.activeElement;
+                if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) {
+                   // Allow arrow keys for range sliders, but intercept Space/Enter
+                   if (activeElement.type === 'range' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+                       return; // Let slider handle its own arrow keys
+                   }
+                    // For other inputs/textareas, ignore all our keys
+                    if (activeElement.type !== 'range' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === ' ' || event.key === 'Enter')) {
+                       return;
+                    }
+                 }
+
+
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        event.preventDefault(); // Prevent potential page scroll
+                        console.log("Global ArrowLeft detected, triggering previous action...");
+                        if (prevBtn) { // Check if button exists
+                            animateButtonClick(prevBtn);
+                            handlePrevClick();
+                        }
+                        break;
+
+                    case 'ArrowRight':
+                        event.preventDefault(); // Prevent potential page scroll
+                        console.log("Global ArrowRight detected, triggering next action...");
+                         if (nextBtn) { // Check if button exists
+                             animateButtonClick(nextBtn);
+                             handleNextClick();
+                         }
+                        break;
+
+                    case ' ': // Space bar
+                    case 'Enter':
+                        event.preventDefault(); // IMPORTANT: Prevent space scrolling/enter default action
+                        console.log("Global Space or Enter detected, triggering play/pause (redirect) action...");
+                        if (playPauseBtn) { // Check if button exists
+                            animateButtonClick(playPauseBtn);
+                            handlePlayPauseClick(); // This function already opens the link
+                        }
+                        break;
+                }
+            });
+            // --- End Global Keyboard Shortcuts ---
+
+
+            console.log("Player setup complete.");
 
         }); // End DOMContentLoaded
     </script>
