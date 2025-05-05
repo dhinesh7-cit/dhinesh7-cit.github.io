@@ -28,8 +28,8 @@
             --animation-set1: rotateAnimation 12s linear infinite; /* Slower, forward */
             --animation-set2: rotateAnimation 8s linear infinite reverse; /* Faster, reverse */
             --ring-diameter-set1: 310px; /* Diameter for the first set */
-            --ring-diameter-set2: 280px; /* Diameter for the second set (slightly smaller) */
-            --largest-ring-diameter: 310px; /* Largest diameter used */
+            --ring-diameter-set2: 340px; /* Diameter for the second set (slightly smaller) */
+            --largest-ring-diameter: 340px; /* Largest diameter used */
         }
 
         /* Basic Reset & Base Styles */
@@ -127,6 +127,7 @@
                 /* Arc 7 */ var(--primary-yellow) 295deg 315deg, transparent 315deg 325deg, /* Gap = 10deg */
                 /* Arc 8 */ var(--primary-yellow) 325deg 355deg, transparent 355deg 360deg  /* Gap = 5deg */
             );
+            z-index: 2;
         }
 
         /* --- Set 2 (Inner, Faster, Reverse, Large Gaps) --- */
@@ -143,6 +144,7 @@
                 /* Arc 3 */ var(--primary-yellow) 270deg 300deg, /* Arc = 30deg */
                 transparent 300deg 360deg  /* Gap = 60deg */
             );
+            z-index: 1;
         }
 
         /* Keep the rotation animation definition */
