@@ -30,7 +30,7 @@
             height: 100vh; /* Changed from min-height to ensure fixed viewport height */
             padding-top: 80px; /* Add padding to prevent content from going under fixed/absolute navbar */
             box-sizing: border-box;
-            overflow: hidden;
+            overflow: hidden; /* Crucial: Hide overflow during initial load and zoom animation */
         }
 
         /* --- Navigation Bar (from index.html, adapted) --- */
@@ -397,7 +397,7 @@
                 /* transform: translateX(-100%); initially hidden */
                 /* transition: transform 0.3s ease-in-out; */
              }
-             /* nav.active ul { transform: translateX(0); } */ /* For JS toggle */
+            /* nav.active ul { transform: translateX(0); } */ /* For JS toggle */
              nav ul li { margin-left: 0; margin-bottom: 10px; }
         }
     </style>
@@ -429,7 +429,7 @@
                     </div>
                     <div class="card-face card-back">
                         <p class="project-description">Nutriflow is a decentralized DApp for managing and tracking food shipments using blockchain technology, ensuring transparency between sender and receiver.</p>
-                        <a href="https://github.com/dhinesh7-cit/NutriFlow" class="github-link">View at Github</a>
+                        <a href="https://github.com/dhinesh7-cit/NutriFlow" class="github-link" target="_blank">View at Github</a>
                     </div>
                 </div>
             </div>
@@ -451,7 +451,7 @@
                     </div>
                     <div class="card-face card-back">
                         <p class="project-description">Online Voting System is a secure web-based platform designed to conduct transparent and tamper-proof voting for institutional or organizational decision-making.</p>
-                        <a href="https://github.com/dhinesh7-cit/OnlineVotingSystem" class="github-link">View at Github</a>
+                        <a href="https://github.com/dhinesh7-cit/OnlineVotingSystem" class="github-link" target="_blank">View at Github</a>
                     </div>
                 </div>
             </div>
@@ -466,7 +466,7 @@
                     </div>
                     <div class="card-face card-back">
                         <p class="project-description">SoulCapsule is a web-based platform that preserves your precious memories—like images, videos, and notes—allowing you to log in anytime and relive nostalgic moments.</p>
-                        <a href="https://github.com/dhinesh7-cit/SoulCapsule" class="github-link">View at Github</a>
+                        <a href="https://github.com/dhinesh7-cit/SoulCapsule" class="github-link" target="_blank">View at Github</a>
                     </div>
                 </div>
             </div>
@@ -481,7 +481,7 @@
                     </div>
                     <div class="card-face card-back">
                         <p class="project-description">BytePersona is a personalized AI chatbot that answers anything about *me*, capturing my traits, memories, and preferences to reflect my digital self.</p>
-                        <a href="https://github.com/dhinesh7-cit/BytePersona" class="github-link">View at Github</a>
+                        <a href="https://github.com/dhinesh7-cit/BytePersona" class="github-link" target="_blank">View at Github</a>
                     </div>
                 </div>
             </div>
@@ -492,6 +492,27 @@
     <script>
         // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function () {
+
+            // --- NEW: Page Load Zoom Animation ---
+            // Set initial state (e.g., very zoomed in and transparent)
+            // Using a scale of 50, 100 can be a bit extreme and cause visual glitches on some setups.
+            gsap.set("body", { scale: 50, opacity: 0 }); 
+
+            // Animate to normal state
+            gsap.to("body", {
+                scale: 1,
+                opacity: 1,
+                duration: 0.75, // Duration of the zoom effect
+                ease: "power3.out", // Easing function for a smooth effect
+                onComplete: function() {
+                    // After animation, restore overflow if it was set to hidden only for the animation
+                    // Your CSS already has body overflow:hidden, if you want scrollbars after load, uncomment next line:
+                    //document.body.style.overflow = 'auto'; 
+                }
+            });
+            // --- END NEW: Page Load Zoom Animation ---
+
+
             // GSAP Card Flip Animation
             const featureBoxes = document.querySelectorAll('.feature-box');
 
