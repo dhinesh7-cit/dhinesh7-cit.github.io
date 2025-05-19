@@ -4,34 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhinesh Elangovan - Portfolio</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Dela+Gothic+One&family=Mochiy+Pop+One&family=Nunito:wght@400;700&family=Roboto:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <style>
-        /* --- Base and Body Styles --- */
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: black;
-            color: white;
-            line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+        :root {
+            --cuboid-depth: 20px; 
+            --cuboid-half-depth: calc(var(--cuboid-depth) / 2);
+
+            /* Variables from Resume Section */
+            --dark-green: #3a5a40;
+            --light-green: #a3b18a;
+            --primary-yellow: #FFC107; 
+            --light-grey: #f8f9fa;
+            --medium-grey: #dee2e6;
+            --dark-grey: #495057;
+            --heading-grey: #343a40;
+            --white: #ffffff; /* Common variable, ensure consistent definition */
+            --light-text-on-dark: #e9ecef;
+            --ring-thickness: 6px; 
+            --ring-inner-offset: calc(var(--ring-thickness) * 2); 
+            --animation-set1: rotateAnimationResume 12s linear infinite; 
+            --animation-set2: rotateAnimationResume 8s linear infinite reverse; 
+            --ring-diameter-set1: 310px; 
+            --ring-diameter-set2: 340px; 
+            --largest-ring-diameter: 340px; 
+
+            /* Variables from Contact Section */
+            --text-primary-contact: #ffffff; /* Renamed to avoid conflict if var(--text-primary) was different */
+            --text-secondary-contact: rgba(235, 235, 245, 0.7);
+            --control-active-contact: #ffffff;
+            --control-inactive-contact: rgba(235, 235, 245, 0.6);
+            --progress-track-contact: rgba(255, 255, 255, 0.3);
+            --progress-thumb-contact: #ffffff;
+            --progress-fill-contact: #ffffff;
+            --hover-bg-contact: rgba(255, 255, 255, 0.1);
+            --font-system-contact: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-preferred-contact: 'MyLocalFont', var(--font-system-contact); /* MyLocalFont will be defined via @font-face */
+            --font-poppins-contact: 'Poppins', var(--font-system-contact); /* Poppins is already globally loaded */
+            --background-image-url-contact: url(''); /* For the contact section's dynamic background */
+            --background-blur-contact: 40px;
+            --background-brightness-contact: 0.55;
         }
 
-        /* --- Navigation Bar --- */
+        @font-face {
+          font-family: 'MyLocalFont';
+          src: url('assest/SFPRODISPLAYBOLD.OTF') format('opentype');
+        }
+        @font-face {
+            font-family: 'Blue Vinyl Bold';
+            src: url('assest/bluevinyl.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { height: 100%; scroll-behavior: smooth; font-size: 16px; width: 100%;}
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif; 
+            background: black; 
+            color: var(--white); /* Global white color */
+            line-height: 1.7; 
+            font-size: 16px; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         nav {
-            position: absolute;
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
             display: flex;
             align-items: center;
             padding: 20px 50px;
-            z-index: 100;
-            background-color: transparent;
+            z-index: 1000; 
+            background-color: rgba(0,0,0,0.2); 
             box-sizing: border-box;
+            font-family: 'Poppins', var(--font-system-contact); /* Consistent nav font */
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
         }
 
         nav .logo {
@@ -39,22 +100,34 @@
             font-size: 1.5em;
             text-transform: uppercase;
             margin-right: auto;
-            color: white;
+            color: var(--white); 
             text-decoration: none;
-            /* Styles for logo animation container */
             position: relative;
             display: inline-block;
             overflow: hidden;
-            width: 320px; /* enough space for full name */
-            height: 1.5em; /* Adjusted to fit font-size */
+            width: 320px; 
+            height: 1.5em; 
             cursor: pointer;
-            vertical-align: middle; /* Align properly if needed */
+            vertical-align: middle;
+        }
+        
+        nav .logo .short-name,
+        nav .logo .full-name {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            font-weight: 800;
+            font-size: 1em; 
+            line-height: 1.5em; 
+            color: var(--white); 
+            transition: opacity 0.3s ease, transform 0.3s ease; 
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            margin: 0 auto;
+            margin: 0 auto; 
             padding: 0;
         }
 
@@ -66,7 +139,7 @@
         }
 
         nav ul li a {
-            color: white;
+            color: var(--white); 
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9em;
@@ -75,7 +148,7 @@
             position: relative;
             padding-bottom: 5px;
         }
-
+        nav ul li a:hover { color: var(--white); } 
         nav ul li a::after {
             content: '';
             position: absolute;
@@ -83,178 +156,438 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: white;
+            background-color: var(--white); 
             transition: width 0.3s ease-out;
         }
+        nav ul li a:hover::after { width: 100%; }
 
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* --- Hero Section --- */
+        /* Hero Section */
         #hero {
-            height: 100vh;
+            padding-top: 70px; 
+            height: calc(100vh - 70px); 
+            box-sizing: content-box; 
             position: relative;
             display: flex;
             align-items: center;
             overflow: hidden;
+            background: black; 
         }
-
-        /* Background Video */
         video.bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            filter: brightness(0.6);
+            position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; 
+            width: auto; height: auto; z-index: 0; transform: translate(-50%, -50%);
+            object-fit: cover; filter: brightness(0.6);
+        }
+        #hero .content { 
+            position: relative; z-index: 10; color: var(--white); max-width: 700px;
+            margin-left: 50px; padding: 20px; text-align: left;
+        }
+        #hero .animated-title {
+            font-size: 4rem; font-weight: 800; line-height: 1.1; text-transform: uppercase;
+            margin-bottom: 1rem; display: block; 
+        }
+        #hero .animated-title .title-line-wrapper { display: block; overflow: hidden; }
+        #hero .animated-title .title-word { display: inline-block; }
+        #hero .content p { font-size: 1.125rem; margin-bottom: 2rem; max-width: 450px; }
+        #hero .content .cta-button { 
+            background-color: var(--white); color: black; border: none; padding: 12px 25px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; display: inline-block;
+            border-radius: 30px; text-decoration: none; 
+        }
+        #hero .content .cta-button:hover { background-color: black; color: var(--white); }
+        #hero .content > .animated-title .title-word, 
+        #hero .content > p,
+        #hero .content > .cta-button { 
+            opacity: 0; transform: translateX(-40px); will-change: transform, opacity;
         }
 
-        /* Hero Content */
-        .content {
-            position: relative;
-            z-index: 10;
-            color: white;
-            max-width: 700px;
-            margin-left: 50px;
-            padding: 20px;
-            text-align: left;
+        /* About Me Section (Instagram Style) */
+        .about-section-style {
+            background: linear-gradient(60deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            background-size: 400% 400%; animation: moveGradient 15s ease infinite;
+            color: var(--white); line-height: 1.6; overflow-x: hidden; display: flex; 
+            flex-direction: column; min-height: 100vh; align-items: center; justify-content: center;
+            padding: 80px 1rem 60px 1rem; box-sizing: border-box; position: relative; 
+        }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .about-section-style .main-content-area {
+            width: 100%; max-width: 1152px; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; 
+        }
+        .slider-images { display: flex; width: 100%; }
+        .slider-images img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 1 / 1; }
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-container { -ms-overflow-style: none; scrollbar-width: none; overflow-x: hidden; }
+        .slider-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            background-color: rgba(107, 114, 128, 0.7); color: rgba(255, 255, 255, 0.9); 
+            border-radius: 50%; width: 2rem; height: 2rem; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; z-index: 10; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s ease, opacity 0.3s ease; 
+            will-change: transform; 
+        }
+        .slider-btn:hover { background-color: rgba(75, 85, 99, 0.9); }
+        .slider-btn.left { left: 0.5rem; } .slider-btn.right { right: 0.5rem; }
+        .caption-text { padding: 0.5rem 1rem; font-size: 0.875rem; color: #374151; } 
+        .about-me-title {
+            font-family: 'Blue Vinyl Bold', 'Arial Black', Gadget, sans-serif; font-size: 3rem; 
+            color: var(--white); margin-bottom: 0.5rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .about-me-subtitle {
+            font-size: 1.125rem; color: var(--white); line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .fas.fa-heart.text-red-500 { color: #ef4444; }
+        #about-text-content > .about-me-title, #about-text-content > .about-me-subtitle {
+            opacity: 0; transform: translateX(-40px); will-change: transform, opacity;
+        }
+        #insta-post-content > .insta-post-card {
+            opacity: 0; transform: translateX(40px); will-change: transform, opacity;
+        }
+        
+        /* Projects Section */
+        #projects-section {
+            font-family: 'Roboto', sans-serif; background-color: #E4FFC2; color: #2c3e50; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            min-height: 100vh; padding: 80px 20px 40px 20px; box-sizing: border-box; overflow: hidden; 
+        }
+        #projects-section .everything-wallet-section {
+            display: flex; justify-content: center; align-items: center; width: 100%;
+            max-width: 1200px; padding: 20px; box-sizing: border-box; opacity: 0; 
+        }
+        #projects-section .grid-container {
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto;
+            gap: 25px; width: 100%; align-items: stretch;
+        }
+        #projects-section .box-buy-wrapper { grid-area: 1 / 1 / 2 / 2; }
+        #projects-section .center-content {
+            grid-area: 1 / 2 / 3 / 3; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 20px;
+        }
+        #projects-section .box-nft-wrapper { grid-area: 1 / 3 / 2 / 4; }
+        #projects-section .box-connect-wrapper { grid-area: 2 / 1 / 3 / 2; }
+        #projects-section .box-rewards-wrapper { grid-area: 2 / 3 / 3 / 4; }
+        #projects-section .feature-box {
+            border-radius: 20px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.25s ease-out; position: relative; height: 320px;
+            box-sizing: border-box; perspective: 1000px; 
+        }
+        #projects-section .feature-box:hover { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); }
+        #projects-section .card-inner {
+            position: relative; width: 100%; height: 100%;
+            transform-style: preserve-3d; transform: rotateX(0deg);
+        }
+        #projects-section .card-face {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden;
+            backface-visibility: hidden; border-radius: 20px; box-sizing: border-box;
+            padding: 2rem; overflow: hidden;
+        }
+        #projects-section .card-front { transform: translateZ(var(--cuboid-half-depth)); }
+        #projects-section .card-back {
+            transform: rotateX(180deg) translateZ(var(--cuboid-half-depth)); display: flex;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        #projects-section .project-description {
+            font-family: 'Nunito', sans-serif; font-size: 0.98rem; line-height: 1.6;
+            margin-bottom: 1.5rem; font-weight: 400;
+        }
+        #projects-section .github-link {
+            display: inline-block; padding: 0.6rem 1.2rem; background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 8px; text-decoration: none; color: inherit; font-family: 'Nunito', sans-serif;
+            font-weight: 700; font-size: 0.9rem; transition: background-color 0.3s ease;
+        }
+        #projects-section .github-link:hover { background-color: rgba(255, 255, 255, 0.3); }
+        #projects-section .card-front h2 {
+            font-family: 'Mochiy Pop One', sans-serif; font-size: 1.7rem; font-weight: 400;
+            margin-top: 0; margin-bottom: 1rem; line-height: 1.4;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        }
+        #projects-section .standard-box-layout {
+            display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%;
+        }
+        #projects-section .standard-box-layout .box-content {
+            display: flex; justify-content: flex-end; align-items: flex-end; flex-grow: 1; margin-top: auto;
+        }
+        #projects-section .standard-box-layout .box-image-main {
+            max-width: 100%; height: auto; max-height: 160px; object-fit: contain; border-radius: 8px;
+        }
+        #projects-section .box-buy .card-face { background-color: #d1c4e9; color: #311b92; }
+        #projects-section .box-nft .card-face { background-color: #c8e6c9; color: #1b5e20; }
+        #projects-section .box-connect .card-face { background-color: #b3e5fc; color: #01579b; }
+        #projects-section .box-rewards .card-face { background-color: #ffccbc; color: #bf360c; }
+        #projects-section .center-content h1 {
+            font-family: 'Dela Gothic One', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 1.2; color: #2c3e50; margin-bottom: 1.5rem;
+        }
+        #projects-section .github-main-link {
+            font-family: 'Nunito', sans-serif; font-size: 1.05rem; font-weight: 700; color: #4CAF50; 
+            text-decoration: none; margin-top: 15px; display: inline-block; transition: color 0.3s ease;
+        }
+        #projects-section .github-main-link:hover, #projects-section .github-main-link:focus {
+            color: #388E3C; text-decoration: underline; outline: none;
         }
 
-        /* --- Text Styles (before animation) --- */
-        .animated-title {
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: block; /* Changed from inline-block if it was */
+        /* Resume Section */
+        #resume-section {
+            font-family: 'Poppins', sans-serif; background-color: var(--dark-green);
+            color: var(--light-text-on-dark); display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 80px 0; box-sizing: border-box; overflow: hidden; opacity:0;
         }
-        .animated-title .title-line-wrapper { /* Added wrapper for multi-line support */
-             display: block; /* Each line takes full width */
-             overflow: hidden; /* Hide words before animation */
+        #resume-section .container { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        #resume-section h1, #resume-section h2, #resume-section h3, #resume-section h4, #resume-section h5, #resume-section h6 { 
+            font-weight: 600; color: var(--white); margin-bottom: 0.75rem; 
         }
-        .animated-title .title-word {
-             display: inline-block; /* Keep words inline but animatable */
-             /* Initial animation state handled by CSS transforms */
+        #resume-section h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; color: var(--white); }
+        #resume-section h1 { font-size: 3rem; line-height: 1.2; }
+        #resume-section h3 { font-size: 1.25rem; }
+        #resume-section p { margin-bottom: 1rem; color: var(--light-text-on-dark); }
+        #resume-section a { text-decoration: none; color: var(--primary-yellow); transition: color 0.3s ease; }
+        #resume-section a:hover { color: var(--white); }
+        #resume-section a.btn-primary, #resume-section a.btn-card { color: var(--white) !important; }
+        #resume-section img { max-width: 100%; height: auto; display: block; }
+        #resume-section .btn {
+            display: inline-block; padding: 12px 30px; border-radius: 50px;
+            font-weight: 600; font-size: 0.95rem; text-align: center; cursor: pointer;
+            transition: all 0.3s ease; border: none; will-change: transform;
         }
-        .content p {
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
-            max-width: 450px;
+        #resume-section .btn-primary { background-color: var(--primary-yellow); color: var(--white); }
+        #resume-section .btn-primary:hover { background-color: #e0a800; color: var(--white); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        #resume-section .btn-primary .arrow { margin-left: 8px; font-weight: bold; }
+        #resume-section .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+        #resume-section .about-image-column { text-align: center; position: relative; }
+        #resume-section .profile-image-wrapper {
+            position: relative; display: inline-block; margin-bottom: 0;
+            min-width: var(--largest-ring-diameter); min-height: var(--largest-ring-diameter); 
+            display: flex; justify-content: center; align-items: center;
+        }
+        #resume-section .profile-image {
+            position: relative; z-index: 3; width: 280px; height: 280px; border-radius: 50%; object-fit: cover;
+            border: 8px solid var(--white); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #resume-section .profile-image:hover {
+            transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 0 35px 10px rgba(255, 255, 255, 0.7);
+        }
+        #resume-section .rotating-element {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 0; border-radius: 50%; overflow: hidden; --segment-color: var(--primary-yellow); 
+        }
+        #resume-section .rotating-element-inner {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: var(--dark-green); border-radius: 50%;
+            width: calc(100% - var(--ring-inner-offset)); height: calc(100% - var(--ring-inner-offset));
+        }
+        #resume-section .rotating-element-set1 {
+            width: var(--ring-diameter-set1); height: var(--ring-diameter-set1); animation: var(--animation-set1);
+            background: conic-gradient(from 0deg, var(--primary-yellow) 0deg 30deg, transparent 30deg 40deg, var(--primary-yellow) 40deg 90deg, transparent 90deg 95deg, var(--primary-yellow) 95deg 120deg, transparent 120deg 135deg, var(--primary-yellow) 135deg 180deg, transparent 180deg 185deg, var(--primary-yellow) 185deg 220deg, transparent 220deg 230deg, var(--primary-yellow) 230deg 290deg, transparent 290deg 295deg, var(--primary-yellow) 295deg 315deg, transparent 315deg 325deg, var(--primary-yellow) 325deg 355deg, transparent 355deg 360deg);
+            z-index: 2;
+        }
+        #resume-section .rotating-element-set2 {
+            width: var(--ring-diameter-set2); height: var(--ring-diameter-set2); animation: var(--animation-set2);
+            background: conic-gradient(from 0deg, var(--primary-yellow) 0deg 25deg, transparent 25deg 120deg, var(--primary-yellow) 120deg 160deg, transparent 160deg 270deg, var(--primary-yellow) 270deg 300deg, transparent 300deg 360deg);
+            z-index: 1;
+        }
+        @keyframes rotateAnimationResume { 
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        #resume-section .about-content-column .subtitle { color: var(--light-green); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        #resume-section .highlight-name { font-family: 'Dancing Script', cursive; color: var(--primary-yellow); font-weight: 700; }
+        #resume-section .signature { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary-yellow); text-align: right; margin-top: 25px; }
+        #resume-section .anim-target { opacity: 0; }
+        
+        /* Contact Section (Music Player Style) */
+        #contact-section {
+            font-family: var(--font-system-contact); background-color: #000; min-height: 100vh;
+            color: var(--text-primary-contact); overflow: hidden; /* Important for ::before */
+            position: relative; padding-top: 80px; /* Space for fixed nav */
+            display: flex; flex-direction: column; /* To center .main-content-wrapper */
+            align-items: center; justify-content: center;
+            opacity:0; /* Initial state for section animation */
+        }
+        #contact-section::before { /* Scoped blurred background */
+            content: ""; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: var(--background-image-url-contact);
+            background-size: cover; background-position: center;
+            filter: blur(var(--background-blur-contact)) brightness(var(--background-brightness-contact));
+            z-index: -1; /* Behind content, but above section's direct background if any */
+            transition: background-image 0.7s ease-in-out;
+        }
+        #contact-section .main-content-wrapper {
+            display: flex; align-items: center; justify-content: center; gap: 50px;
+            width: 100%; max-width: 1000px; position: relative; z-index: 1;
+            padding: 20px; margin: 0 auto 20px auto;
+        }
+        #contact-section .player-container {
+            width: 100%; max-width: 400px; display: flex; flex-direction: column;
+            position: relative; padding: 20px; flex-shrink: 0;
+            background: rgba(0,0,0,0.2); border-radius: 12px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden; 
+            opacity: 0; /* Initial state for scroll animation */
+        }
+        #contact-section .text-content-area { 
+            flex-grow: 1; max-width: 500px; color: var(--text-primary-contact); padding: 20px; 
+            opacity: 0; /* Initial state for scroll animation */
+        }
+        #contact-section .text-content-area h1 { font-size: 2.2rem; margin-bottom: 15px; font-family: var(--font-preferred-contact); font-weight: 600; letter-spacing: 0.5px; }
+        #contact-section .text-content-area p { font-size: 1.1rem; color: var(--text-secondary-contact); line-height: 1.6; font-family: var(--font-preferred-contact); font-weight: 400; }
+        #contact-section .album-art, #contact-section .track-info, #contact-section .progress-bar-container, #contact-section .playback-controls, #contact-section .volume-control {
+            will-change: transform, opacity; 
+        }
+        #contact-section .album-art { width: 100%; aspect-ratio: 1 / 1; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); border-radius: 8px; overflow: hidden; flex-shrink: 0; position: relative; }
+        #contact-section .album-art a { display: block; text-decoration: none; line-height: 0; border-radius: inherit; overflow: hidden; }
+        #contact-section .album-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+        #contact-section .track-info { width: 100%; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; gap: 15px; position: relative; }
+        #contact-section .track-info-text { text-align: left; flex-grow: 1; overflow: hidden; }
+        #contact-section .track-info h2 { font-family: var(--font-preferred-contact); font-size: 1.1rem; font-weight: 600; margin: 0 0 3px 0; color: var(--text-primary-contact); letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #contact-section .track-info a#trackArtist { font-family: var(--font-preferred-contact); font-size: 0.9rem; font-weight: 400; color: var(--text-secondary-contact); letter-spacing: 0.1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none; display: block; transition: color 0.2s ease; }
+        #contact-section .track-info a#trackArtist:hover { color: var(--text-primary-contact); text-decoration: underline; }
+        #contact-section .more-options-btn { background: none; border: none; color: var(--control-inactive-contact); font-size: 1rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s ease; flex-shrink: 0; }
+        #contact-section .more-options-btn:hover { color: var(--control-active-contact); }
+        #contact-section .progress-bar-container { display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 10px; }
+        #contact-section .time { font-size: 0.7rem; font-weight: 500; color: var(--text-secondary-contact); min-width: 35px; text-align: center; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; }
+        #contact-section .progress-slider, #contact-section .volume-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--progress-track-contact); border-radius: 2px; cursor: pointer; outline: none; margin: 0; padding: 0; position: relative; overflow: hidden; }
+        #contact-section .progress-slider::before, #contact-section .volume-slider::before { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: var(--fill-percent, 0%); background-color: var(--progress-fill-contact); border-radius: 2px; z-index: 1; transition: width 0.1s linear; }
+        #contact-section .progress-slider::-webkit-slider-thumb, #contact-section .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; background: var(--progress-thumb-contact); border-radius: 50%; cursor: pointer; margin-top: -3px; position: relative; z-index: 2; }
+        #contact-section .progress-slider::-moz-range-thumb, #contact-section .volume-slider::-moz-range-thumb { width: 10px; height: 10px; background: var(--progress-thumb-contact); border-radius: 50%; cursor: pointer; border: none; position: relative; z-index: 2; }
+        #contact-section .playback-controls { display: flex; align-items: center; justify-content: center; width: 100%; margin-bottom: 15px; }
+        #contact-section .control-btn { background: none; border: none; color: var(--control-active-contact); font-size: 1.5rem; cursor: pointer; padding: 10px; line-height: 1; transition: color 0.2s ease, transform 0.1s ease; margin-left: 0; margin-right: 0; transform-origin: center center; }
+        #contact-section .control-btn.secondary { font-size: 1.1rem; color: var(--control-inactive-contact); }
+        #contact-section .control-btn.secondary.active { color: var(--control-active-contact); }
+        #contact-section .play-pause-btn { font-size: 2.5rem; }
+        #contact-section .playback-controls button[aria-label="Shuffle"] { margin-right: 30px; }
+        #contact-section .playback-controls button[aria-label="Repeat"] { margin-left: 30px; }
+        #contact-section .playback-controls #prevBtnPlayer { margin-right: 15px; } /* Renamed ID for player */
+        #contact-section .playback-controls #nextBtnPlayer { margin-left: 15px; } /* Renamed ID for player */
+        #contact-section .volume-control { display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 10px; }
+        #contact-section .volume-icon-btn { background: none; border: none; color: var(--control-inactive-contact); font-size: 0.9rem; cursor: pointer; padding: 5px; line-height: 1; transition: color 0.2s ease; flex-shrink: 0; }
+        #contact-section .volume-icon-btn:hover { color: var(--control-active-contact); }
+
+
+        footer.site-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px 20px; 
+            color: rgba(255, 255, 255, 0.7); font-family: 'Poppins', sans-serif; 
+            font-weight: 300; font-size: 0.75rem; z-index: 101; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); background-color: rgba(0,0,0,0); 
+            text-align: left; box-sizing: border-box;
         }
 
-        /* --- Button Style (Updated for <a> tag) --- */
-        .content .cta-button { /* Changed selector from .content button */
-            background-color: white; /* Default: White background */
-            color: black;           /* Default: Black text */
-            border: none;           /* No border */
-            padding: 12px 25px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            display: inline-block;
-            border-radius: 30px; /* Optional: Make it a little rounded */
-            text-decoration: none; /* Remove underline from link */
-        }
-
-        .content .cta-button:hover { /* Changed selector */
-            background-color: black; /* Hover: Black background */
-            color: white;           /* Hover: White text */
-        }
-
-        /* Logo animation styles */
-        .logo .short-name,
-        .logo .full-name {
-            position: absolute;
-            top: 0;
-            left: 0;
-            white-space: nowrap;
-            font-weight: 800;
-            font-size: 1em; /* Relative to parent .logo font-size */
-            line-height: 1.5em; /* Match parent height */
-            color: white;
-            transition: opacity 0.3s ease; /* Keep CSS transition for fallback */
-        }
-
-        /* --- Slide-in-Left Animation Styles --- */
-        /* Initial animation state */
-        .content > .animated-title .title-word, /* Target the word span directly */
-        .content > p,
-        .content > .cta-button { /* Updated selector */
-            opacity: 0;
-            transform: translateX(-40px);
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        opacity 0.6s ease-out;
-            will-change: transform, opacity;
-        }
-
-        /* Visible animation state */
-        .content.is-visible > .animated-title .title-word, /* Target the word span */
-        .content.is-visible > p,
-        .content.is-visible > .cta-button { /* Updated selector */
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Stagger delays */
-         /* Ensure title-word within wrapper is targeted correctly if wrappers are used */
-        .content.is-visible .animated-title .title-line-wrapper:nth-child(1) .title-word {
-            transition-delay: 0.1s;
-        }
-        .content.is-visible .animated-title .title-line-wrapper:nth-child(2) .title-word {
-            transition-delay: 0.25s;
-        }
-        .content.is-visible > p {
-            transition-delay: 0.4s;
-        }
-        .content.is-visible > .cta-button { /* Updated selector */
-            transition-delay: 0.55s;
-        }
-        /* --- End Slide-in-Left Animation --- */
-
-
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
-            nav .logo { font-size: 1.3em; height: 1.3em; width: 250px; } /* Adjust logo size */
-             nav .logo .short-name,
-             nav .logo .full-name { font-size: 1em; line-height: 1.3em; }
+            nav .logo { font-size: 1.3em; height: 1.3em; width: auto; } 
+            nav ul { justify-content: flex-end; margin: 0; } 
             nav ul li { margin-left: 20px; }
             nav ul li a { font-size: 0.8em; }
-            .content { margin-left: 20px; max-width: 90%; }
-            .animated-title { font-size: 3rem; }
-            .content p { font-size: 1rem; }
-            .content .cta-button { padding: 10px 20px; } /* Updated selector */
+            
+            #hero { padding-top: 60px; height: calc(100vh - 60px); }
+            #hero .content { margin-left: 20px; max-width: 90%; }
+            #hero .animated-title { font-size: 3rem; }
+            #hero .content p { font-size: 1rem; }
+            #hero .content .cta-button { padding: 10px 20px; }
+
+            .about-section-style { padding-top: 70px; }
+            .about-me-title { font-size: 2.5rem; }
+
+            #projects-section { padding-top: 70px; }
+             #projects-section .grid-container { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; gap: 20px; }
+            #projects-section .box-buy-wrapper { grid-area: 1 / 1 / 2 / 2; }
+            #projects-section .box-nft-wrapper { grid-area: 1 / 2 / 2 / 3; }
+            #projects-section .center-content { grid-area: 2 / 1 / 3 / 3; padding-top: 40px; padding-bottom: 40px; }
+            #projects-section .box-connect-wrapper { grid-area: 3 / 1 / 4 / 2; }
+            #projects-section .box-rewards-wrapper { grid-area: 3 / 2 / 4 / 3; }
+            #projects-section .card-front h2 { font-size: 1.5rem; }
+            #projects-section .feature-box { height: 280px; }
+            #projects-section .standard-box-layout .box-image-main { max-height: 100px; max-width: 75%;}
+            #projects-section .project-description { font-size: 0.92rem; margin-bottom: 1rem;}
+            #projects-section .github-link { padding: 0.5rem 1rem; font-size: 0.85rem;}
+            #projects-section .github-main-link { font-size: 1rem; }
+
+            #resume-section { padding: 60px 0; }
+            #resume-section h1 { font-size: 2.5rem; } 
+            #resume-section h2 { font-size: 2rem; } 
+            #resume-section .about-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            #resume-section .about-image-column { order: -1; }
+            #resume-section .about-content-column { display: flex; flex-direction: column; align-items: center; }
+            #resume-section .signature { text-align: center; }
+            #resume-section .profile-image-wrapper { transform: scale(0.9); }
+
+            #contact-section { padding-top: 70px; }
+            #contact-section .main-content-wrapper { flex-direction: column-reverse; gap: 30px; max-width: 480px; padding: 15px 10px; margin: 0 auto 20px auto; }
+            #contact-section .player-container { max-width: 100%; padding: 15px; }
+            #contact-section .text-content-area { text-align: center; max-width: 100%; padding: 10px 0 0 0; }
+            #contact-section .text-content-area h1 { font-size: 1.8rem; }
+            #contact-section .text-content-area p { font-size: 1rem; }
         }
-         @media (max-width: 480px) {
-            .animated-title { font-size: 2.5rem; }
-            nav .logo { width: 180px; } /* Further adjust logo width */
-            /* Hide nav items if needed or stack them */
-         }
+
+        @media (max-width: 576px) { 
+            nav ul li { margin-left: 15px; }
+            nav { padding: 15px; }
+            nav .logo { font-size: 1.2em; }
+            #hero { padding-top: 55px; height: calc(100vh - 55px); }
+            .about-me-title { font-size: 2.5rem; } 
+
+            #projects-section { padding: 15px; padding-top: 60px; }
+            #projects-section .everything-wallet-section { padding: 10px; }
+            #projects-section .grid-container { grid-template-columns: 1fr; grid-template-rows: auto; gap: 15px; }
+            #projects-section .center-content { order: 1; grid-area: auto; padding: 30px 15px; }
+            #projects-section .box-buy-wrapper { order: 2; grid-area: auto; }
+            #projects-section .box-nft-wrapper { order: 3; grid-area: auto; }
+            #projects-section .box-connect-wrapper { order: 4; grid-area: auto; }
+            #projects-section .box-rewards-wrapper { order: 5; grid-area: auto; }
+            #projects-section .card-front h2 { font-size: 1.4rem; }
+            #projects-section .feature-box { min-height: 240px; height: 260px; }
+            #projects-section .card-face { padding: 1.5rem; }
+            #projects-section .standard-box-layout .box-image-main { max-height: 80px; max-width: 70%;}
+            #projects-section .project-description { font-size: 0.9rem; margin-bottom: 0.8rem;}
+            #projects-section .github-link { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+            #projects-section .github-main-link { font-size: 0.95rem; }
+
+            #resume-section { font-size: 15px; padding: 40px 0;} 
+            #resume-section h1 { font-size: 2rem; } 
+            #resume-section h2 { font-size: 1.75rem; }
+            #resume-section .btn { padding: 10px 25px; font-size: 0.9rem;}
+            #resume-section .profile-image { width: 180px; height: 180px; }
+            #resume-section .profile-image-wrapper { transform: scale(0.7); }
+            #resume-section .signature { font-size: 2rem; } 
+            #resume-section .about-content-column { padding: 0 10px; } 
+            #resume-section .container { padding: 0 10px; } 
+
+            #contact-section { padding-top: 65px; }
+            #contact-section .text-content-area h1 { font-size: 1.6rem; }
+            #contact-section .playback-controls button[aria-label="Shuffle"] { margin-right: 15px; }
+            #contact-section .playback-controls button[aria-label="Repeat"] { margin-left: 15px; }
+            #contact-section .playback-controls #prevBtnPlayer { margin-right: 10px; }
+            #contact-section .playback-controls #nextBtnPlayer { margin-left: 10px; }
+            #contact-section .control-btn { padding: 8px; } 
+            #contact-section .play-pause-btn { font-size: 2.2rem; }
+            #contact-section .control-btn.secondary { font-size: 1rem; }
+
+        }
+
+        @media (max-width: 480px) {
+            #hero .animated-title { font-size: 2.5rem; } 
+            nav .logo { width: auto; } 
+            .about-me-title { font-size: 2.2rem; } 
+            #resume-section .profile-image-wrapper { transform: scale(0.6); }
+            #resume-section h1 { font-size: 1.8rem; }
+             #contact-section nav .logo { width: 180px; }
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#" class="logo">
-            <span class="short-name">DK</span>
+        <a href="#hero" class="logo"> <span class="short-name">DK</span>
             <span class="full-name">Dhinesh Kailash</span>
         </a>
-
         <ul>
-             <li><a href="index.html">Home</a></li>
-             <li><a href="aboutme.html">About Me</a></li>
-             <li><a href="project.html">Projects</a></li>
-             <li><a href="resume.html">Resume</a></li>
-             <li><a href="contact.html">Contact</a></li>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about-me-content-wrapper">About Me</a></li>
+            <li><a href="#projects-section">Projects</a></li>
+            <li><a href="#resume-section">Resume</a></li>
+            <li><a href="#contact-section">Contact</a></li>
         </ul>
     </nav>
 
@@ -263,60 +596,663 @@
             <source src="assest/background.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        <div class="content"> <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
+                <span class="title-line-wrapper"> <span class="title-word">DHINESH</span> </span>
+                <span class="title-line-wrapper"> <span class="title-word">ELANGOVAN</span> </span>
+            </h1>
+            <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
+            <a href="#about-me-content-wrapper" class="cta-button">Know More</a> </div>
+    </section>
 
-
-        <div class="content">
-             <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
-                  <span class="title-line-wrapper">
-                      <span class="title-word">DHINESH</span>
-                  </span>
-                  <span class="title-line-wrapper">
-                      <span class="title-word">ELANGOVAN</span>
-                  </span>
-             </h1>
-
-             <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
-
-             <a href="aboutme.html" class="cta-button">Know More</a>
-
+    <section id="about-me-content-wrapper" class="about-section-style">
+        <div class="main-content-area"> <div class="flex flex-col lg:flex-row items-center justify-center w-full space-y-8 lg:space-y-0 lg:space-x-12">
+                <div id="about-text-content" class="lg:w-1/2 flex flex-col items-start text-left px-4">
+                    <h1 class="about-me-title">About Me</h1>
+                    <p class="about-me-subtitle"> Click the right arrow <br>on your keyboard </br> to uncover more about me. ➡️ </p>
+                </div>
+                <div id="insta-post-content" class="lg:w-1/2 flex justify-center lg:justify-end w-full max-w-md">
+                    <div class="insta-post-card bg-white rounded-lg shadow-xl w-full overflow-hidden">
+                        <div class="p-3 border-b border-gray-200 flex items-center space-x-3">
+                            <img src="assest/profile.jpg" alt="Profile Pic" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/cccccc/ffffff?text=User';">
+                            <span class="font-semibold text-sm text-gray-800">dhinesh_elangovan</span>
+                        </div>
+                        <div class="relative">
+                            <div id="sliderContainer" class="slider-container w-full overflow-hidden">
+                                <div id="sliderImages" class="slider-images">
+                                    <img src="assest/1.png" alt="Post Image 1" class="object-cover" data-caption="dhinesh_elangovan · Get to know me — beyond the resume." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+1';">
+                                    <img src="assest/2.png" alt="Post Image 2" class="object-cover" data-caption="dhinesh_elangovan · Discover my educational journey — the foundation of my growth." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+2';">
+                                    <img src="assest/3.png" alt="Post Image 3" class="object-cover" data-caption="dhinesh_elangovan · Dive into my skill set — where passion meets precision." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+3';">
+                                    <img src="assest/4.png" alt="Post Image 4" class="object-cover" data-caption="dhinesh_elangovan · Explore my certifications — milestones of my learning journey." onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Error+4';">
+                                </div>
+                            </div>
+                            <button id="prevBtnInsta" class="slider-btn left" tabindex="0"><i class="fas fa-chevron-left text-xs"></i></button>
+                            <button id="nextBtnInsta" class="slider-btn right" tabindex="0"><i class="fas fa-chevron-right text-xs"></i></button>
+                        </div>
+                        <div class="p-3 flex justify-between items-center border-t border-gray-200">
+                            <div class="flex space-x-4 text-gray-700">
+                                <i id="likeIcon" class="far fa-heart text-xl cursor-pointer"></i>
+                                <i id="commentIcon" class="far fa-comment text-xl cursor-pointer"></i>
+                                <i id="sendIcon" class="far fa-paper-plane text-xl cursor-pointer"></i>
+                            </div>
+                            <div class="text-gray-700"> <i id="bookmarkIcon" class="far fa-bookmark text-xl cursor-pointer"></i> </div>
+                        </div>
+                        <div id="captionArea" class="caption-text border-t border-gray-200"> </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <section id="projects-section">
+        <div class="everything-wallet-section">
+            <div class="grid-container">
+                <div class="feature-box box-buy box-buy-wrapper">
+                    <div class="card-inner">
+                        <div class="card-face card-front standard-box-layout"> <h2>Nutriflow DApp</h2>
+                            <div class="box-content"> <img src="assest/container.png" alt="Nutriflow DApp Image" class="box-image-main"> </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <p class="project-description">Nutriflow is a decentralized DApp for managing and tracking food shipments using blockchain technology, ensuring transparency between sender and receiver.</p>
+                            <a href="https://github.com/dhinesh7-cit/NutriFlow" class="github-link" target="_blank">View at Github</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="center-content"> <h1>MY PROJECTS</h1> <a href="https://github.com/dhinesh7-cit" target="_blank" class="github-main-link"> View More at My Github </a> </div>
+                <div class="feature-box box-nft box-nft-wrapper">
+                    <div class="card-inner">
+                        <div class="card-face card-front standard-box-layout"> <h2>Online Voting System</h2>
+                            <div class="box-content"> <img src="assest/voting.png" alt="Online Voting System Image" class="box-image-main nft-image"> </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <p class="project-description">Online Voting System is a secure web-based platform designed to conduct transparent and tamper-proof voting for institutional or organizational decision-making.</p>
+                            <a href="https://github.com/dhinesh7-cit/OnlineVotingSystem" class="github-link" target="_blank">View at Github</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-box box-connect box-connect-wrapper">
+                    <div class="card-inner">
+                        <div class="card-face card-front standard-box-layout"> <h2>SoulCapsule</h2>
+                            <div class="box-content"> <img src="assest/memories.png" alt="SoulCapsule Image" class="box-image-main connect-image"> </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <p class="project-description">SoulCapsule is a web-based platform that preserves your precious memories—like images, videos, and notes—allowing you to log in anytime and relive nostalgic moments.</p>
+                            <a href="https://github.com/dhinesh7-cit/SoulCapsule" class="github-link" target="_blank">View at Github</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-box box-rewards box-rewards-wrapper">
+                    <div class="card-inner">
+                        <div class="card-face card-front standard-box-layout"> <h2>BytePersona</h2>
+                            <div class="box-content"> <img src="assest/chatbot.png" alt="BytePersona Chatbot Image" class="box-image-main rewards-image"> </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <p class="project-description">BytePersona is a personalized AI chatbot that answers anything about *me*, capturing my traits, memories, and preferences to reflect my digital self.</p>
+                            <a href="https://github.com/dhinesh7-cit/BytePersona" class="github-link" target="_blank">View at Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image-column">
+                     <div class="profile-image-wrapper anim-target">
+                         <div class="rotating-element rotating-element-set1"> <div class="rotating-element-inner"></div> </div>
+                         <div class="rotating-element rotating-element-set2"> <div class="rotating-element-inner"></div> </div>
+                         <img src="assest/profile.jpg" alt="Dhinesh" class="profile-image">
+                     </div>
+                </div>
+                <div class="about-content-column">
+                    <p class="subtitle anim-target">Resume</p>
+                    <h1 class="anim-target">Who is <span class="highlight-name">Dhinesh</span>?</h1>
+                    <p class="anim-target">Looking to know more about my professional journey, skills, and accomplishments in detail? Download my resume to explore my experience, technical expertise, educational background, and the projects I've worked on.</p>
+                    <p class="anim-target">Whether you're a recruiter, collaborator, or simply curious — this document offers a concise overview of what I bring to the table.</p>
+                    <a href="https://drive.google.com/file/d/1v9K2TzObHbtFoTkdGhA0tbcBJuhKXwVy/view" target="_blank" class="btn btn-primary anim-target">Download CV <span class="arrow">→</span></a>
+                    <p class="signature anim-target"> - Dhinesh Elangovan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-section">
+        <div class="main-content-wrapper">
+            <div class="text-content-area">
+                <h1>Contact and Profile Links</h1>
+                <p>Use the Next/Previous buttons (or Arrow Keys) to explore my profile links. Click the album art, artist name, play button (or press Space/Enter) to visit the link.</p>
+            </div>
+            <div class="player-container">
+                <div class="album-art">
+                    <a href="#" id="albumArtLink" target="_blank" rel="noopener noreferrer">
+                        <img src="assest/gmail.png" alt="Album Art" id="albumArtImg">
+                    </a>
+                </div>
+                <div class="track-info">
+                    <div class="track-info-text">
+                        <h2 id="trackTitle"></h2>
+                        <a id="trackArtist" href="#" target="_blank" rel="noopener noreferrer"></a>
+                    </div>
+                    <button class="more-options-btn" aria-label="More options"><i class="fas fa-ellipsis"></i></button>
+                </div>
+                <div class="progress-bar-container">
+                    <span class="time current-time">0:00</span>
+                    <input type="range" min="0" max="200" value="0" class="progress-slider" aria-label="Track progress">
+                    <span class="time total-time">-?:??</span>
+                </div>
+                <div class="playback-controls">
+                    <button class="control-btn secondary" aria-label="Shuffle" aria-pressed="false"><i class="fas fa-random"></i></button>
+                    <button class="control-btn" aria-label="Previous Track" id="prevBtnPlayer"><i class="fas fa-backward-step"></i></button>
+                    <button class="control-btn play-pause-btn" id="playPauseBtnPlayer" aria-label="Open Link"><i class="fas fa-play" id="playIconPlayer"></i></button>
+                    <button class="control-btn" aria-label="Next Track" id="nextBtnPlayer"><i class="fas fa-forward-step"></i></button>
+                    <button class="control-btn secondary" aria-label="Repeat" aria-pressed="false"><i class="fas fa-repeat"></i></button>
+                </div>
+                <div class="volume-control">
+                    <button class="volume-icon-btn" aria-label="Mute" aria-pressed="false"><i class="fas fa-volume-high" id="volumeIconPlayer"></i></button>
+                    <input type="range" min="0" max="100" value="80" class="volume-slider" aria-label="Volume">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer"> Developed by Dhinesh Elangovan. © 2025 All Rights Reserved. </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Target the content container DIV
-            const contentElement = document.querySelector('.content'); // Target .content
+        gsap.registerPlugin(ScrollTrigger);
 
-            if (contentElement) {
-                // Add the class after a short delay to trigger CSS transition
-                setTimeout(() => {
-                    contentElement.classList.add('is-visible'); // Add class to .content
-                }, 100); // Small delay like 100ms
-            }
-
-            // Logo animation code
-            const logo = document.querySelector('.logo');
-            const shortName = logo.querySelector('.short-name'); // Use querySelector on logo element
-            const fullName = logo.querySelector('.full-name');   // Use querySelector on logo element
-
-            if (logo && shortName && fullName) { // Check if elements exist
-                // Set initial states using GSAP
-                gsap.set(fullName, { opacity: 0, x: -20 });
-                gsap.set(shortName, { opacity: 1, x: 0 }); // Ensure shortName starts at x:0
-
-                logo.addEventListener('mouseenter', () => {
-                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); // Move short name out slightly
-                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); // Add slight delay
-                });
-
-                logo.addEventListener('mouseleave', () => {
+        // Navbar Logo Animation (Global)
+        const logo = document.querySelector('nav .logo'); 
+        const shortName = logo.querySelector('.short-name'); 
+        const fullName = logo.querySelector('.full-name'); 
+        if (logo && shortName && fullName) {
+            gsap.set(fullName, { opacity: 0, x: -20 }); gsap.set(shortName, { opacity: 1, x: 0 });
+            logo.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 768) { 
+                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
+                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                }
+            });
+            logo.addEventListener('mouseleave', () => {
+                if (window.innerWidth > 768) { 
                     gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-                    gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); // Delay bringing short name back
+                    gsap.to(shortName, { opacity: 1, x: 0, delay: 0.1, duration: 0.3, ease: "power2.in" });
+                }
+            });
+            window.addEventListener('resize', () => { 
+                if (window.innerWidth <= 768) {
+                    gsap.set(shortName, { clearProps: "all" }); gsap.set(fullName, { clearProps: "all" });
+                    shortName.style.opacity = '1'; shortName.style.transform = 'none';
+                    fullName.style.opacity = '0'; fullName.style.transform = 'translateX(-20px)'; 
+                } else {
+                    if (!logo.matches(':hover')) {
+                        gsap.set(fullName, { opacity: 0, x: -20 }); gsap.set(shortName, { opacity: 1, x: 0 });
+                    }
+                }
+            });
+            if (window.innerWidth <= 768) { shortName.style.opacity = '1'; fullName.style.opacity = '0';}
+        } else { console.error("Navbar logo elements not found for animation."); }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Hero Section Animations
+            const heroAnimatedTitleWords = gsap.utils.toArray('#hero .animated-title .title-word');
+            const heroParagraph = document.querySelector('#hero .content p');
+            const heroCtaButton = document.querySelector('#hero .content .cta-button');
+            heroAnimatedTitleWords.forEach((word, index) => {
+                gsap.fromTo(word, { opacity: 0, x: -40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: (index === 0) ? 0.1 : 0.25, 
+                    scrollTrigger: { trigger: "#hero .content", start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" }
                 });
-            } else {
-                console.error("Logo elements not found for animation setup.");
+            });
+            if (heroParagraph) {
+                gsap.fromTo(heroParagraph, { opacity: 0, x: -40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: 0.4,
+                    scrollTrigger: { trigger: "#hero .content", start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" }
+                });
             }
-        });
+            if (heroCtaButton) {
+                gsap.fromTo(heroCtaButton, { opacity: 0, x: -40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: 0.55,
+                    scrollTrigger: { trigger: "#hero .content", start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" }
+                });
+            }
+
+            // About Me Section (Instagram Style) Animations
+            const aboutTextTitle = document.querySelector('#about-me-content-wrapper #about-text-content > .about-me-title'); // Scoped
+            const aboutTextSubtitle = document.querySelector('#about-me-content-wrapper #about-text-content > .about-me-subtitle'); // Scoped
+            const instaCard = document.querySelector('#about-me-content-wrapper #insta-post-content > .insta-post-card'); // Scoped
+            if(aboutTextTitle){
+                gsap.fromTo(aboutTextTitle, { opacity: 0, x: -40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: 0.1,
+                    scrollTrigger: { trigger: "#about-me-content-wrapper #about-text-content", start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse"}
+                });
+            }
+            if(aboutTextSubtitle){
+                 gsap.fromTo(aboutTextSubtitle, { opacity: 0, x: -40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: 0.25,
+                    scrollTrigger: { trigger: "#about-me-content-wrapper #about-text-content", start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse"}
+                });
+            }
+            if(instaCard){
+                gsap.fromTo(instaCard, { opacity: 0, x: 40 }, {
+                    opacity: 1, x: 0, duration: 0.7, delay: 0.4,
+                    scrollTrigger: { trigger: "#about-me-content-wrapper #insta-post-content", start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse"}
+                });
+            }
+            // Insta Card Slider Logic
+            const sliderImages = document.getElementById('sliderImages');
+            const prevBtnInsta = document.getElementById('prevBtnInsta'); // Renamed ID
+            const nextBtnInsta = document.getElementById('nextBtnInsta'); // Renamed ID
+            const captionArea = document.getElementById('captionArea');
+            let imagesInsta = []; if(sliderImages) imagesInsta = sliderImages.querySelectorAll('img');
+            let currentIndexInsta = 0; const totalImagesInsta = imagesInsta.length;
+            let rightButtonClickedInsta = false; let initialDelayTimerInsta = null;   
+            let popupButtonIntervalInsta = null; let popupButtonAnimationInsta = null; 
+            function updateCaptionWithBoldUsername(captionText) { /* ... same as before ... */ 
+                if (!captionArea) return; 
+                const separator = '·'; 
+                const separatorIndex = captionText.indexOf(separator);
+                captionArea.innerHTML = ''; 
+                if (separatorIndex !== -1) {
+                    const username = captionText.substring(0, separatorIndex).trim();
+                    const restOfCaption = captionText.substring(separatorIndex + separator.length).trim();
+                    const strongUsername = document.createElement('strong'); strongUsername.textContent = username;
+                    const captionRestSpan = document.createElement('span'); captionRestSpan.textContent = ` ${separator} ${restOfCaption}`; 
+                    captionArea.appendChild(strongUsername); captionArea.appendChild(captionRestSpan);
+                } else { captionArea.textContent = captionText; }
+            }
+            function updateSliderInsta() { /* ... adapted for new vars ... */ 
+                if (!sliderImages || imagesInsta.length === 0) return; 
+                const offset = -currentIndexInsta * 100;
+                gsap.to(sliderImages, { duration: 0.5, xPercent: offset, ease: 'power2.inOut' });
+                const currentCaption = imagesInsta[currentIndexInsta]?.getAttribute('data-caption') || '';
+                updateCaptionWithBoldUsername(currentCaption);
+                const isAtStart = currentIndexInsta === 0; const isAtEnd = currentIndexInsta === totalImagesInsta - 1;
+                if(prevBtnInsta) { prevBtnInsta.disabled = isAtStart; prevBtnInsta.classList.toggle('opacity-50', isAtStart); prevBtnInsta.classList.toggle('cursor-not-allowed', isAtStart); }
+                if(nextBtnInsta) { nextBtnInsta.disabled = isAtEnd; nextBtnInsta.classList.toggle('opacity-50', isAtEnd); nextBtnInsta.classList.toggle('cursor-not-allowed', isAtEnd); }
+                if (isAtEnd) { cancelPopupAnimationInsta(); }
+            }
+            function cancelPopupAnimationInsta() { /* ... adapted for new vars ... */ 
+                if (!rightButtonClickedInsta) { rightButtonClickedInsta = true; }
+                if (initialDelayTimerInsta) { clearTimeout(initialDelayTimerInsta); initialDelayTimerInsta = null; }
+                if (popupButtonIntervalInsta) { clearInterval(popupButtonIntervalInsta); popupButtonIntervalInsta = null; }
+                if (popupButtonAnimationInsta && popupButtonAnimationInsta.isActive()) {
+                    popupButtonAnimationInsta.kill(); if(nextBtnInsta) gsap.to(nextBtnInsta, { scale: 1, x: 0, duration: 0.1 }); 
+                }
+            }
+            if(nextBtnInsta) { nextBtnInsta.addEventListener('click', () => { cancelPopupAnimationInsta(); if (currentIndexInsta < totalImagesInsta - 1) { currentIndexInsta++; updateSliderInsta(); } }); }
+            if(prevBtnInsta) { prevBtnInsta.addEventListener('click', () => { if (currentIndexInsta > 0) { currentIndexInsta--; updateSliderInsta(); } }); }
+            
+            // Projects Section Animations
+            const projectsSectionContainer = document.getElementById('projects-section');
+            const projectsSectionContent = projectsSectionContainer ? projectsSectionContainer.querySelector('.everything-wallet-section') : null;
+            if (projectsSectionContent) {
+                gsap.fromTo(projectsSectionContent, { scale: 0.7, opacity: 0 }, {
+                    scale: 1, opacity: 1, duration: 0.8, ease: "power2.out",
+                    scrollTrigger: { trigger: projectsSectionContainer, start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" }
+                });
+            }
+            const featureBoxes = document.querySelectorAll('#projects-section .feature-box');
+            featureBoxes.forEach(box => {
+                const cardInner = box.querySelector('.card-inner');
+                if (cardInner) {
+                    gsap.set(cardInner, { rotationX: 0 });
+                    let flipAnimation = gsap.to(cardInner, { rotationX: 180, duration: 0.7, ease: 'power3.inOut', paused: true, overwrite: 'auto' });
+                    box.addEventListener('mouseenter', () => flipAnimation.play());
+                    box.addEventListener('mouseleave', () => flipAnimation.reverse());
+                }
+            });
+
+            // Resume Section Animations
+            const resumeSection = document.getElementById('resume-section');
+            if (resumeSection) {
+                 gsap.fromTo(resumeSection, { opacity: 0, scale: 0.95 }, {
+                    opacity: 1, scale: 1, duration: 0.7, ease: "power2.out",
+                    scrollTrigger: { trigger: resumeSection, start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse" }
+                });
+                const resumeElementsToAnimate = resumeSection.querySelectorAll('.anim-target');
+                if (resumeElementsToAnimate.length > 0) {
+                     gsap.fromTo(resumeElementsToAnimate, { opacity: 0, y: 50 }, {
+                        opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.15,    
+                        scrollTrigger: { trigger: resumeSection.querySelector('.about-grid') || resumeSection, start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse" }
+                    });
+                }
+            }
+            const downloadBtn = document.querySelector('#resume-section .btn-primary');
+            if (downloadBtn) {
+                gsap.set(downloadBtn, { transformOrigin: "center center" });
+                downloadBtn.addEventListener('mouseenter', () => { gsap.to(downloadBtn, { scale: 1.08, duration: 0.2, ease: "power1.out" }); });
+                downloadBtn.addEventListener('mouseleave', () => { gsap.to(downloadBtn, { scale: 1.0, duration: 0.3, ease: "power1.out" }); });
+            }
+
+            // Contact Section (Music Player) Logic & Animations
+            const contactSection = document.getElementById('contact-section');
+            if (contactSection) {
+                // Overall section entrance animation
+                gsap.fromTo(contactSection, { opacity: 0, scale: 0.95 }, {
+                    opacity: 1, scale: 1, duration: 0.7, ease: "power2.out",
+                    scrollTrigger: { trigger: contactSection, start: "top 85%", end: "bottom 15%", toggleActions: "play reverse play reverse" }
+                });
+
+                const contactPlayerContainer = contactSection.querySelector('.player-container');
+                const contactTextContentArea = contactSection.querySelector('.text-content-area');
+
+                if (contactPlayerContainer) {
+                    gsap.fromTo(contactPlayerContainer, { opacity: 0, y: 20 }, {
+                        opacity: 1, y: 0, duration: 0.5, ease: 'power1.out',
+                        scrollTrigger: { trigger: contactSection, start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse", scrub: 0.5 }
+                    });
+                }
+                if (contactTextContentArea) {
+                     gsap.fromTo(contactTextContentArea, { opacity: 0, y: 20 }, {
+                        opacity: 1, y: 0, duration: 0.5, delay: 0.1, ease: 'power1.out', // Slight delay after player
+                        scrollTrigger: { trigger: contactSection, start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse", scrub: 0.5 }
+                    });
+                }
+                
+                // --- Contact Player Data & Logic ---
+                const songs = [
+                    { title: "Email", artist: "dhineshkailash7@gmail.com", artistLink: "mailto:dhineshkailash7@gmail.com", albumArtSrc: "assest/gmail.png" },
+                    { title: "Phone Number", artist: "+91 7200700660", artistLink: "tel:+917200700660", albumArtSrc: "assest/phone.png" },
+                    { title: "LinkedIn", artist: "linkedin.com/in/dhinesh-elangovan", artistLink: "https://linkedin.com/in/dhinesh-elangovan", albumArtSrc: "assest/linkedin.png" },
+                    { title: "GitHub", artist: "github.com/dhinesh7-cit", artistLink: "https://github.com/dhinesh7-cit", albumArtSrc: "assest/github.png"},
+                    { title: "Leetcode", artist: "leetcode.com/dhineshkailash7", artistLink: "https://leetcode.com/dhineshkailash7", albumArtSrc: "assest/leetcode.png" }
+                ];
+                let currentSongIndex = 0;
+
+                const playPauseBtnPlayer = contactSection.querySelector('#playPauseBtnPlayer');
+                const playIconPlayer = contactSection.querySelector('#playIconPlayer'); 
+                const progressSliderPlayer = contactSection.querySelector('.progress-slider');
+                const currentTimeElPlayer = contactSection.querySelector('.current-time');
+                const totalTimeElPlayer = contactSection.querySelector('.total-time');
+                const shuffleButtonPlayer = contactSection.querySelector('[aria-label="Shuffle"]');
+                const repeatButtonPlayer = contactSection.querySelector('[aria-label="Repeat"]');
+                const volumeSliderPlayer = contactSection.querySelector('.volume-slider');
+                const volumeIconBtnPlayer = contactSection.querySelector('.volume-icon-btn');
+                const volumeIconPlayer = contactSection.querySelector('#volumeIconPlayer');
+                const moreOptionsBtnPlayer = contactSection.querySelector('.more-options-btn');
+                const prevBtnPlayer = contactSection.querySelector('#prevBtnPlayer');
+                const nextBtnPlayer = contactSection.querySelector('#nextBtnPlayer');
+                const albumArtContainerPlayer = contactSection.querySelector('.album-art');
+                const albumArtImgPlayer = contactSection.querySelector('#albumArtImg');
+                const albumArtLinkPlayer = contactSection.querySelector('#albumArtLink');
+                const trackInfoContainerPlayer = contactSection.querySelector('.track-info');
+                const trackTitleElPlayer = contactSection.querySelector('#trackTitle');
+                const trackArtistElPlayer = contactSection.querySelector('#trackArtist');
+                const progressBarContainerPlayer = contactSection.querySelector('.progress-bar-container');
+                const playbackControlsContainerPlayer = contactSection.querySelector('.playback-controls');
+                const volumeControlContainerPlayer = contactSection.querySelector('.volume-control');
+                
+                const elementsToAnimatePlayer = [
+                    albumArtContainerPlayer, trackInfoContainerPlayer, progressBarContainerPlayer,
+                    playbackControlsContainerPlayer, volumeControlContainerPlayer
+                ].filter(el => el); // Filter out nulls if any element is not found
+
+                let currentVolume = volumeSliderPlayer ? volumeSliderPlayer.value / 100 : 0.8;
+                let isMuted = false; let previousVolume = currentVolume;
+                let isShuffleActive = false; let isRepeatActive = false;
+                let transitionTlPlayer = null;
+
+                function loadSongPlayer(index, isInitialLoad = false, direction = 0) {
+                    if (index < 0 || index >= songs.length) { console.error("Invalid song index:", index); return; }
+                    const song = songs[index];
+                    
+                    // Update ::before background for contact section
+                    if (song.albumArtSrc && typeof song.albumArtSrc === 'string' && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(song.albumArtSrc)) {
+                        gsap.to(contactSection, { '--background-image-url-contact': `url('${song.albumArtSrc}')`, duration: 0.7, ease: 'power1.inOut'});
+                    } else {
+                        gsap.to(contactSection, { '--background-image-url-contact': `url('')`, duration: 0.7, ease: 'power1.inOut'});
+                    }
+
+                    if (transitionTlPlayer && transitionTlPlayer.isActive()) { transitionTlPlayer.progress(1).kill(); }
+                    transitionTlPlayer = gsap.timeline();
+                    const updateContentPlayer = () => {
+                        if (!trackTitleElPlayer || !trackArtistElPlayer || !albumArtImgPlayer || !albumArtLinkPlayer) { return; }
+                        trackTitleElPlayer.textContent = song.title;
+                        trackArtistElPlayer.textContent = song.artist;
+                        trackArtistElPlayer.href = song.artistLink || '#';
+                        albumArtImgPlayer.src = song.albumArtSrc || '';
+                        albumArtImgPlayer.alt = `Art for ${song.title}`;
+                        albumArtLinkPlayer.href = song.artistLink || '#';
+                        if (progressSliderPlayer) { progressSliderPlayer.value = 0; updateSliderFillPlayer(progressSliderPlayer); }
+                        updateTimeDisplayPlayer();
+                        if (playIconPlayer) { playIconPlayer.className = 'fas fa-play'; } // Ensure play icon
+                        if (playPauseBtnPlayer) { playPauseBtnPlayer.setAttribute('aria-label', 'Open Link'); }
+                    };
+
+                    if (isInitialLoad) {
+                        transitionTlPlayer.set(elementsToAnimatePlayer, { opacity: 0, y: 20 });
+                        transitionTlPlayer.call(updateContentPlayer, null, 0);
+                        transitionTlPlayer.to(elementsToAnimatePlayer, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power1.out', delay: 0.1 });
+                    } else {
+                        const outX = direction === 1 ? -60 : 60; const inX = direction === 1 ? 60 : -60;
+                        transitionTlPlayer.to(elementsToAnimatePlayer, { opacity: 0, x: outX, duration: 0.3, stagger: 0.04, ease: 'power2.in' });
+                        transitionTlPlayer.call(updateContentPlayer, null, ">-0.15");
+                        transitionTlPlayer.set(elementsToAnimatePlayer, { x: inX, opacity: 0 });
+                        transitionTlPlayer.to(elementsToAnimatePlayer, { opacity: 1, x: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' });
+                    }
+                }
+                function formatTimePlayer(seconds) { /* ... same logic ... */ 
+                    const totalSeconds = Math.floor(seconds); const minutes = Math.floor(totalSeconds / 60);
+                    const secs = totalSeconds % 60; return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+                }
+                function updateSliderFillPlayer(slider) { /* ... same logic ... */ 
+                     if (!slider) return; const max = parseFloat(slider.max) || 1; 
+                     const value = parseFloat(slider.value); const percentage = max > 0 ? (value / max) * 100 : 0;
+                     slider.style.setProperty('--fill-percent', `${percentage}%`);
+                }
+                function updateTimeDisplayPlayer() { /* ... same logic ... */ 
+                    const totalTime = progressSliderPlayer ? parseInt(progressSliderPlayer.max, 10) : 0;
+                    const maxDurationFormatted = !isNaN(totalTime) && totalTime > 0 ? formatTimePlayer(totalTime) : '?:??';
+                    if(currentTimeElPlayer) currentTimeElPlayer.textContent = formatTimePlayer(0);
+                    if(totalTimeElPlayer) totalTimeElPlayer.textContent = `-${maxDurationFormatted}`;
+                }
+                function updateVolumeIconPlayer() { /* ... same logic, uses player vars ... */ 
+                    if (!volumeIconPlayer || !volumeIconBtnPlayer) return;
+                    volumeIconPlayer.className = 'fas'; // Reset classes
+                    if (isMuted || currentVolume === 0) {
+                        volumeIconPlayer.classList.add('fa-volume-xmark');
+                        volumeIconBtnPlayer.setAttribute('aria-label', 'Unmute'); volumeIconBtnPlayer.setAttribute('aria-pressed', 'true');
+                    } else {
+                        if (currentVolume <= 0.5) { volumeIconPlayer.classList.add('fa-volume-low'); }
+                        else { volumeIconPlayer.classList.add('fa-volume-high'); }
+                        volumeIconBtnPlayer.setAttribute('aria-label', 'Mute'); volumeIconBtnPlayer.setAttribute('aria-pressed', 'false');
+                    }
+                }
+                function animateButtonClickPlayer(buttonElement) { /* ... same logic ... */ 
+                    if (!buttonElement) return;
+                    gsap.to(buttonElement, { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1, ease: 'power1.inOut' });
+                }
+                
+                const handlePlayPauseClickPlayer = () => { /* ... opens link ... */ 
+                    const linkToOpen = songs[currentSongIndex]?.artistLink;
+                    if (linkToOpen && linkToOpen !== '#') { window.open(linkToOpen, '_blank', 'noopener noreferrer');}
+                };
+                const handleNextClickPlayer = () => { /* ... loads next song ... */ 
+                    let nextIndex = currentSongIndex + 1;
+                    if (isRepeatActive) { loadSongPlayer(currentSongIndex, false, 0); return; }
+                    if (isShuffleActive) { if (songs.length > 1) { let randomIndex; do { randomIndex = Math.floor(Math.random() * songs.length); } while (randomIndex === currentSongIndex); nextIndex = randomIndex; } else { nextIndex = 0; }}
+                    else { nextIndex = (currentSongIndex + 1) % songs.length; }
+                    currentSongIndex = nextIndex; loadSongPlayer(currentSongIndex, false, 1);
+                };
+                const handlePrevClickPlayer = () => { /* ... loads previous song ... */ 
+                    let prevIndex;
+                    if (isRepeatActive) { loadSongPlayer(currentSongIndex, false, 0); return; }
+                    if (isShuffleActive) { if (songs.length > 1) { let randomIndex; do { randomIndex = Math.floor(Math.random() * songs.length); } while (randomIndex === currentSongIndex); prevIndex = randomIndex; } else { prevIndex = 0; }}
+                    else { prevIndex = (currentSongIndex - 1 + songs.length) % songs.length; }
+                    currentSongIndex = prevIndex; loadSongPlayer(currentSongIndex, false, -1);
+                };
+                const toggleShufflePlayer = () => { /* ... toggles shuffle ... */ 
+                    if (!shuffleButtonPlayer) return; isShuffleActive = !isShuffleActive;
+                    shuffleButtonPlayer.classList.toggle('active', isShuffleActive); shuffleButtonPlayer.setAttribute('aria-pressed', isShuffleActive);
+                };
+                const toggleRepeatPlayer = () => { /* ... toggles repeat ... */ 
+                     if (!repeatButtonPlayer) return; isRepeatActive = !isRepeatActive;
+                     repeatButtonPlayer.classList.toggle('active', isRepeatActive); repeatButtonPlayer.setAttribute('aria-pressed', isRepeatActive);
+                };
+                const toggleMutePlayer = () => { /* ... toggles mute ... */ 
+                    if (!volumeSliderPlayer) return; isMuted = !isMuted;
+                    if (isMuted) { if (currentVolume > 0) previousVolume = currentVolume; currentVolume = 0; volumeSliderPlayer.value = 0; }
+                    else { currentVolume = (previousVolume > 0) ? previousVolume : 0.5; volumeSliderPlayer.value = currentVolume * 100; }
+                    updateSliderFillPlayer(volumeSliderPlayer); updateVolumeIconPlayer();
+                };
+                const handleMoreOptionsClickPlayer = () => { alert(`More options for ${songs[currentSongIndex]?.title} (Not implemented)`); };
+
+                if (playPauseBtnPlayer) playPauseBtnPlayer.addEventListener('click', () => { animateButtonClickPlayer(playPauseBtnPlayer); handlePlayPauseClickPlayer(); });
+                if (nextBtnPlayer) nextBtnPlayer.addEventListener('click', () => { animateButtonClickPlayer(nextBtnPlayer); handleNextClickPlayer(); });
+                if (prevBtnPlayer) prevBtnPlayer.addEventListener('click', () => { animateButtonClickPlayer(prevBtnPlayer); handlePrevClickPlayer(); });
+                if (shuffleButtonPlayer) shuffleButtonPlayer.addEventListener('click', () => { animateButtonClickPlayer(shuffleButtonPlayer); toggleShufflePlayer(); });
+                if (repeatButtonPlayer) repeatButtonPlayer.addEventListener('click', () => { animateButtonClickPlayer(repeatButtonPlayer); toggleRepeatPlayer(); });
+                if (volumeIconBtnPlayer) volumeIconBtnPlayer.addEventListener('click', () => { animateButtonClickPlayer(volumeIconBtnPlayer); toggleMutePlayer(); });
+                if (moreOptionsBtnPlayer) moreOptionsBtnPlayer.addEventListener('click', () => { animateButtonClickPlayer(moreOptionsBtnPlayer); handleMoreOptionsClickPlayer(); });
+                if (progressSliderPlayer) {
+                    progressSliderPlayer.addEventListener('input', () => { updateTimeDisplayPlayer(); updateSliderFillPlayer(progressSliderPlayer); });
+                    progressSliderPlayer.addEventListener('change', () => { progressSliderPlayer.value = 0; updateTimeDisplayPlayer(); updateSliderFillPlayer(progressSliderPlayer); });
+                }
+                if (volumeSliderPlayer) {
+                    volumeSliderPlayer.addEventListener('input', () => {
+                        currentVolume = volumeSliderPlayer.value / 100; isMuted = (currentVolume === 0);
+                        if (!isMuted && volumeIconBtnPlayer.getAttribute('aria-pressed') === 'true') { previousVolume = currentVolume; }
+                        else if (!isMuted) { previousVolume = currentVolume; }
+                        updateSliderFillPlayer(volumeSliderPlayer); updateVolumeIconPlayer();
+                    });
+                    volumeSliderPlayer.addEventListener('change', () => {
+                        if (currentVolume > 0) { isMuted = false; previousVolume = currentVolume; updateVolumeIconPlayer(); }
+                        else { isMuted = true; updateVolumeIconPlayer(); }
+                    });
+                }
+                
+                // Initial Load for Player if section is visible
+                // The scroll trigger for playerContainer and textContentArea handles the initial appearance.
+                // The actual *content* of the player (first track) should load when those elements become visible or slightly before.
+                // We can tie the initial loadSongPlayer to the ScrollTrigger of the playerContainer.
+                ScrollTrigger.create({
+                    trigger: contactPlayerContainer,
+                    start: "top 85%", // A bit before it's fully in view
+                    once: true, // Only run once when it first comes into view
+                    onEnter: () => {
+                        if (songs.length > 0) {
+                           loadSongPlayer(currentSongIndex, true, 0); // isInitialLoad = true
+                           updateSliderFillPlayer(volumeSliderPlayer);
+                           updateSliderFillPlayer(progressSliderPlayer);
+                           updateVolumeIconPlayer();
+                           updateTimeDisplayPlayer();
+                        }
+                    }
+                });
+
+
+                // Global Keyboard listeners for contact player (scoped to when section is "active")
+                let contactSectionActive = false;
+                ScrollTrigger.create({
+                    trigger: contactSection,
+                    start: "top center",
+                    end: "bottom center",
+                    onToggle: self => contactSectionActive = self.isActive
+                });
+
+                document.addEventListener('keydown', (event) => {
+                    if (!contactSectionActive) return; // Only process keys if contact section is active
+
+                    const activeElement = document.activeElement;
+                    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) {
+                        if (activeElement.type === 'range' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown')) { return; }
+                        if (activeElement.type !== 'range' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === ' ' || event.key === 'Enter')) { return; }
+                    }
+                    switch (event.key) {
+                        case 'ArrowLeft': event.preventDefault(); if (prevBtnPlayer) { animateButtonClickPlayer(prevBtnPlayer); handlePrevClickPlayer(); } break;
+                        case 'ArrowRight': event.preventDefault(); if (nextBtnPlayer) { animateButtonClickPlayer(nextBtnPlayer); handleNextClickPlayer(); } break;
+                        case ' ': case 'Enter': event.preventDefault(); if (playPauseBtnPlayer) { animateButtonClickPlayer(playPauseBtnPlayer); handlePlayPauseClickPlayer(); } break;
+                    }
+                });
+            } // End of contactSection specific logic
+
+
+            // Insta Card Slider Logic (continued from above, assuming it's global or needs to be here)
+            const instaSliderContainer = document.getElementById('sliderContainer'); // Assuming this is unique
+            if (totalImagesInsta > 0 && typeof updateSliderInsta === 'function' && instaSliderContainer) { 
+                initialDelayTimerInsta = setTimeout(() => {
+                    initialDelayTimerInsta = null; 
+                    if(typeof checkAndAnimatePopupInsta === 'function') checkAndAnimatePopupInsta();
+                    if (!rightButtonClickedInsta && nextBtnInsta && !nextBtnInsta.disabled && typeof checkAndAnimatePopupInsta === 'function') {
+                        popupButtonIntervalInsta = setInterval(checkAndAnimatePopupInsta, 2500); 
+                    } 
+                }, 5000); 
+                updateSliderInsta(); 
+            }
+             // Insta card icon animations (assuming these IDs are unique globally)
+            const likeIcon = document.getElementById('likeIcon');
+            const commentIcon = document.getElementById('commentIcon');
+            const sendIcon = document.getElementById('sendIcon');
+            const bookmarkIcon = document.getElementById('bookmarkIcon');
+            const actionIconsInsta = [likeIcon, commentIcon, sendIcon, bookmarkIcon].filter(icon => icon);
+
+            actionIconsInsta.forEach(icon => {
+                icon.addEventListener('click', () => {
+                    gsap.fromTo(icon, { scale: 1 }, { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1, ease: 'power1.out' });
+                    if (icon.id === 'likeIcon') {
+                        const isLiked = icon.classList.contains('fas');
+                        icon.classList.toggle('fas', !isLiked); icon.classList.toggle('far', isLiked); icon.classList.toggle('text-red-500', !isLiked); 
+                    }
+                    if (icon.id === 'bookmarkIcon') {
+                        const isBookmarked = icon.classList.contains('fas');
+                        icon.classList.toggle('fas', !isBookmarked); icon.classList.toggle('far', isBookmarked); 
+                    }
+                });
+            });
+             function checkAndAnimatePopupInsta() { /* ... adapted for new vars ... */ 
+                if (nextBtnInsta && !rightButtonClickedInsta && !nextBtnInsta.disabled && (!popupButtonAnimationInsta || !popupButtonAnimationInsta.isActive())) {
+                    popupButtonAnimationInsta = gsap.to(nextBtnInsta, { scale: 1.4, x: 6, duration: 0.25, yoyo: true, repeat: 3, ease: 'power2.inOut', overwrite: "auto" });
+                } else {
+                    if (popupButtonIntervalInsta && (rightButtonClickedInsta || (nextBtnInsta && nextBtnInsta.disabled))) {
+                        clearInterval(popupButtonIntervalInsta); popupButtonIntervalInsta = null;
+                    }
+                }
+            }
+            if(instaSliderContainer) { // Only run swipe if container exists
+                instaSliderContainer.addEventListener('touchstart', (e) => { touchStartXInsta = e.changedTouches[0].screenX; }, { passive: true });
+                instaSliderContainer.addEventListener('touchend', (e) => { touchEndXInsta = e.changedTouches[0].screenX; handleSwipeInsta(); });
+            }
+            let touchStartXInsta = 0; let touchEndXInsta = 0;
+            function handleSwipeInsta() { /* ... adapted for new vars ... */ 
+                if (!instaSliderContainer) return; const swipeThreshold = 50; 
+                if (touchStartXInsta - touchEndXInsta > swipeThreshold) { 
+                    cancelPopupAnimationInsta(); 
+                    if (currentIndexInsta < totalImagesInsta - 1 && nextBtnInsta && !nextBtnInsta.disabled) { currentIndexInsta++; updateSliderInsta(); }
+                } else if (touchEndXInsta - touchStartXInsta > swipeThreshold) { 
+                    if (currentIndexInsta > 0 && prevBtnInsta && !prevBtnInsta.disabled) { currentIndexInsta--; updateSliderInsta(); }
+                }
+                touchStartXInsta = 0; touchEndXInsta = 0;
+            }
+            // Global keydown for Insta slider (if not already handled by contact player's more specific one)
+            // This needs careful review if both are active. For now, the contact player one is more specific.
+            // It's better to ensure only one global keydown listener handles arrow keys or they check active section.
+            // The contact player's global keydown now checks `contactSectionActive`.
+            // The Insta slider keydown:
+             document.addEventListener('keydown', function(event) {
+                if (contactSectionActive) return; // Don't interfere if contact section is handling keys
+
+                const activeElementTag = document.activeElement ? document.activeElement.tagName.toUpperCase() : null;
+                if (activeElementTag === 'INPUT' || activeElementTag === 'TEXTAREA') { return; }
+                
+                const instaPostCard = document.querySelector('#insta-post-content > .insta-post-card');
+                if (instaPostCard && getComputedStyle(instaPostCard).opacity !== '0') { // Check if insta card is visible
+                    if (event.key === 'ArrowLeft') {
+                        if (currentIndexInsta > 0 && prevBtnInsta && !prevBtnInsta.disabled) { 
+                            event.preventDefault(); currentIndexInsta--; updateSliderInsta();
+                        }
+                    } else if (event.key === 'ArrowRight') {
+                        if (currentIndexInsta < totalImagesInsta - 1 && nextBtnInsta && !nextBtnInsta.disabled) { 
+                            event.preventDefault(); cancelPopupAnimationInsta(); currentIndexInsta++; updateSliderInsta();
+                        }
+                    }
+                }
+            });
+
+
+        }); // End DOMContentLoaded
     </script>
 
 </body>
