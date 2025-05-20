@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhinesh Elangovan - Portfolio</title>
-
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Dela+Gothic+One&family=Mochiy+Pop+One&family=Nunito:wght@400;700&family=Roboto:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
@@ -89,7 +89,7 @@
             align-items: center;
             padding: 20px 50px;
             z-index: 1000; 
-            background-color: rgba(0,0,0,0.2); 
+            background-color: rgba(0,0,0,0); 
             box-sizing: border-box;
             font-family: 'Poppins', var(--font-system-contact); /* Consistent nav font */
             transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
@@ -147,6 +147,8 @@
             letter-spacing: 1px;
             position: relative;
             padding-bottom: 5px;
+            /* CSS Variable for the ::after element's background, to be controlled by GSAP */
+            --nav-link-after-bg: var(--white); 
         }
         nav ul li a:hover { color: var(--white); } 
         nav ul li a::after {
@@ -156,7 +158,9 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--white); 
+            /* Use the CSS variable for background color */
+            background-color: var(--nav-link-after-bg); 
+            /* Only transition width, GSAP will handle color transition if needed, or it will be instant */
             transition: width 0.3s ease-out;
         }
         nav ul li a:hover::after { width: 100%; }
@@ -848,7 +852,7 @@
             const captionArea = document.getElementById('captionArea');
             let imagesInsta = []; if(sliderImages) imagesInsta = sliderImages.querySelectorAll('img');
             let currentIndexInsta = 0; const totalImagesInsta = imagesInsta.length;
-            let rightButtonClickedInsta = false; let initialDelayTimerInsta = null;   
+            let rightButtonClickedInsta = false; let initialDelayTimerInsta = null;    
             let popupButtonIntervalInsta = null; let popupButtonAnimationInsta = null; 
             function updateCaptionWithBoldUsername(captionText) { /* ... same as before ... */ 
                 if (!captionArea) return; 
@@ -915,7 +919,7 @@
                 const resumeElementsToAnimate = resumeSection.querySelectorAll('.anim-target');
                 if (resumeElementsToAnimate.length > 0) {
                      gsap.fromTo(resumeElementsToAnimate, { opacity: 0, y: 50 }, {
-                        opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.15,    
+                        opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.15,   
                         scrollTrigger: { trigger: resumeSection.querySelector('.about-grid') || resumeSection, start: "top 80%", end: "bottom 20%", toggleActions: "play reverse play reverse" }
                     });
                 }
@@ -1125,13 +1129,10 @@
                 }
                 
                 // Initial Load for Player if section is visible
-                // The scroll trigger for playerContainer and textContentArea handles the initial appearance.
-                // The actual *content* of the player (first track) should load when those elements become visible or slightly before.
-                // We can tie the initial loadSongPlayer to the ScrollTrigger of the playerContainer.
                 ScrollTrigger.create({
-                    trigger: contactPlayerContainer,
-                    start: "top 85%", // A bit before it's fully in view
-                    once: true, // Only run once when it first comes into view
+                    trigger: contactPlayerContainer, // Trigger when the player container itself is about to enter
+                    start: "top 85%", 
+                    once: true, 
                     onEnter: () => {
                         if (songs.length > 0) {
                            loadSongPlayer(currentSongIndex, true, 0); // isInitialLoad = true
@@ -1170,8 +1171,8 @@
             } // End of contactSection specific logic
 
 
-            // Insta Card Slider Logic (continued from above, assuming it's global or needs to be here)
-            const instaSliderContainer = document.getElementById('sliderContainer'); // Assuming this is unique
+            // Insta Card Slider Logic (continued)
+            const instaSliderContainer = document.getElementById('sliderContainer'); 
             if (totalImagesInsta > 0 && typeof updateSliderInsta === 'function' && instaSliderContainer) { 
                 initialDelayTimerInsta = setTimeout(() => {
                     initialDelayTimerInsta = null; 
@@ -1182,7 +1183,7 @@
                 }, 5000); 
                 updateSliderInsta(); 
             }
-             // Insta card icon animations (assuming these IDs are unique globally)
+             // Insta card icon animations
             const likeIcon = document.getElementById('likeIcon');
             const commentIcon = document.getElementById('commentIcon');
             const sendIcon = document.getElementById('sendIcon');
@@ -1226,11 +1227,7 @@
                 }
                 touchStartXInsta = 0; touchEndXInsta = 0;
             }
-            // Global keydown for Insta slider (if not already handled by contact player's more specific one)
-            // This needs careful review if both are active. For now, the contact player one is more specific.
-            // It's better to ensure only one global keydown listener handles arrow keys or they check active section.
-            // The contact player's global keydown now checks `contactSectionActive`.
-            // The Insta slider keydown:
+            // Global keydown for Insta slider
              document.addEventListener('keydown', function(event) {
                 if (contactSectionActive) return; // Don't interfere if contact section is handling keys
 
@@ -1238,7 +1235,10 @@
                 if (activeElementTag === 'INPUT' || activeElementTag === 'TEXTAREA') { return; }
                 
                 const instaPostCard = document.querySelector('#insta-post-content > .insta-post-card');
-                if (instaPostCard && getComputedStyle(instaPostCard).opacity !== '0') { // Check if insta card is visible
+                // Check if the insta card (or its parent section) is generally visible/active for keydown events
+                // A more robust check might involve checking if the #about-me-content-wrapper is the "active" section
+                // For now, checking opacity might be a simple proxy if animations set it to 0 when not in focus
+                if (instaPostCard && getComputedStyle(instaPostCard).opacity !== '0' && getComputedStyle(instaPostCard).display !== 'none') {
                     if (event.key === 'ArrowLeft') {
                         if (currentIndexInsta > 0 && prevBtnInsta && !prevBtnInsta.disabled) { 
                             event.preventDefault(); currentIndexInsta--; updateSliderInsta();
@@ -1250,6 +1250,69 @@
                     }
                 }
             });
+
+            // START: Navbar color change for Projects Section
+            const navLinksForColorChange = gsap.utils.toArray('nav ul li a');
+            const navLogoShortNameForColorChange = document.querySelector('nav .logo .short-name');
+            const navLogoFullNameForColorChange = document.querySelector('nav .logo .full-name');
+
+            // Combine all elements that need text color change
+            const allNavTextElementsForColorChange = [
+                ...navLinksForColorChange,
+                navLogoShortNameForColorChange,
+                navLogoFullNameForColorChange
+            ].filter(el => el); // Filter out any null elements, just in case
+
+            // Check if the target elements and the trigger section exist
+            if (allNavTextElementsForColorChange.length > 0 && document.getElementById('projects-section')) {
+                ScrollTrigger.create({
+                    trigger: "#projects-section", // The section that triggers the color change
+                    // Adjust start/end based on your navbar's height (e.g., 70px)
+                    // Activates when the top of #projects-section is 70px from the viewport top
+                    start: "top top+=70px", 
+                    // Deactivates when the bottom of #projects-section is 70px from the viewport top (i.e., section has scrolled past)
+                    end: "bottom top+=70px", 
+                    // markers: true, // Uncomment for visual debugging of ScrollTrigger
+                    onEnter: () => {
+                        // Animate text color to black
+                        gsap.to(allNavTextElementsForColorChange, { color: '#2c3e50', duration: 0.3 });
+                        // Animate the ::after pseudo-element's background for each link
+                        navLinksForColorChange.forEach(link => {
+                            gsap.to(link, { '--nav-link-after-bg': '#2c3e50', duration: 0.3 });
+                        });
+                    },
+                    onLeave: () => {
+                        // Animate text color back to white (using the CSS variable)
+                        gsap.to(allNavTextElementsForColorChange, { color: 'var(--white)', duration: 0.3 });
+                        navLinksForColorChange.forEach(link => {
+                            gsap.to(link, { '--nav-link-after-bg': 'var(--white)', duration: 0.3 });
+                        });
+                    },
+                    onEnterBack: () => {
+                        // Same as onEnter for scrolling back into the section
+                        gsap.to(allNavTextElementsForColorChange, { color: '#2c3e50', duration: 0.3 });
+                        navLinksForColorChange.forEach(link => {
+                            gsap.to(link, { '--nav-link-after-bg': '#2c3e50', duration: 0.3 });
+                        });
+                    },
+                    onLeaveBack: () => {
+                        // Same as onLeave for scrolling back out of the section
+                        gsap.to(allNavTextElementsForColorChange, { color: 'var(--white)', duration: 0.3 });
+                        navLinksForColorChange.forEach(link => {
+                            gsap.to(link, { '--nav-link-after-bg': 'var(--white)', duration: 0.3 });
+                        });
+                    }
+                });
+            } else {
+                // Log errors if essential elements are missing for this feature
+                if (!document.getElementById('projects-section')) {
+                    console.error("ScrollTrigger: '#projects-section' not found for navbar color change.");
+                }
+                if (allNavTextElementsForColorChange.length === 0) {
+                    console.error("ScrollTrigger: Navbar text elements for color change not found.");
+                }
+            }
+            // END: Navbar color change for Projects Section
 
 
         }); // End DOMContentLoaded
