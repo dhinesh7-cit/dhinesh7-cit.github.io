@@ -28,14 +28,15 @@
             margin: 0;
             font-family: 'Roboto', sans-serif;
             background-color: #E4FFC2;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100%; /* Take at least full height of html parent */
-            /* Or use min-height: 100vh; if html height is not set or auto */
-            padding-top: 80px; /* Space for the navbar */
+            justify-content: center;
             box-sizing: border-box;
-            overflow-y: auto;   /* THIS IS KEY: Allow vertical scroll on the body */
+            padding-top: 80px;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         nav {
@@ -118,13 +119,15 @@
 
         .everything-wallet-section {
             display: flex;
-            flex-direction: column; /* Ensure it stacks its children vertically */
-            align-items: center; /* Center children like grid-container horizontally */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             max-width: 1200px;
             padding: 20px;
             box-sizing: border-box;
-            margin-bottom: 50px; /* Adds some space at the bottom */
+            margin-bottom: 50px;
+            flex: 1;
         }
 
         .grid-container {
