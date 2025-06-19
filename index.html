@@ -9,19 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
     <style>
-        /* --- Base and Body Styles --- */
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
             background: black;
             color: white;
             line-height: 1.6;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
-
-        /* --- Navigation Bar --- */
         nav {
             position: absolute;
             top: 0;
@@ -34,7 +30,6 @@
             background-color: transparent;
             box-sizing: border-box;
         }
-
         nav .logo {
             font-weight: 800;
             font-size: 1.5em;
@@ -42,30 +37,26 @@
             margin-right: auto;
             color: white;
             text-decoration: none;
-            /* Styles for logo animation container */
             position: relative;
             display: inline-block;
             overflow: hidden;
-            width: 320px; /* enough space for full name */
-            height: 1.5em; /* Adjusted to fit font-size */
+            width: 320px;
+            height: 1.5em;
             cursor: pointer;
-            vertical-align: middle; /* Align properly if needed */
+            vertical-align: middle;
         }
-
         nav ul {
             list-style: none;
             display: flex;
             margin: 0 auto;
             padding: 0;
         }
-
         nav ul li {
             margin-left: 30px;
         }
         nav ul li:first-child {
             margin-left: 0;
         }
-
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -76,7 +67,6 @@
             position: relative;
             padding-bottom: 5px;
         }
-
         nav ul li a::after {
             content: '';
             position: absolute;
@@ -87,12 +77,9 @@
             background-color: white;
             transition: width 0.3s ease-out;
         }
-
         nav ul li a:hover::after {
             width: 100%;
         }
-
-        /* --- Hero Section --- */
         #hero {
             height: 100vh;
             position: relative;
@@ -100,8 +87,6 @@
             align-items: center;
             overflow: hidden;
         }
-
-        /* Background Video */
         video.bg-video {
             position: absolute;
             top: 50%;
@@ -115,8 +100,6 @@
             object-fit: cover;
             filter: brightness(0.6);
         }
-
-        /* Hero Content */
         .content {
             position: relative;
             z-index: 10;
@@ -126,35 +109,30 @@
             padding: 20px;
             text-align: left;
         }
-
-        /* --- Text Styles (before animation) --- */
         .animated-title {
             font-size: 4rem;
             font-weight: 800;
             line-height: 1.1;
             text-transform: uppercase;
             margin-bottom: 1rem;
-            display: block; /* Changed from inline-block if it was */
+            display: block;
         }
-        .animated-title .title-line-wrapper { /* Added wrapper for multi-line support */
-             display: block; /* Each line takes full width */
-             overflow: hidden; /* Hide words before animation */
+        .animated-title .title-line-wrapper {
+             display: block;
+             overflow: hidden;
         }
         .animated-title .title-word {
-             display: inline-block; /* Keep words inline but animatable */
-             /* Initial animation state handled by CSS transforms */
+             display: inline-block;
         }
         .content p {
             font-size: 1.125rem;
             margin-bottom: 2rem;
             max-width: 450px;
         }
-
-        /* --- Button Style (Updated for <a> tag) --- */
-        .content .cta-button { /* Changed selector from .content button */
-            background-color: white; /* Default: White background */
-            color: black;           /* Default: Black text */
-            border: none;           /* No border */
+        .content .cta-button {
+            background-color: white;
+            color: black;
+            border: none;
             padding: 12px 25px;
             font-weight: 600;
             text-transform: uppercase;
@@ -162,16 +140,13 @@
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
             display: inline-block;
-            border-radius: 30px; /* Optional: Make it a little rounded */
-            text-decoration: none; /* Remove underline from link */
+            border-radius: 30px;
+            text-decoration: none;
         }
-
-        .content .cta-button:hover { /* Changed selector */
-            background-color: black; /* Hover: Black background */
-            color: white;           /* Hover: White text */
+        .content .cta-button:hover {
+            background-color: black;
+            color: white;
         }
-
-        /* Logo animation styles */
         .logo .short-name,
         .logo .full-name {
             position: absolute;
@@ -179,34 +154,26 @@
             left: 0;
             white-space: nowrap;
             font-weight: 800;
-            font-size: 1em; /* Relative to parent .logo font-size */
-            line-height: 1.5em; /* Match parent height */
+            font-size: 1em;
+            line-height: 1.5em;
             color: white;
-            transition: opacity 0.3s ease; /* Keep CSS transition for fallback */
+            transition: opacity 0.3s ease;
         }
-
-        /* --- Slide-in-Left Animation Styles --- */
-        /* Initial animation state */
-        .content > .animated-title .title-word, /* Target the word span directly */
+        .content > .animated-title .title-word,
         .content > p,
-        .content > .cta-button { /* Updated selector */
+        .content > .cta-button {
             opacity: 0;
             transform: translateX(-40px);
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         opacity 0.6s ease-out;
             will-change: transform, opacity;
         }
-
-        /* Visible animation state */
-        .content.is-visible > .animated-title .title-word, /* Target the word span */
+        .content.is-visible > .animated-title .title-word,
         .content.is-visible > p,
-        .content.is-visible > .cta-button { /* Updated selector */
+        .content.is-visible > .cta-button {
             opacity: 1;
             transform: translateX(0);
         }
-
-        /* Stagger delays */
-         /* Ensure title-word within wrapper is targeted correctly if wrappers are used */
         .content.is-visible .animated-title .title-line-wrapper:nth-child(1) .title-word {
             transition-delay: 0.1s;
         }
@@ -216,16 +183,12 @@
         .content.is-visible > p {
             transition-delay: 0.4s;
         }
-        .content.is-visible > .cta-button { /* Updated selector */
+        .content.is-visible > .cta-button {
             transition-delay: 0.55s;
         }
-        /* --- End Slide-in-Left Animation --- */
-
-
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
-            nav .logo { font-size: 1.3em; height: 1.3em; width: 250px; } /* Adjust logo size */
+            nav .logo { font-size: 1.3em; height: 1.3em; width: 250px; }
              nav .logo .short-name,
              nav .logo .full-name { font-size: 1em; line-height: 1.3em; }
             nav ul li { margin-left: 20px; }
@@ -233,23 +196,20 @@
             .content { margin-left: 20px; max-width: 90%; }
             .animated-title { font-size: 3rem; }
             .content p { font-size: 1rem; }
-            .content .cta-button { padding: 10px 20px; } /* Updated selector */
+            .content .cta-button { padding: 10px 20px; }
         }
          @media (max-width: 480px) {
             .animated-title { font-size: 2.5rem; }
-            nav .logo { width: 180px; } /* Further adjust logo width */
-            /* Hide nav items if needed or stack them */
+            nav .logo { width: 180px; }
          }
     </style>
 </head>
 <body>
-
     <nav>
         <a href="#" class="logo">
             <span class="short-name">DK</span>
             <span class="full-name">Dhinesh Kailash</span>
         </a>
-
         <ul>
              <li><a href="index.html">Home</a></li>
              <li><a href="aboutme.html">About Me</a></li>
@@ -258,14 +218,11 @@
              <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
-
     <section id="hero">
-        <video autoplay muted loop playsinline class="bg-video">
+        <video id="bgVideo" preload="none" muted loop playsinline class="bg-video">
             <source src="assest/background.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-
-
         <div class="content">
              <h1 class="animated-title" aria-label="DHINESH ELANGOVAN">
                   <span class="title-line-wrapper">
@@ -275,50 +232,50 @@
                        <span class="title-word">ELANGOVAN</span>
                   </span>
              </h1>
-
              <p>Just an ordinary student pursuing his MCA degree at CIT, Coimbatore.</p>
-
              <a href="aboutme.html" class="cta-button">Know More</a>
-
         </div>
     </section>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Target the content container DIV
-            const contentElement = document.querySelector('.content'); // Target .content
-
+            const contentElement = document.querySelector('.content');
             if (contentElement) {
-                // Add the class after a short delay to trigger CSS transition
                 setTimeout(() => {
-                    contentElement.classList.add('is-visible'); // Add class to .content
-                }, 100); // Small delay like 100ms
+                    contentElement.classList.add('is-visible');
+                }, 100);
             }
-
-            // Logo animation code
             const logo = document.querySelector('.logo');
-            const shortName = logo.querySelector('.short-name'); // Use querySelector on logo element
-            const fullName = logo.querySelector('.full-name');   // Use querySelector on logo element
-
-            if (logo && shortName && fullName) { // Check if elements exist
-                // Set initial states using GSAP
+            const shortName = logo.querySelector('.short-name');
+            const fullName = logo.querySelector('.full-name');
+            if (logo && shortName && fullName) {
                 gsap.set(fullName, { opacity: 0, x: -20 });
-                gsap.set(shortName, { opacity: 1, x: 0 }); // Ensure shortName starts at x:0
-
+                gsap.set(shortName, { opacity: 1, x: 0 });
                 logo.addEventListener('mouseenter', () => {
-                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" }); // Move short name out slightly
-                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 }); // Add slight delay
+                    gsap.to(shortName, { opacity: 0, x: 20, duration: 0.3, ease: "power2.out" });
+                    gsap.to(fullName, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", delay: 0.1 });
                 });
-
                 logo.addEventListener('mouseleave', () => {
                     gsap.to(fullName, { opacity: 0, x: -20, duration: 0.4, ease: "power2.in" });
-                    gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 }); // Delay bringing short name back
+                    gsap.to(shortName, { opacity: 1, x: 0, duration: 0.3, ease: "power2.in", delay: 0.15 });
                 });
             } else {
                 console.error("Logo elements not found for animation setup.");
             }
+            const bgVideo = document.getElementById('bgVideo');
+            if (bgVideo) {
+                const playBgVideo = () => {
+                    if (bgVideo.readyState === 4) return;
+                    bgVideo.load();
+                    bgVideo.play().catch(() => {});
+                    window.removeEventListener('scroll', playBgVideo);
+                    window.removeEventListener('mousemove', playBgVideo);
+                    window.removeEventListener('touchstart', playBgVideo);
+                };
+                window.addEventListener('scroll', playBgVideo, { once: true });
+                window.addEventListener('mousemove', playBgVideo, { once: true });
+                window.addEventListener('touchstart', playBgVideo, { once: true });
+            }
         });
     </script>
-
 </body>
 </html>
