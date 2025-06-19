@@ -53,7 +53,11 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             margin: 0;
-            padding-top: 80px; /* Space for fixed nav */
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Blurred Background */
@@ -90,9 +94,16 @@
 
         /* Main Content Wrapper */
         .main-content-wrapper {
-            display: flex; align-items: center; justify-content: center; gap: 50px;
-            width: 100%; max-width: 1000px; position: relative; z-index: 1;
-            padding: 20px; margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            margin: 0 auto 20px auto;
         }
 
         /* Player Container */
