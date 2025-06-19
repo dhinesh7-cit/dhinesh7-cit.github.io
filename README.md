@@ -2,8 +2,6 @@
 
 Welcome to the official GitHub repository for my personal portfolio website, hosted at [dhinesh7-cit.github.io](https://dhinesh7-cit.github.io). This site showcases who I am, what I do, and the work I’m proud of.
 
-![Website Preview](https://user-images.githubusercontent.com/your-screenshot-path)
-
 ## ✨ Features
 
 - 🎬 Background videos with smooth GSAP animations
