@@ -301,6 +301,13 @@
             const logo = document.querySelector('.logo');
             const shortName = logo.querySelector('.short-name'); // Use querySelector on logo element
             const fullName = logo.querySelector('.full-name');   // Use querySelector on logo element
+            const bgVideo = document.getElementById("bgVideo");
+                if (bgVideo) {
+                  bgVideo.load();
+                  bgVideo.play().catch(() => {
+                    setTimeout(() => bgVideo.play(), 1000);
+                  });
+                }
 
             if (logo && shortName && fullName) { // Check if elements exist
                 // Set initial states using GSAP
